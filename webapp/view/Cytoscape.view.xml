@@ -14,7 +14,8 @@
           <ToolbarSpacer />
           <SearchField id="cySearchField" placeholder="Search iFlows..." search=".onSearch" width="16rem" />
           <Select id="cyIflowSelect" width="22rem" change=".onSelectedIflowChange" />
-          <Button text="Highlight Connected" type="Emphasized" press=".onHighlightImpactPress" />
+          <Button text="Impact (downstream)" type="Emphasized" press=".onDownstreamPress" />
+          <Button text="Dependencies (upstream)" press=".onUpstreamPress" />
           <Button text="Reset" press=".onResetHighlightPress" />
         </Toolbar>
         <HBox class="sapUiTinyMarginTop sapUiTinyMarginBottom" renderType="Bare">

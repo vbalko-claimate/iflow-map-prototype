@@ -13,7 +13,8 @@
           <Title text="Impact Analysis" level="H4" />
           <ToolbarSpacer />
           <Select id="mmIflowSelect" width="22rem" change=".onSelectedIflowChange" />
-          <Button text="Highlight Connected" type="Emphasized" press=".onHighlightImpactPress" />
+          <Button text="Impact (downstream)" type="Emphasized" press=".onDownstreamPress" />
+          <Button text="Dependencies (upstream)" press=".onUpstreamPress" />
           <Button text="Reset" press=".onResetHighlightPress" />
         </Toolbar>
         <HBox class="sapUiTinyMarginTop sapUiTinyMarginBottom" renderType="Bare">

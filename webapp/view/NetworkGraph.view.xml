@@ -15,7 +15,8 @@
           <Select width="22rem" selectedKey="{graph>/selectedIflowKey}" items="{graph>/iflowOptions}" change=".onSelectedIflowChange">
             <core:Item key="{graph>key}" text="{graph>text}" />
           </Select>
-          <Button text="Highlight Connected" type="Emphasized" press=".onHighlightImpactPress" />
+          <Button text="Impact (downstream)" type="Emphasized" press=".onDownstreamPress" />
+          <Button text="Dependencies (upstream)" press=".onUpstreamPress" />
           <Button text="Reset" press=".onResetHighlightPress" />
         </Toolbar>
 

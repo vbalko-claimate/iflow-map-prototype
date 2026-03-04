@@ -56,14 +56,18 @@ sap.ui.define([
 
   /**
    * BFS impact analysis from a start key.
+   * @param {string} sDirection - "downstream" (source→target), "upstream" (target→source)
    * Returns a Set-like object (plain map) of visited node keys.
    */
-  function bfsImpact(aNodes, aEdges, sStartKey) {
+  function bfsImpact(aNodes, aEdges, sStartKey, sDirection) {
     var mAdj = Object.create(null);
     aNodes.forEach(function (n) { mAdj[n.key] = []; });
     aEdges.forEach(function (e) {
-      if (mAdj[e.source]) { mAdj[e.source].push(e.target); }
-      if (mAdj[e.target]) { mAdj[e.target].push(e.source); }
+      if (sDirection === "upstream") {
+        if (mAdj[e.target]) { mAdj[e.target].push(e.source); }
+      } else {
+        if (mAdj[e.source]) { mAdj[e.source].push(e.target); }
+      }
     });
 
     var visited = Object.create(null);

@@ -86,10 +86,13 @@ sap.ui.define([
       });
     },
 
-    onHighlightImpactPress: function () {
+    onDownstreamPress: function () { this._runImpact("downstream"); },
+    onUpstreamPress: function () { this._runImpact("upstream"); },
+
+    _runImpact: function (sDirection) {
       if (!this._selectedKey || !this._graphData || !this._cy) { return; }
       var visited = GraphUtils.bfsImpact(
-        this._graphData.nodes, this._graphData.edges, this._selectedKey
+        this._graphData.nodes, this._graphData.edges, this._selectedKey, sDirection
       );
 
       this._cy.nodes().forEach(function (node) {

@@ -193,7 +193,10 @@ sap.ui.define([
       this.getView().getModel("graph").setProperty("/selectedIflowKey", sKey);
     },
 
-    onHighlightImpactPress: function () {
+    onDownstreamPress: function () { this._runImpact("downstream"); },
+    onUpstreamPress: function () { this._runImpact("upstream"); },
+
+    _runImpact: function (sDirection) {
       var oModel = this.getView().getModel("graph");
       var sStart = oModel.getProperty("/selectedIflowKey");
       var aNodes = oModel.getProperty("/nodes") || [];
@@ -204,11 +207,13 @@ sap.ui.define([
         return;
       }
 
-      // Use GraphUtils BFS
       var aEdgesForBfs = aLines.map(function (l) {
         return { source: l.from, target: l.to };
       });
-      var mVisited = GraphUtils.bfsImpact(aNodes.map(function (n) { return { key: n.key }; }), aEdgesForBfs, sStart);
+      var mVisited = GraphUtils.bfsImpact(
+        aNodes.map(function (n) { return { key: n.key }; }),
+        aEdgesForBfs, sStart, sDirection
+      );
 
       aNodes.forEach(function (n) {
         n.status = mVisited[n.key] ? "IMPACT" : "MUTED";

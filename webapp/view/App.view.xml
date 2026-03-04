@@ -1,0 +1,24 @@
+<mvc:View
+  controllerName="iflow.map.prototype.controller.App"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:tnt="sap.tnt"
+  displayBlock="true"
+  height="100%"
+>
+  <tnt:ToolPage id="toolPage">
+    <tnt:sideContent>
+      <tnt:SideNavigation id="sideNav" itemSelect=".onNavItemSelect">
+        <tnt:NavigationList>
+          <tnt:NavigationListItem text="UI5 NetworkGraph" key="NetworkGraph" icon="sap-icon://workflow-tasks" />
+          <tnt:NavigationListItem text="D3 Force"         key="D3Force"       icon="sap-icon://scatter-chart" />
+          <tnt:NavigationListItem text="Cytoscape"        key="Cytoscape"     icon="sap-icon://org-chart" />
+          <tnt:NavigationListItem text="Mermaid"          key="Mermaid"       icon="sap-icon://flowchart" />
+        </tnt:NavigationList>
+      </tnt:SideNavigation>
+    </tnt:sideContent>
+    <tnt:mainContents>
+      <NavContainer id="navContainer" height="100%" />
+    </tnt:mainContents>
+  </tnt:ToolPage>
+</mvc:View>

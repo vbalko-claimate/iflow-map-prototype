@@ -2,12 +2,14 @@ sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/json/JSONModel",
   "sap/m/MessageBox",
-  "sap/m/MessageToast"
-], function (Controller, JSONModel, MessageBox, MessageToast) {
+  "sap/m/MessageToast",
+  "iflow/map/prototype/util/GraphUtils"
+], function (Controller, JSONModel, MessageBox, MessageToast, GraphUtils) {
   "use strict";
 
-  return Controller.extend("iflow.map.prototype.controller.Main", {
+  return Controller.extend("iflow.map.prototype.controller.NetworkGraph", {
     onInit: function () {
+      this._graphRendered = false;
       var oGraphModel = new JSONModel({
         nodes: [],
         lines: [],
@@ -18,20 +20,32 @@ sap.ui.define([
         lineCount: 0
       });
       this.getView().setModel(oGraphModel, "graph");
-
-      var oRawModel = new JSONModel();
-      oRawModel.attachRequestCompleted(this._onRawDataLoaded, this);
-      oRawModel.loadData("model/mockData.json");
-      this.getView().setModel(oRawModel, "raw");
-      this.byId("debugText").setText("Debug: controller initialized, loading mock data...");
     },
 
-    _onRawDataLoaded: function (oEvent) {
+    onAfterRendering: function () {
+      if (this._graphRendered) { return; }
+      var oRawModel = this.getView().getModel("raw");
+      if (!oRawModel) { return; }
+
+      var oRaw = oRawModel.getData();
+      if (oRaw && oRaw.iflows) {
+        this._onRawDataReady(oRaw);
+      } else {
+        oRawModel.attachRequestCompleted(this._onRawRequestCompleted, this);
+      }
+    },
+
+    _onRawRequestCompleted: function (oEvent) {
       if (!oEvent.getParameter("success")) {
         MessageBox.error("Failed to load mock graph data.");
         return;
       }
-      var oRaw = this.getView().getModel("raw").getData();
+      this._onRawDataReady(this.getView().getModel("raw").getData());
+    },
+
+    _onRawDataReady: function (oRaw) {
+      if (this._graphRendered) { return; }
+      this._graphRendered = true;
       var oGraphData = this._buildGraphData(oRaw);
       this.getView().getModel("graph").setData(oGraphData);
       this.byId("debugText").setText(
@@ -115,6 +129,7 @@ sap.ui.define([
       var aLines = oModel.getProperty("/lines") || [];
       var aStatuses = oModel.getProperty("/statuses") || [];
       var that = this;
+
       sap.ui.require([
         "sap/suite/ui/commons/networkgraph/Graph",
         "sap/suite/ui/commons/networkgraph/Node",
@@ -189,27 +204,11 @@ sap.ui.define([
         return;
       }
 
-      var mAdj = Object.create(null);
-      aNodes.forEach(function (n) { mAdj[n.key] = []; });
-      aLines.forEach(function (l) {
-        if (mAdj[l.from]) { mAdj[l.from].push(l.to); }
-        if (mAdj[l.to]) { mAdj[l.to].push(l.from); }
+      // Use GraphUtils BFS
+      var aEdgesForBfs = aLines.map(function (l) {
+        return { source: l.from, target: l.to };
       });
-
-      var mVisited = Object.create(null);
-      var aQueue = [sStart];
-      mVisited[sStart] = true;
-
-      while (aQueue.length) {
-        var sCurrent = aQueue.shift();
-        var aNext = mAdj[sCurrent] || [];
-        aNext.forEach(function (k) {
-          if (!mVisited[k]) {
-            mVisited[k] = true;
-            aQueue.push(k);
-          }
-        });
-      }
+      var mVisited = GraphUtils.bfsImpact(aNodes.map(function (n) { return { key: n.key }; }), aEdgesForBfs, sStart);
 
       aNodes.forEach(function (n) {
         n.status = mVisited[n.key] ? "IMPACT" : "MUTED";

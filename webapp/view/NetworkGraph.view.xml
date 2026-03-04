@@ -1,13 +1,12 @@
 <mvc:View
-  controllerName="iflow.map.prototype.controller.Main"
+  controllerName="iflow.map.prototype.controller.NetworkGraph"
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
   xmlns:core="sap.ui.core"
   displayBlock="true"
   height="100%"
 >
-  <App>
-  <Page title="iFlow Map Prototype (#92) - Mocked, realistic data">
+  <Page title="UI5 NetworkGraph">
     <content>
       <VBox class="sapUiSmallMargin">
         <Toolbar>
@@ -35,5 +34,4 @@
       </VBox>
     </content>
   </Page>
-  </App>
 </mvc:View>

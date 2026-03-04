@@ -1,0 +1,28 @@
+<mvc:View
+  controllerName="iflow.map.prototype.controller.D3Force"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  displayBlock="true"
+  height="100%"
+>
+  <Page title="D3.js Force-Directed Graph">
+    <content>
+      <VBox class="sapUiSmallMargin">
+        <Toolbar>
+          <Title text="Impact Analysis" level="H4" />
+          <ToolbarSpacer />
+          <Select id="d3IflowSelect" width="22rem" change=".onSelectedIflowChange" />
+          <Button text="Highlight Connected" type="Emphasized" press=".onHighlightImpactPress" />
+          <Button text="Reset" press=".onResetHighlightPress" />
+        </Toolbar>
+        <HBox class="sapUiTinyMarginTop sapUiTinyMarginBottom" renderType="Bare">
+          <ObjectStatus text="ProcessDirect" state="Information" class="sapUiTinyMarginEnd" />
+          <ObjectStatus text="JMS" state="Success" class="sapUiTinyMarginEnd" />
+          <ObjectStatus text="DataStore" state="Warning" class="sapUiTinyMarginEnd" />
+        </HBox>
+        <core:HTML content="&lt;div id='d3GraphContainer' class='d3GraphContainer'&gt;&lt;/div&gt;" />
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

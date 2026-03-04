@@ -25,9 +25,9 @@
       ]
     },
     "rootView": {
-      "viewName": "iflow.map.prototype.view.Main",
+      "viewName": "iflow.map.prototype.view.App",
       "type": "XML",
-      "id": "mainView"
+      "id": "appView"
     },
     "dependencies": {
       "minUI5Version": "1.120.0",
@@ -35,7 +35,8 @@
         "sap.ui.core": {},
         "sap.m": {},
         "sap.ui.layout": {},
-        "sap.suite.ui.commons": {}
+        "sap.suite.ui.commons": {},
+        "sap.tnt": {}
       }
     },
     "models": {

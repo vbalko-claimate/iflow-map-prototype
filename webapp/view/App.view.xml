@@ -7,6 +7,19 @@
   height="100%"
 >
   <tnt:ToolPage id="toolPage">
+    <tnt:header>
+      <tnt:ToolHeader>
+        <Title text="iFlow Map" level="H4" class="sapUiSmallMarginBegin" />
+        <ToolbarSpacer />
+        <SegmentedButton id="modeToggle" selectionChange=".onModeChange">
+          <items>
+            <SegmentedButtonItem key="connection" text="Connection Map" />
+            <SegmentedButtonItem key="context" text="Context Map" />
+          </items>
+        </SegmentedButton>
+        <ToolbarSpacer />
+      </tnt:ToolHeader>
+    </tnt:header>
     <tnt:sideContent>
       <tnt:SideNavigation id="sideNav" itemSelect=".onNavItemSelect">
         <tnt:NavigationList>

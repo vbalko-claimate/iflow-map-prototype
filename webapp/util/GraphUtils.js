@@ -13,8 +13,27 @@ sap.ui.define([
   var MUTED_COLOR = "#d5dadd";
   var IMPACT_COLOR = "#0057a3";
 
+  var NODE_TYPE_COLORS = {
+    iflow:           "#d9e7f7",
+    contact:         "#e8f5e9",
+    partner:         "#fff3e0",
+    partnerChannel:  "#fce4ec",
+    bizObject:       "#f3e5f5",
+    bizCapability:   "#e8eaf6",
+    certificate:     "#fff8e1"
+  };
+
+  var EDGE_TYPE_COLORS = {
+    PROCESS_DIRECT:      "#0a6ed1",
+    JMS:                 "#1e8e3e",
+    DATA_STORE:          "#c05b00",
+    CONTACT_ASSIGNMENT:  "#43a047",
+    OBJECT_ASSIGNMENT:   "#7b1fa2",
+    PARTNER_OWNS_CHANNEL:"#e65100"
+  };
+
   /**
-   * Build adjacency-friendly graph structure from raw mockData.
+   * Build adjacency-friendly graph structure from raw mockData (connection mode).
    * Returns { nodes:[], edges:[], nodeMap:{}, iflowOptions:[] }
    */
   function buildGraphStructure(oRaw) {
@@ -55,8 +74,257 @@ sap.ui.define([
   }
 
   /**
+   * Build full context graph from raw mockData.
+   * Every entity type becomes a node, edges include iFlow connections +
+   * contactAssignments + iflowObjectAssignments + partner→channel.
+   * Returns { nodes:[], edges:[], nodeMap:{}, iflowOptions:[] }
+   */
+  function buildContextGraphStructure(oRaw) {
+    var aNodes = [];
+    var aEdges = [];
+    var nodeMap = {};
+
+    // Helper to build iFlow key matching connection mode
+    function iflowKey(f) { return f.id + "::" + f.version; }
+    // Lookup map: iflow.id → iflow key (for assignments that reference by id)
+    var iflowIdToKey = {};
+
+    // 1) iFlow nodes
+    (oRaw.iflows || []).forEach(function (f) {
+      var key = iflowKey(f);
+      iflowIdToKey[f.id] = key;
+      var node = {
+        key: key,
+        id: f.id,
+        version: f.version,
+        name: f.name,
+        runtimeStatus: f.runtimeStatus,
+        packageId: f.packageId,
+        label: f.name,
+        nodeType: "iflow"
+      };
+      aNodes.push(node);
+      nodeMap[key] = node;
+    });
+
+    // 2) Contact nodes
+    (oRaw.contacts || []).forEach(function (c) {
+      var key = "contact::" + c.id;
+      var node = {
+        key: key,
+        id: c.id,
+        name: c.firstName + " " + c.lastName,
+        label: c.firstName + " " + c.lastName,
+        company: c.company,
+        email: c.email,
+        nodeType: "contact"
+      };
+      aNodes.push(node);
+      nodeMap[key] = node;
+    });
+
+    // 3) Partner nodes
+    (oRaw.partners || []).forEach(function (p) {
+      var key = "partner::" + p.id;
+      var node = {
+        key: key,
+        id: p.id,
+        name: p.name,
+        label: p.name,
+        partnerType: p.type,
+        nodeType: "partner"
+      };
+      aNodes.push(node);
+      nodeMap[key] = node;
+    });
+
+    // 4) Partner Channel nodes
+    (oRaw.partnerChannels || []).forEach(function (ch) {
+      var key = "channel::" + ch.id;
+      var node = {
+        key: key,
+        id: ch.id,
+        name: ch.name,
+        label: ch.name,
+        protocol: ch.protocol,
+        direction: ch.direction,
+        partnerId: ch.partnerId,
+        nodeType: "partnerChannel"
+      };
+      aNodes.push(node);
+      nodeMap[key] = node;
+
+      // Edge: partner → channel
+      aEdges.push({
+        id: "pch-" + ch.partnerId + "-" + ch.id,
+        source: "partner::" + ch.partnerId,
+        target: key,
+        edgeType: "PARTNER_OWNS_CHANNEL",
+        connectionType: "PARTNER_OWNS_CHANNEL",
+        color: EDGE_TYPE_COLORS.PARTNER_OWNS_CHANNEL,
+        notes: ch.protocol + " " + ch.direction
+      });
+    });
+
+    // 5) Business Object nodes
+    (oRaw.businessObjects || []).forEach(function (bo) {
+      var key = "bizObj::" + bo.id;
+      var node = {
+        key: key,
+        id: bo.id,
+        name: bo.name,
+        label: bo.name,
+        nodeType: "bizObject"
+      };
+      aNodes.push(node);
+      nodeMap[key] = node;
+    });
+
+    // 6) Business Capability nodes
+    (oRaw.businessCapabilities || []).forEach(function (bc) {
+      var key = "bizCap::" + bc.id;
+      var node = {
+        key: key,
+        id: bc.id,
+        name: bc.name,
+        label: bc.name,
+        nodeType: "bizCapability"
+      };
+      aNodes.push(node);
+      nodeMap[key] = node;
+    });
+
+    // 7) Certificate nodes
+    (oRaw.certificates || []).forEach(function (cert) {
+      var key = "cert::" + cert.id;
+      var node = {
+        key: key,
+        id: cert.id,
+        name: cert.cn,
+        label: cert.cn,
+        certStatus: cert.status,
+        expiresAt: cert.expiresAt,
+        nodeType: "certificate"
+      };
+      aNodes.push(node);
+      nodeMap[key] = node;
+    });
+
+    // 8) iFlow connection edges
+    (oRaw.connections || []).forEach(function (c) {
+      aEdges.push({
+        id: c.connectionId,
+        source: c.sourceIflowId + "::" + c.sourceIflowVersion,
+        target: c.targetIflowId + "::" + c.targetIflowVersion,
+        connectionType: c.connectionType,
+        edgeType: c.connectionType,
+        notes: c.notes || "",
+        color: COLOR_MAP[c.connectionType] || "#999"
+      });
+    });
+
+    // Build role lookup
+    var roleMap = {};
+    (oRaw.contactRoles || []).forEach(function (r) { roleMap[r.id] = r.name; });
+
+    // 9) Contact assignment edges
+    (oRaw.contactAssignments || []).forEach(function (ca) {
+      var contactKey = "contact::" + ca.contactId;
+      var targetKey;
+      if (ca.objectType === "iflow") {
+        targetKey = iflowIdToKey[ca.objectId];
+      } else if (ca.objectType === "partnerChannel") {
+        targetKey = "channel::" + ca.objectId;
+      }
+      if (contactKey && targetKey && nodeMap[contactKey] && nodeMap[targetKey]) {
+        aEdges.push({
+          id: "ca-" + ca.id,
+          source: contactKey,
+          target: targetKey,
+          edgeType: "CONTACT_ASSIGNMENT",
+          connectionType: "CONTACT_ASSIGNMENT",
+          color: EDGE_TYPE_COLORS.CONTACT_ASSIGNMENT,
+          notes: roleMap[ca.roleId] || ca.roleId
+        });
+      }
+    });
+
+    // 10) iFlow object assignment edges
+    (oRaw.iflowObjectAssignments || []).forEach(function (oa) {
+      var iflowNodeKey = iflowIdToKey[oa.iflowId];
+      var targetKey;
+      if (oa.objectType === "businessObject") {
+        targetKey = "bizObj::" + oa.objectId;
+      } else if (oa.objectType === "businessCapability") {
+        targetKey = "bizCap::" + oa.objectId;
+      } else if (oa.objectType === "partnerChannel") {
+        targetKey = "channel::" + oa.objectId;
+      }
+      if (iflowNodeKey && targetKey && nodeMap[iflowNodeKey] && nodeMap[targetKey]) {
+        aEdges.push({
+          id: "oa-" + oa.id,
+          source: iflowNodeKey,
+          target: targetKey,
+          edgeType: "OBJECT_ASSIGNMENT",
+          connectionType: "OBJECT_ASSIGNMENT",
+          color: EDGE_TYPE_COLORS.OBJECT_ASSIGNMENT,
+          notes: oa.objectType
+        });
+      }
+    });
+
+    // Build iflow-only options for select dropdowns
+    var aOptions = [];
+    (oRaw.iflows || []).forEach(function (f) {
+      var key = iflowKey(f);
+      aOptions.push({ key: key, text: f.name + " (" + f.id + " v" + f.version + ")" });
+    });
+
+    return { nodes: aNodes, edges: aEdges, nodeMap: nodeMap, iflowOptions: aOptions };
+  }
+
+  /**
+   * Check which iFlows are missing required ownership roles.
+   * Returns array of { iflowKey, iflowName, missingRoles: string[] }
+   */
+  function checkMissingOwnership(oRaw) {
+    var requiredRoles = ["R01", "R02"]; // Business Owner, IT Owner
+    var roleMap = {};
+    (oRaw.contactRoles || []).forEach(function (r) { roleMap[r.id] = r.name; });
+
+    // Build map: iflowId → set of assigned roleIds
+    var iflowRoles = {};
+    (oRaw.contactAssignments || []).forEach(function (ca) {
+      if (ca.objectType === "iflow") {
+        if (!iflowRoles[ca.objectId]) { iflowRoles[ca.objectId] = {}; }
+        iflowRoles[ca.objectId][ca.roleId] = true;
+      }
+    });
+
+    var aResults = [];
+    (oRaw.iflows || []).forEach(function (f) {
+      var assigned = iflowRoles[f.id] || {};
+      var missing = [];
+      requiredRoles.forEach(function (rId) {
+        if (!assigned[rId]) {
+          missing.push(roleMap[rId] || rId);
+        }
+      });
+      if (missing.length > 0) {
+        aResults.push({
+          iflowKey: f.id + "::" + f.version,
+          iflowId: f.id,
+          iflowName: f.name,
+          missingRoles: missing
+        });
+      }
+    });
+    return aResults;
+  }
+
+  /**
    * BFS impact analysis from a start key.
-   * @param {string} sDirection - "downstream" (source→target), "upstream" (target→source)
+   * @param {string} sDirection - "downstream" (source->target), "upstream" (target->source)
    * Returns a Set-like object (plain map) of visited node keys.
    */
   function bfsImpact(aNodes, aEdges, sStartKey, sDirection) {
@@ -110,14 +378,24 @@ sap.ui.define([
   }
 
   function showNodeDetail(oNodeData) {
-    MessageToast.show(
-      oNodeData.name + " (" + oNodeData.id + " v" + oNodeData.version + ") - " + oNodeData.runtimeStatus
-    );
+    if (oNodeData.nodeType && oNodeData.nodeType !== "iflow") {
+      var sInfo = oNodeData.name + " [" + oNodeData.nodeType + "]";
+      if (oNodeData.company) { sInfo += " - " + oNodeData.company; }
+      if (oNodeData.email) { sInfo += " (" + oNodeData.email + ")"; }
+      if (oNodeData.protocol) { sInfo += " - " + oNodeData.protocol + " " + oNodeData.direction; }
+      if (oNodeData.certStatus) { sInfo += " - " + oNodeData.certStatus; }
+      if (oNodeData.partnerType) { sInfo += " - " + oNodeData.partnerType; }
+      MessageToast.show(sInfo);
+    } else {
+      MessageToast.show(
+        oNodeData.name + " (" + oNodeData.id + " v" + oNodeData.version + ") - " + oNodeData.runtimeStatus
+      );
+    }
   }
 
   function showEdgeDetail(oEdgeData) {
     var sDetails = [
-      "Type: " + oEdgeData.connectionType,
+      "Type: " + (oEdgeData.edgeType || oEdgeData.connectionType),
       "From: " + oEdgeData.source,
       "To: " + oEdgeData.target,
       "Notes: " + (oEdgeData.notes || "-")
@@ -129,7 +407,11 @@ sap.ui.define([
     COLOR_MAP: COLOR_MAP,
     MUTED_COLOR: MUTED_COLOR,
     IMPACT_COLOR: IMPACT_COLOR,
+    NODE_TYPE_COLORS: NODE_TYPE_COLORS,
+    EDGE_TYPE_COLORS: EDGE_TYPE_COLORS,
     buildGraphStructure: buildGraphStructure,
+    buildContextGraphStructure: buildContextGraphStructure,
+    checkMissingOwnership: checkMissingOwnership,
     bfsImpact: bfsImpact,
     loadScript: loadScript,
     showNodeDetail: showNodeDetail,

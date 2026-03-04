@@ -7,12 +7,28 @@ sap.ui.define([
 
   var CY_CDN = "https://cdn.jsdelivr.net/npm/cytoscape@3/dist/cytoscape.min.js";
 
+  // Cytoscape shape mapping per nodeType
+  var CY_SHAPES = {
+    iflow:          "round-rectangle",
+    contact:        "ellipse",
+    partner:        "diamond",
+    partnerChannel: "hexagon",
+    bizObject:      "barrel",
+    bizCapability:  "round-rectangle",
+    certificate:    "rectangle"
+  };
+
   return Controller.extend("iflow.map.prototype.controller.Cytoscape", {
     onInit: function () {
       this._rendered = false;
+      this._cyLoaded = false;
       this._selectedKey = "";
       this._graphData = null;
+      this._contextGraphData = null;
       this._cy = null;
+      this._mode = "connection";
+      this._missingOwnership = {};
+      this._rawData = null;
     },
 
     onAfterRendering: function () {
@@ -22,10 +38,23 @@ sap.ui.define([
 
       var oRawModel = this.getView().getModel("raw");
       var fnLoad = function (oRaw) {
+        that._rawData = oRaw;
         that._graphData = GraphUtils.buildGraphStructure(oRaw);
+        that._contextGraphData = GraphUtils.buildContextGraphStructure(oRaw);
+        var aMissing = GraphUtils.checkMissingOwnership(oRaw);
+        that._missingOwnership = {};
+        aMissing.forEach(function (m) { that._missingOwnership[m.iflowKey] = m; });
+
         that._populateSelect();
+
+        var oModeModel = that.getView().getModel("viewMode");
+        if (oModeModel) {
+          that._mode = oModeModel.getProperty("/mode") || "connection";
+        }
+
         GraphUtils.loadScript(CY_CDN, "cytoscape").then(function () {
-          that._renderCytoscape();
+          that._cyLoaded = true;
+          that._renderCurrentMode();
         });
       };
 
@@ -41,8 +70,24 @@ sap.ui.define([
       }
     },
 
+    onModeChange: function (sMode) {
+      this._mode = sMode;
+      if (this._cyLoaded) {
+        this._renderCurrentMode();
+      }
+    },
+
+    _renderCurrentMode: function () {
+      if (this._mode === "context") {
+        this._renderContextCytoscape();
+      } else {
+        this._renderCytoscape();
+      }
+    },
+
     _populateSelect: function () {
       var oSelect = this.byId("cyIflowSelect");
+      oSelect.removeAllItems();
       this._graphData.iflowOptions.forEach(function (opt) {
         oSelect.addItem(new Item({ key: opt.key, text: opt.text }));
       });
@@ -67,7 +112,7 @@ sap.ui.define([
 
       this._cy.nodes().forEach(function (node) {
         var name = (node.data("name") || "").toLowerCase();
-        var id = (node.data("iflowId") || "").toLowerCase();
+        var id = (node.data("iflowId") || node.data("id") || "").toLowerCase();
         if (name.indexOf(sQuery) >= 0 || id.indexOf(sQuery) >= 0) {
           node.removeClass("muted").addClass("highlighted");
         } else {
@@ -90,9 +135,12 @@ sap.ui.define([
     onUpstreamPress: function () { this._runImpact("upstream"); },
 
     _runImpact: function (sDirection) {
-      if (!this._selectedKey || !this._graphData || !this._cy) { return; }
+      if (!this._selectedKey || !this._cy) { return; }
+      var data = this._mode === "context" ? this._contextGraphData : this._graphData;
+      if (!data) { return; }
+
       var visited = GraphUtils.bfsImpact(
-        this._graphData.nodes, this._graphData.edges, this._selectedKey, sDirection
+        data.nodes, data.edges, this._selectedKey, sDirection
       );
 
       this._cy.nodes().forEach(function (node) {
@@ -117,9 +165,12 @@ sap.ui.define([
       this._cy.elements().removeClass("muted impacted highlighted");
     },
 
+    // ── Connection mode render (original) ──────────────────────────
     _renderCytoscape: function () {
       var container = document.getElementById("cyContainer");
       if (!container || !window.cytoscape) { return; }
+
+      if (this._cy) { this._cy.destroy(); this._cy = null; }
 
       var elements = [];
 
@@ -224,7 +275,6 @@ sap.ui.define([
         }
       });
 
-      var that = this;
       cy.on("tap", "node", function (evt) {
         var data = evt.target.data();
         GraphUtils.showNodeDetail({
@@ -243,6 +293,193 @@ sap.ui.define([
           target: data.target,
           notes: data.notes
         });
+      });
+
+      this._cy = cy;
+    },
+
+    // ── Context mode render ────────────────────────────────────────
+    _renderContextCytoscape: function () {
+      var container = document.getElementById("cyContainer");
+      if (!container || !window.cytoscape || !this._contextGraphData) { return; }
+
+      if (this._cy) { this._cy.destroy(); this._cy = null; }
+
+      var that = this;
+      var elements = [];
+
+      // Add partner compound nodes (parents for their channels)
+      var partnerIds = {};
+      (this._rawData.partners || []).forEach(function (p) {
+        partnerIds["partner::" + p.id] = true;
+      });
+
+      this._contextGraphData.nodes.forEach(function (n) {
+        var data = {
+          id: n.key,
+          label: n.name || n.label,
+          name: n.name,
+          nodeType: n.nodeType,
+          iflowId: n.id,
+          version: n.version,
+          runtimeStatus: n.runtimeStatus,
+          packageId: n.packageId,
+          company: n.company,
+          email: n.email,
+          protocol: n.protocol,
+          direction: n.direction,
+          certStatus: n.certStatus,
+          partnerType: n.partnerType,
+          missingOwner: !!that._missingOwnership[n.key]
+        };
+        // Compound: channels belong to their partner
+        if (n.nodeType === "partnerChannel" && n.partnerId) {
+          data.parent = "partner::" + n.partnerId;
+        }
+        elements.push({ data: data });
+      });
+
+      this._contextGraphData.edges.forEach(function (e) {
+        // Skip partner→channel edges since we use compound nodes
+        if (e.edgeType === "PARTNER_OWNS_CHANNEL") { return; }
+        elements.push({
+          data: {
+            id: e.id,
+            source: e.source,
+            target: e.target,
+            connectionType: e.connectionType || e.edgeType,
+            edgeType: e.edgeType,
+            color: e.color,
+            notes: e.notes
+          }
+        });
+      });
+
+      // Build style array
+      var styles = [
+        // Default node
+        {
+          selector: "node",
+          style: {
+            "label": "data(label)",
+            "color": "#1f2d3d",
+            "text-valign": "center",
+            "text-halign": "center",
+            "font-size": "10px",
+            "font-weight": "600",
+            "text-wrap": "wrap",
+            "text-max-width": "110px",
+            "transition-property": "opacity",
+            "transition-duration": "0.3s"
+          }
+        },
+        // Compound parent (partner)
+        {
+          selector: ":parent",
+          style: {
+            "background-color": GraphUtils.NODE_TYPE_COLORS.partner,
+            "background-opacity": 0.3,
+            "border-color": "#e65100",
+            "border-width": 2,
+            "text-valign": "top",
+            "text-halign": "center",
+            "font-size": "11px",
+            "padding": "16px"
+          }
+        }
+      ];
+
+      // Per-nodeType styles
+      Object.keys(CY_SHAPES).forEach(function (nt) {
+        styles.push({
+          selector: "node[nodeType='" + nt + "']",
+          style: {
+            "background-color": GraphUtils.NODE_TYPE_COLORS[nt] || "#d9e7f7",
+            "border-color": "#5b738b",
+            "border-width": 2,
+            "shape": CY_SHAPES[nt],
+            "width": nt === "iflow" ? 140 : 100,
+            "height": nt === "iflow" ? 44 : 36
+          }
+        });
+      });
+
+      // Missing ownership
+      styles.push({
+        selector: "node[?missingOwner]",
+        style: {
+          "border-color": "#e65100",
+          "border-width": 4,
+          "border-style": "double"
+        }
+      });
+
+      // Edge styles
+      styles.push({
+        selector: "edge",
+        style: {
+          "width": 2,
+          "line-color": "data(color)",
+          "target-arrow-color": "data(color)",
+          "target-arrow-shape": "triangle",
+          "curve-style": "bezier",
+          "transition-property": "opacity",
+          "transition-duration": "0.3s"
+        }
+      });
+
+      styles.push({
+        selector: "edge[edgeType='JMS'], edge[edgeType='CONTACT_ASSIGNMENT']",
+        style: { "line-style": "dashed" }
+      });
+
+      styles.push({
+        selector: "edge[edgeType='CONTACT_ASSIGNMENT'], edge[edgeType='OBJECT_ASSIGNMENT']",
+        style: { "width": 1.5 }
+      });
+
+      // Interaction classes
+      styles.push({ selector: ".muted", style: { "opacity": 0.15 } });
+      styles.push({
+        selector: ".impacted",
+        style: {
+          "background-color": "#0057a3",
+          "color": "#ffffff",
+          "border-color": "#0057a3"
+        }
+      });
+      styles.push({
+        selector: ".highlighted",
+        style: {
+          "background-color": "#e8f0fe",
+          "border-color": "#0a6ed1",
+          "border-width": 3
+        }
+      });
+
+      var cy = window.cytoscape({
+        container: container,
+        elements: elements,
+        style: styles,
+        layout: {
+          name: "cose",
+          animate: true,
+          animationDuration: 800,
+          nodeRepulsion: function () { return 12000; },
+          idealEdgeLength: function () { return 120; },
+          padding: 40,
+          nestingFactor: 1.2
+        }
+      });
+
+      cy.on("tap", "node", function (evt) {
+        var data = evt.target.data();
+        GraphUtils.showNodeDetail(data);
+      });
+
+      cy.on("tap", "edge", function (evt) {
+        var data = evt.target.data();
+        GraphUtils.showEdgeDetail(data);
       });
 
       this._cy = cy;

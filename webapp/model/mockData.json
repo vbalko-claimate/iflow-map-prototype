@@ -1,6 +1,6 @@
 {
   "meta": {
-    "source": "Mocked from OwnersService.getIFlowConnections + IFlow model shape",
+    "source": "Mocked from OwnersService.getIFlowConnections + IFlow model shape + IFM context entities",
     "updatedAt": "2026-03-04T18:00:00Z"
   },
   "iflows": [
@@ -139,5 +139,111 @@
       "createdAt": "2026-01-10T10:40:00Z",
       "modifiedAt": "2026-02-12T08:12:00Z"
     }
+  ],
+  "contactRoles": [
+    { "id": "R01", "name": "Business Owner" },
+    { "id": "R02", "name": "IT Owner" },
+    { "id": "R03", "name": "3rd Party Owner" },
+    { "id": "R04", "name": "3rd Party IT" },
+    { "id": "R05", "name": "Integration Developer" },
+    { "id": "R06", "name": "Technical Lead" },
+    { "id": "R07", "name": "Support Engineer" }
+  ],
+  "contacts": [
+    { "id": "C01", "firstName": "Jan", "lastName": "Novak", "email": "jan.novak@claimate.com", "company": "Claimate" },
+    { "id": "C02", "firstName": "Petr", "lastName": "Dvorak", "email": "petr.dvorak@claimate.com", "company": "Claimate" },
+    { "id": "C03", "firstName": "Eva", "lastName": "Kralova", "email": "eva.kralova@claimate.com", "company": "Claimate" },
+    { "id": "C04", "firstName": "Martin", "lastName": "Horak", "email": "martin.horak@claimate.com", "company": "Claimate" },
+    { "id": "C05", "firstName": "Lucie", "lastName": "Nemcova", "email": "lucie.nemcova@claimate.com", "company": "Claimate" },
+    { "id": "C06", "firstName": "Hans", "lastName": "Mueller", "email": "hans.mueller@abc-systems.com", "company": "ABC Systems" },
+    { "id": "C07", "firstName": "Franz", "lastName": "Schmidt", "email": "franz.schmidt@xyz-corp.com", "company": "XYZ Corp" },
+    { "id": "C08", "firstName": "Marie", "lastName": "Kralova", "email": "marie.kralova@claimate.com", "company": "Claimate" },
+    { "id": "C09", "firstName": "Thomas", "lastName": "Weber", "email": "thomas.weber@claimate.com", "company": "Claimate" },
+    { "id": "C10", "firstName": "Katarina", "lastName": "Kovac", "email": "katarina.kovac@claimate.com", "company": "Claimate" }
+  ],
+  "partners": [
+    { "id": "P01", "name": "ABC Systems", "type": "VENDOR" },
+    { "id": "P02", "name": "XYZ Corp", "type": "CUSTOMER" },
+    { "id": "P03", "name": "DataBridge GmbH", "type": "3RD_PARTY" }
+  ],
+  "partnerChannels": [
+    { "id": "CH01", "partnerId": "P01", "name": "SFTP Inbound (ABC)", "protocol": "SFTP", "direction": "INBOUND" },
+    { "id": "CH02", "partnerId": "P01", "name": "SOAP Outbound (ABC)", "protocol": "SOAP", "direction": "OUTBOUND" },
+    { "id": "CH03", "partnerId": "P02", "name": "HTTP Outbound (XYZ)", "protocol": "HTTP", "direction": "OUTBOUND" },
+    { "id": "CH04", "partnerId": "P03", "name": "AS2 Both (DataBridge)", "protocol": "AS2", "direction": "BOTH" }
+  ],
+  "certificates": [
+    { "id": "CERT01", "cn": "CN=sftp.abc-systems.com", "status": "VALID", "expiresAt": "2026-04-03T00:00:00Z", "note": "Expiring in 30 days" },
+    { "id": "CERT02", "cn": "CN=api.xyz-corp.com", "status": "VALID", "expiresAt": "2027-06-15T00:00:00Z", "note": "" },
+    { "id": "CERT03", "cn": "CN=as2.databridge.de", "status": "EXPIRED", "expiresAt": "2025-12-01T00:00:00Z", "note": "Expired certificate" }
+  ],
+  "businessObjects": [
+    { "id": "BO01", "name": "Purchase Order" },
+    { "id": "BO02", "name": "Invoice" },
+    { "id": "BO03", "name": "Payment" },
+    { "id": "BO04", "name": "Delivery Note" },
+    { "id": "BO05", "name": "Customer Master Data" }
+  ],
+  "businessCapabilities": [
+    { "id": "BC01", "name": "Order-to-Cash" },
+    { "id": "BC02", "name": "Accounts Payable" },
+    { "id": "BC03", "name": "Procurement" },
+    { "id": "BC04", "name": "Master Data Mgmt" },
+    { "id": "BC05", "name": "Logistics" }
+  ],
+  "contactAssignments": [
+    { "id": "CA01", "contactId": "C01", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-ORDER-IN" },
+    { "id": "CA02", "contactId": "C02", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-ORDER-IN" },
+    { "id": "CA03", "contactId": "C04", "roleId": "R05", "objectType": "iflow", "objectId": "IFLOW-ORDER-IN" },
+    { "id": "CA04", "contactId": "C01", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-ORDER-TRANSFORM" },
+    { "id": "CA05", "contactId": "C02", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-ORDER-TRANSFORM" },
+    { "id": "CA06", "contactId": "C04", "roleId": "R05", "objectType": "iflow", "objectId": "IFLOW-ORDER-TRANSFORM" },
+    { "id": "CA07", "contactId": "C05", "roleId": "R06", "objectType": "iflow", "objectId": "IFLOW-ORDER-TRANSFORM" },
+    { "id": "CA08", "contactId": "C01", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-ORDER-OUT" },
+    { "id": "CA09", "contactId": "C02", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-ORDER-OUT" },
+    { "id": "CA10", "contactId": "C01", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-INVOICE-IN" },
+    { "id": "CA11", "contactId": "C09", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-INVOICE-IN" },
+    { "id": "CA12", "contactId": "C01", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-INVOICE-PROCESS" },
+    { "id": "CA13", "contactId": "C09", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-INVOICE-PROCESS" },
+    { "id": "CA14", "contactId": "C08", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-PAYMENT-ENRICH" },
+    { "id": "CA15", "contactId": "C09", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-PAYMENT-ENRICH" },
+    { "id": "CA16", "contactId": "C08", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-PAYMENT-OUT" },
+    { "id": "CA17", "contactId": "C09", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-PAYMENT-OUT" },
+    { "id": "CA18", "contactId": "C10", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-MDM-CUSTOMER" },
+    { "id": "CA19", "contactId": "C02", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-MDM-CUSTOMER" },
+    { "id": "CA20", "contactId": "C10", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-CUSTOMER-SYNC" },
+    { "id": "CA21", "contactId": "C02", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-CUSTOMER-SYNC" },
+    { "id": "CA22", "contactId": "C03", "roleId": "R07", "objectType": "iflow", "objectId": "IFLOW-ORDER-MONITOR" },
+    { "id": "CA23", "contactId": "C01", "roleId": "R01", "objectType": "iflow", "objectId": "IFLOW-ORDER-MONITOR" },
+    { "id": "CA24", "contactId": "C03", "roleId": "R07", "objectType": "iflow", "objectId": "IFLOW-ALERT-DISPATCH" },
+    { "id": "CA25", "contactId": "C06", "roleId": "R04", "objectType": "partnerChannel", "objectId": "CH01" },
+    { "id": "CA26", "contactId": "C06", "roleId": "R04", "objectType": "partnerChannel", "objectId": "CH02" },
+    { "id": "CA27", "contactId": "C07", "roleId": "R03", "objectType": "partnerChannel", "objectId": "CH03" },
+    { "id": "CA28", "contactId": "C02", "roleId": "R02", "objectType": "iflow", "objectId": "IFLOW-ARCHIVE" }
+  ],
+  "iflowObjectAssignments": [
+    { "id": "OA01", "iflowId": "IFLOW-ORDER-IN", "objectType": "businessObject", "objectId": "BO01" },
+    { "id": "OA02", "iflowId": "IFLOW-ORDER-IN", "objectType": "businessCapability", "objectId": "BC01" },
+    { "id": "OA03", "iflowId": "IFLOW-ORDER-IN", "objectType": "partnerChannel", "objectId": "CH03" },
+    { "id": "OA04", "iflowId": "IFLOW-ORDER-TRANSFORM", "objectType": "businessObject", "objectId": "BO01" },
+    { "id": "OA05", "iflowId": "IFLOW-ORDER-TRANSFORM", "objectType": "businessCapability", "objectId": "BC01" },
+    { "id": "OA06", "iflowId": "IFLOW-ORDER-OUT", "objectType": "businessObject", "objectId": "BO01" },
+    { "id": "OA07", "iflowId": "IFLOW-ORDER-OUT", "objectType": "businessCapability", "objectId": "BC01" },
+    { "id": "OA08", "iflowId": "IFLOW-ORDER-OUT", "objectType": "partnerChannel", "objectId": "CH03" },
+    { "id": "OA09", "iflowId": "IFLOW-INVOICE-IN", "objectType": "businessObject", "objectId": "BO02" },
+    { "id": "OA10", "iflowId": "IFLOW-INVOICE-IN", "objectType": "businessCapability", "objectId": "BC02" },
+    { "id": "OA11", "iflowId": "IFLOW-INVOICE-IN", "objectType": "partnerChannel", "objectId": "CH04" },
+    { "id": "OA12", "iflowId": "IFLOW-INVOICE-PROCESS", "objectType": "businessObject", "objectId": "BO02" },
+    { "id": "OA13", "iflowId": "IFLOW-INVOICE-PROCESS", "objectType": "businessCapability", "objectId": "BC02" },
+    { "id": "OA14", "iflowId": "IFLOW-PAYMENT-ENRICH", "objectType": "businessObject", "objectId": "BO03" },
+    { "id": "OA15", "iflowId": "IFLOW-PAYMENT-ENRICH", "objectType": "businessCapability", "objectId": "BC02" },
+    { "id": "OA16", "iflowId": "IFLOW-PAYMENT-ENRICH", "objectType": "partnerChannel", "objectId": "CH01" },
+    { "id": "OA17", "iflowId": "IFLOW-PAYMENT-OUT", "objectType": "businessObject", "objectId": "BO03" },
+    { "id": "OA18", "iflowId": "IFLOW-PAYMENT-OUT", "objectType": "businessCapability", "objectId": "BC02" },
+    { "id": "OA19", "iflowId": "IFLOW-PAYMENT-OUT", "objectType": "partnerChannel", "objectId": "CH02" },
+    { "id": "OA20", "iflowId": "IFLOW-MDM-CUSTOMER", "objectType": "businessObject", "objectId": "BO05" },
+    { "id": "OA21", "iflowId": "IFLOW-MDM-CUSTOMER", "objectType": "businessCapability", "objectId": "BC04" },
+    { "id": "OA22", "iflowId": "IFLOW-CUSTOMER-SYNC", "objectType": "businessObject", "objectId": "BO05" },
+    { "id": "OA23", "iflowId": "IFLOW-CUSTOMER-SYNC", "objectType": "businessCapability", "objectId": "BC04" }
   ]
 }

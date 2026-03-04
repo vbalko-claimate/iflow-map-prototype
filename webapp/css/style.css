@@ -74,3 +74,25 @@
 .sapTntSideNavigation {
   background: #f5f6f7;
 }
+
+/* ── Context Mode: Missing Ownership Warning ──────────────────── */
+@keyframes pulse-warn {
+  0%   { stroke: #e65100; stroke-width: 3; }
+  50%  { stroke: #ff9800; stroke-width: 5; }
+  100% { stroke: #e65100; stroke-width: 3; }
+}
+
+.ctx-missing-owner {
+  animation: pulse-warn 2s ease-in-out infinite;
+}
+
+/* ── Context Mode: D3 node type shapes ────────────────────────── */
+.d3GraphContainer .d3-node text {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Mode Toggle Styling ──────────────────────────────────────── */
+.sapTntToolHeader .sapMSegB {
+  margin: 0 0.5rem;
+}

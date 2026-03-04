@@ -1,0 +1,39 @@
+<mvc:View
+  controllerName="iflow.map.prototype.controller.Main"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  displayBlock="true"
+  height="100%"
+>
+  <App>
+  <Page title="iFlow Map Prototype (#92) - Mocked, realistic data">
+    <content>
+      <VBox class="sapUiSmallMargin">
+        <Toolbar>
+          <Title text="Impact Analysis" level="H4" />
+          <ToolbarSpacer />
+          <Select width="22rem" selectedKey="{graph>/selectedIflowKey}" items="{graph>/iflowOptions}" change=".onSelectedIflowChange">
+            <core:Item key="{graph>key}" text="{graph>text}" />
+          </Select>
+          <Button text="Highlight Connected" type="Emphasized" press=".onHighlightImpactPress" />
+          <Button text="Reset" press=".onResetHighlightPress" />
+        </Toolbar>
+
+        <HBox class="sapUiTinyMarginTop sapUiTinyMarginBottom" renderType="Bare">
+          <ObjectStatus text="ProcessDirect" state="Information" class="sapUiTinyMarginEnd" />
+          <ObjectStatus text="JMS" state="Success" class="sapUiTinyMarginEnd" />
+          <ObjectStatus text="DataStore" state="Warning" class="sapUiTinyMarginEnd" />
+          <ObjectStatus text="Muted = not impacted" state="None" />
+        </HBox>
+
+        <VBox class="iflowGraphCard sapUiTinyMarginTop">
+          <Text class="iflowGraphHint" text="Tip: if map looks empty, use browser hard refresh (Cmd+Shift+R)." />
+          <Text id="debugText" text="Debug: view rendered" />
+          <VBox id="graphHost" class="iflowGraphHost sapUiTinyMarginTop" />
+        </VBox>
+      </VBox>
+    </content>
+  </Page>
+  </App>
+</mvc:View>

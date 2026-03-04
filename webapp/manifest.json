@@ -1,0 +1,47 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "iflow.map.prototype",
+    "type": "application",
+    "title": "iFlow Map Prototype",
+    "applicationVersion": {
+      "version": "0.1.0"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "rootView": {
+      "viewName": "iflow.map.prototype.view.Main",
+      "type": "XML",
+      "id": "mainView"
+    },
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.ui.core": {},
+        "sap.m": {},
+        "sap.ui.layout": {},
+        "sap.suite.ui.commons": {}
+      }
+    },
+    "models": {
+      "graph": {
+        "type": "sap.ui.model.json.JSONModel"
+      }
+    }
+  }
+}

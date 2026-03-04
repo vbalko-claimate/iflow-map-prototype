@@ -1,0 +1,13 @@
+{
+  "name": "iflow-map-ui5-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Standalone SAPUI5 prototype for iFlow map visualization (#92)",
+  "scripts": {
+    "start": "ui5 serve -o index.html",
+    "build": "ui5 build --all"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^4.0.33"
+  }
+}

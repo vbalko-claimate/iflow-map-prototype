@@ -1,0 +1,143 @@
+{
+  "meta": {
+    "source": "Mocked from OwnersService.getIFlowConnections + IFlow model shape",
+    "updatedAt": "2026-03-04T18:00:00Z"
+  },
+  "iflows": [
+    { "id": "IFLOW-ORDER-IN", "version": "1.4.2", "name": "Order_IN", "runtimeStatus": "STARTED", "packageId": "PKG-ORDER" },
+    { "id": "IFLOW-ORDER-TRANSFORM", "version": "1.8.0", "name": "Order_Transform", "runtimeStatus": "STARTED", "packageId": "PKG-ORDER" },
+    { "id": "IFLOW-ORDER-OUT", "version": "2.1.3", "name": "Order_OUT", "runtimeStatus": "STARTED", "packageId": "PKG-ORDER" },
+    { "id": "IFLOW-ORDER-MONITOR", "version": "1.2.0", "name": "Order_Monitor", "runtimeStatus": "STARTED", "packageId": "PKG-OPS" },
+    { "id": "IFLOW-INVOICE-IN", "version": "1.1.0", "name": "Invoice_IN", "runtimeStatus": "STARTED", "packageId": "PKG-INVOICE" },
+    { "id": "IFLOW-INVOICE-PROCESS", "version": "2.0.1", "name": "Invoice_Process", "runtimeStatus": "STARTED", "packageId": "PKG-INVOICE" },
+    { "id": "IFLOW-PAYMENT-ENRICH", "version": "0.9.8", "name": "Payment_Enrich", "runtimeStatus": "STOPPED", "packageId": "PKG-PAYMENT" },
+    { "id": "IFLOW-PAYMENT-OUT", "version": "1.0.5", "name": "Payment_OUT", "runtimeStatus": "STARTED", "packageId": "PKG-PAYMENT" },
+    { "id": "IFLOW-MDM-CUSTOMER", "version": "3.0.0", "name": "MDM_Customer_Master", "runtimeStatus": "STARTED", "packageId": "PKG-MDM" },
+    { "id": "IFLOW-CUSTOMER-SYNC", "version": "2.7.1", "name": "Customer_Sync", "runtimeStatus": "ERROR", "packageId": "PKG-MDM" },
+    { "id": "IFLOW-ALERT-DISPATCH", "version": "1.0.0", "name": "Alert_Dispatch", "runtimeStatus": "STARTED", "packageId": "PKG-OPS" },
+    { "id": "IFLOW-ARCHIVE", "version": "1.3.4", "name": "Archive_Store", "runtimeStatus": "STARTED", "packageId": "PKG-OPS" }
+  ],
+  "connections": [
+    {
+      "connectionId": "c001",
+      "sourceIflowId": "IFLOW-ORDER-IN",
+      "sourceIflowVersion": "1.4.2",
+      "targetIflowId": "IFLOW-ORDER-TRANSFORM",
+      "targetIflowVersion": "1.8.0",
+      "connectionType": "PROCESS_DIRECT",
+      "notes": "Synchronous handoff from inbound API",
+      "createdAt": "2026-01-10T10:00:00Z",
+      "modifiedAt": "2026-02-10T10:00:00Z"
+    },
+    {
+      "connectionId": "c002",
+      "sourceIflowId": "IFLOW-ORDER-TRANSFORM",
+      "sourceIflowVersion": "1.8.0",
+      "targetIflowId": "IFLOW-ORDER-OUT",
+      "targetIflowVersion": "2.1.3",
+      "connectionType": "JMS",
+      "notes": "Async queue ORDER.OUT.Q",
+      "createdAt": "2026-01-10T10:10:00Z",
+      "modifiedAt": "2026-02-10T11:20:00Z"
+    },
+    {
+      "connectionId": "c003",
+      "sourceIflowId": "IFLOW-ORDER-TRANSFORM",
+      "sourceIflowVersion": "1.8.0",
+      "targetIflowId": "IFLOW-ORDER-MONITOR",
+      "targetIflowVersion": "1.2.0",
+      "connectionType": "DATA_STORE",
+      "notes": "Writes checkpoints for monitoring",
+      "createdAt": "2026-01-10T10:12:00Z",
+      "modifiedAt": "2026-01-22T08:00:00Z"
+    },
+    {
+      "connectionId": "c004",
+      "sourceIflowId": "IFLOW-INVOICE-IN",
+      "sourceIflowVersion": "1.1.0",
+      "targetIflowId": "IFLOW-INVOICE-PROCESS",
+      "targetIflowVersion": "2.0.1",
+      "connectionType": "PROCESS_DIRECT",
+      "notes": "Invoice validation and mapping",
+      "createdAt": "2026-01-12T07:30:00Z",
+      "modifiedAt": "2026-02-01T12:00:00Z"
+    },
+    {
+      "connectionId": "c005",
+      "sourceIflowId": "IFLOW-INVOICE-PROCESS",
+      "sourceIflowVersion": "2.0.1",
+      "targetIflowId": "IFLOW-ORDER-OUT",
+      "targetIflowVersion": "2.1.3",
+      "connectionType": "JMS",
+      "notes": "Shared outbound dispatch queue",
+      "createdAt": "2026-01-12T07:45:00Z",
+      "modifiedAt": "2026-02-20T09:20:00Z"
+    },
+    {
+      "connectionId": "c006",
+      "sourceIflowId": "IFLOW-PAYMENT-ENRICH",
+      "sourceIflowVersion": "0.9.8",
+      "targetIflowId": "IFLOW-PAYMENT-OUT",
+      "targetIflowVersion": "1.0.5",
+      "connectionType": "PROCESS_DIRECT",
+      "notes": "Payment payload enrichment",
+      "createdAt": "2026-01-15T08:20:00Z",
+      "modifiedAt": "2026-02-18T11:45:00Z"
+    },
+    {
+      "connectionId": "c007",
+      "sourceIflowId": "IFLOW-PAYMENT-OUT",
+      "sourceIflowVersion": "1.0.5",
+      "targetIflowId": "IFLOW-ARCHIVE",
+      "targetIflowVersion": "1.3.4",
+      "connectionType": "DATA_STORE",
+      "notes": "Archive payment envelopes",
+      "createdAt": "2026-01-15T08:33:00Z",
+      "modifiedAt": "2026-02-21T10:00:00Z"
+    },
+    {
+      "connectionId": "c008",
+      "sourceIflowId": "IFLOW-MDM-CUSTOMER",
+      "sourceIflowVersion": "3.0.0",
+      "targetIflowId": "IFLOW-CUSTOMER-SYNC",
+      "targetIflowVersion": "2.7.1",
+      "connectionType": "PROCESS_DIRECT",
+      "notes": "Master data push",
+      "createdAt": "2026-01-20T06:00:00Z",
+      "modifiedAt": "2026-02-11T06:00:00Z"
+    },
+    {
+      "connectionId": "c009",
+      "sourceIflowId": "IFLOW-CUSTOMER-SYNC",
+      "sourceIflowVersion": "2.7.1",
+      "targetIflowId": "IFLOW-ORDER-TRANSFORM",
+      "targetIflowVersion": "1.8.0",
+      "connectionType": "JMS",
+      "notes": "Customer delta update queue",
+      "createdAt": "2026-01-20T06:30:00Z",
+      "modifiedAt": "2026-02-25T09:50:00Z"
+    },
+    {
+      "connectionId": "c010",
+      "sourceIflowId": "IFLOW-ORDER-MONITOR",
+      "sourceIflowVersion": "1.2.0",
+      "targetIflowId": "IFLOW-ALERT-DISPATCH",
+      "targetIflowVersion": "1.0.0",
+      "connectionType": "PROCESS_DIRECT",
+      "notes": "Triggers operational alerts",
+      "createdAt": "2026-01-30T09:40:00Z",
+      "modifiedAt": "2026-02-28T12:10:00Z"
+    },
+    {
+      "connectionId": "c011",
+      "sourceIflowId": "IFLOW-ORDER-OUT",
+      "sourceIflowVersion": "2.1.3",
+      "targetIflowId": "IFLOW-ARCHIVE",
+      "targetIflowVersion": "1.3.4",
+      "connectionType": "DATA_STORE",
+      "notes": "Store outbound snapshots",
+      "createdAt": "2026-01-10T10:40:00Z",
+      "modifiedAt": "2026-02-12T08:12:00Z"
+    }
+  ]
+}

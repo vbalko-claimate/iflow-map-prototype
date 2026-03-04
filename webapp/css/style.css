@@ -1,0 +1,30 @@
+.iflowGraphCard {
+  background: #ffffff;
+  border: 1px solid #cbd5df;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.iflowGraphHint {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.iflowGraphHost {
+  min-height: 48rem;
+  background: #ffffff;
+}
+
+.iflowGraphHost .sapSuiteUiCommonsNetworkGraphContentWrapper {
+  background: #ffffff;
+}
+
+.iflowGraphHost .sapSuiteUiCommonsNetworkGraphDivNode {
+  border: 2px solid #3f5f80;
+  border-radius: 0.4rem;
+  box-shadow: 0 1px 4px rgba(30, 50, 80, 0.2);
+}
+
+.iflowGraphHost .sapSuiteUiCommonsNetworkLinePath {
+  stroke-width: 3px;
+}

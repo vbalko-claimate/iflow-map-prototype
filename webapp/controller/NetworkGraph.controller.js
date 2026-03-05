@@ -390,11 +390,22 @@ sap.ui.define([
       var sNodeType = oNode.data("nodeType") || "iflow";
       var sIflowId = oNode.data("iflowId") || oNode.getProperty("key").split("::")[0];
       var sVersion = oNode.data("iflowVersion") || oNode.getProperty("key").split("::")[1];
+      var sKey = oNode.getProperty("key");
 
       if (sNodeType !== "iflow") {
         MessageToast.show(oNode.getProperty("title") + " [" + sNodeType + "]");
       } else {
         MessageToast.show("Navigate to detail: " + sIflowId + " / v" + sVersion);
+      }
+
+      // Select node in impact analysis dropdown
+      var oModel = this.getView().getModel("graph");
+      var aOptions = oModel.getProperty("/iflowOptions") || [];
+      for (var i = 0; i < aOptions.length; i++) {
+        if (aOptions[i].key === sKey) {
+          oModel.setProperty("/selectedIflowKey", sKey);
+          break;
+        }
       }
     },
 

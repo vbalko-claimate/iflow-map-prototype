@@ -135,6 +135,19 @@ sap.ui.define([
       this._selectedKey = oEvent.getSource().getSelectedKey();
     },
 
+    _selectNode: function (d) {
+      var sKey = d.key;
+      var oSelect = this.byId("d3IflowSelect");
+      var aItems = oSelect.getItems();
+      for (var i = 0; i < aItems.length; i++) {
+        if (aItems[i].getKey() === sKey) {
+          this._selectedKey = sKey;
+          oSelect.setSelectedKey(sKey);
+          return;
+        }
+      }
+    },
+
     onDownstreamPress: function () { this._runImpact("downstream"); },
     onUpstreamPress: function () { this._runImpact("upstream"); },
 
@@ -243,6 +256,7 @@ sap.ui.define([
         .style("cursor", "pointer")
         .on("click", function (event, d) {
           GraphUtils.showNodeDetail(d);
+          that._selectNode(d);
         })
         .call(d3.drag()
           .on("start", function (event, d) {
@@ -383,6 +397,7 @@ sap.ui.define([
         .style("cursor", "pointer")
         .on("click", function (event, d) {
           GraphUtils.showNodeDetail(d);
+          that._selectNode(d);
         })
         .call(d3.drag()
           .on("start", function (event, d) {

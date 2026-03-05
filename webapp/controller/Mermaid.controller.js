@@ -147,6 +147,18 @@ sap.ui.define([
       this._selectedKey = oEvent.getSource().getSelectedKey();
     },
 
+    _selectNode: function (sKey) {
+      var oSelect = this.byId("mmIflowSelect");
+      var aItems = oSelect.getItems();
+      for (var i = 0; i < aItems.length; i++) {
+        if (aItems[i].getKey() === sKey) {
+          this._selectedKey = sKey;
+          oSelect.setSelectedKey(sKey);
+          return;
+        }
+      }
+    },
+
     onDownstreamPress: function () { this._runImpact("downstream"); },
     onUpstreamPress: function () { this._runImpact("upstream"); },
 
@@ -389,6 +401,7 @@ sap.ui.define([
           });
           if (matchNode) {
             GraphUtils.showNodeDetail(matchNode);
+            that._selectNode(matchNode.key);
           }
         });
       });

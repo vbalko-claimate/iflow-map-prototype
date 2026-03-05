@@ -131,6 +131,18 @@ sap.ui.define([
       this._selectedKey = oEvent.getSource().getSelectedKey();
     },
 
+    _selectNode: function (sKey) {
+      var oSelect = this.byId("cyIflowSelect");
+      var aItems = oSelect.getItems();
+      for (var i = 0; i < aItems.length; i++) {
+        if (aItems[i].getKey() === sKey) {
+          this._selectedKey = sKey;
+          oSelect.setSelectedKey(sKey);
+          return;
+        }
+      }
+    },
+
     onSearch: function (oEvent) {
       var sQuery = (oEvent.getParameter("query") || "").toLowerCase();
       if (!this._cy) { return; }
@@ -325,6 +337,7 @@ sap.ui.define([
         }
       });
 
+      var that2 = this;
       cy.on("tap", "node", function (evt) {
         var d = evt.target.data();
         GraphUtils.showNodeDetail({
@@ -333,6 +346,7 @@ sap.ui.define([
           version: d.version,
           runtimeStatus: d.runtimeStatus
         });
+        that2._selectNode(evt.target.id());
       });
 
       cy.on("tap", "edge", function (evt) {
@@ -497,7 +511,11 @@ sap.ui.define([
         }
       });
 
-      cy.on("tap", "node", function (evt) { GraphUtils.showNodeDetail(evt.target.data()); });
+      var that2 = this;
+      cy.on("tap", "node", function (evt) {
+        GraphUtils.showNodeDetail(evt.target.data());
+        that2._selectNode(evt.target.id());
+      });
       cy.on("tap", "edge", function (evt) { GraphUtils.showEdgeDetail(evt.target.data()); });
 
       this._cy = cy;

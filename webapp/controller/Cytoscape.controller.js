@@ -203,7 +203,8 @@ sap.ui.define([
             iflowId: n.id,
             version: n.version,
             runtimeStatus: n.runtimeStatus,
-            packageId: n.packageId
+            packageId: n.packageId,
+            isExternal: !!n._isExternal
           }
         });
       });
@@ -262,6 +263,15 @@ sap.ui.define([
             selector: "edge[connectionType='JMS']",
             style: {
               "line-style": "dashed"
+            }
+          },
+          {
+            selector: "node[?isExternal]",
+            style: {
+              "opacity": 0.55,
+              "background-color": "#ebedef",
+              "border-color": "#a0a8b0",
+              "border-style": "dashed"
             }
           },
           {
@@ -345,7 +355,8 @@ sap.ui.define([
           direction: n.direction,
           certStatus: n.certStatus,
           partnerType: n.partnerType,
-          missingOwner: !!that._missingOwnership[n.key]
+          missingOwner: !!that._missingOwnership[n.key],
+          isExternal: !!n._isExternal
         };
         // Compound: channels belong to their partner (if both are visible)
         if (n.nodeType === "partnerChannel" && n.partnerId && data.nodeMap["partner::" + n.partnerId]) {
@@ -417,6 +428,10 @@ sap.ui.define([
       styles.push({
         selector: "node[?missingOwner]",
         style: { "border-color": "#e65100", "border-width": 4, "border-style": "double" }
+      });
+      styles.push({
+        selector: "node[?isExternal]",
+        style: { "opacity": 0.55, "border-style": "dashed", "border-color": "#a0a8b0" }
       });
 
       styles.push({

@@ -252,16 +252,19 @@ sap.ui.define([
         .attr("x", -75)
         .attr("y", -24)
         .attr("rx", 6)
-        .attr("fill", "#d9e7f7")
-        .attr("stroke", "#5b738b")
-        .attr("stroke-width", 2);
+        .attr("fill", function (d) { return d._isExternal ? "#ebedef" : "#d9e7f7"; })
+        .attr("stroke", function (d) { return d._isExternal ? "#a0a8b0" : "#5b738b"; })
+        .attr("stroke-width", 2)
+        .attr("stroke-dasharray", function (d) { return d._isExternal ? "4,3" : null; });
+
+      nodeG.attr("opacity", function (d) { return d._isExternal ? 0.55 : 1; });
 
       nodeG.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "-0.2em")
         .attr("font-size", "12px")
         .attr("font-weight", "600")
-        .attr("fill", "#1f2d3d")
+        .attr("fill", function (d) { return d._isExternal ? "#6b7785" : "#1f2d3d"; })
         .text(function (d) { return d.name; });
 
       nodeG.append("text")
@@ -417,6 +420,9 @@ sap.ui.define([
             .attr("class", isMissing ? "ctx-missing-owner" : "");
         }
       });
+
+      // Dim external nodes
+      nodeG.attr("opacity", function (d) { return d._isExternal ? 0.55 : 1; });
 
       nodeG.append("text")
         .attr("text-anchor", "middle")

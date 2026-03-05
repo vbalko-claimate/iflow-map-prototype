@@ -397,41 +397,62 @@ sap.ui.define([
 
   /**
    * Filter graph data by packageId.
-   * Keeps iFlow nodes matching the package. In context mode, keeps non-iflow
-   * nodes that are connected to a visible iFlow. Keeps edges where both
-   * endpoints are visible.
+   * Primary iFlow nodes match the selected package. Connected iFlows from
+   * other packages are kept but marked with _isExternal=true so controllers
+   * can dim them visually. In context mode, non-iflow entities connected to
+   * primary iFlows are also kept. Edges are kept when at least one endpoint
+   * is a primary node.
    * @param {object} graphData - { nodes, edges, nodeMap, iflowOptions }
    * @param {string} sPackageId - package to filter by, or "ALL"/""
-   * @returns {object} filtered copy of graphData
+   * @returns {object} filtered copy of graphData (nodes get _isExternal flag)
    */
   function filterGraphByPackage(graphData, sPackageId) {
     if (!sPackageId || sPackageId === "ALL") {
-      return graphData;
+      // Clear any stale _isExternal flags
+      var cleanNodes = graphData.nodes.map(function (n) {
+        if (n._isExternal) {
+          var copy = Object.assign({}, n);
+          copy._isExternal = false;
+          return copy;
+        }
+        return n;
+      });
+      return { nodes: cleanNodes, edges: graphData.edges, nodeMap: graphData.nodeMap, iflowOptions: graphData.iflowOptions };
     }
 
-    // Step 1: find visible iFlow node keys
-    var visibleIflowKeys = {};
+    // Step 1: identify primary iFlow keys (matching package)
+    var primaryKeys = {};
     graphData.nodes.forEach(function (n) {
       if (n.nodeType === "iflow" || !n.nodeType) {
-        // connection mode nodes have no nodeType, treat as iflow
         if (n.packageId === sPackageId) {
-          visibleIflowKeys[n.key] = true;
+          primaryKeys[n.key] = true;
         }
       }
     });
 
-    // Step 2: for context mode, find non-iflow nodes connected to visible iFlows
+    // Step 2: find connected iFlow keys from other packages (external)
+    var externalKeys = {};
+    graphData.edges.forEach(function (e) {
+      if (primaryKeys[e.source] && !primaryKeys[e.target]) {
+        externalKeys[e.target] = true;
+      }
+      if (primaryKeys[e.target] && !primaryKeys[e.source]) {
+        externalKeys[e.source] = true;
+      }
+    });
+
+    // Step 3: for context mode, find non-iflow nodes connected to primary iFlows
     var visibleKeys = {};
-    Object.keys(visibleIflowKeys).forEach(function (k) { visibleKeys[k] = true; });
+    Object.keys(primaryKeys).forEach(function (k) { visibleKeys[k] = true; });
+    Object.keys(externalKeys).forEach(function (k) { visibleKeys[k] = true; });
 
     var hasContextNodes = graphData.nodes.some(function (n) { return n.nodeType && n.nodeType !== "iflow"; });
     if (hasContextNodes) {
-      // Find non-iflow nodes connected to visible iFlows via any edge
       graphData.edges.forEach(function (e) {
-        if (visibleIflowKeys[e.source]) { visibleKeys[e.target] = true; }
-        if (visibleIflowKeys[e.target]) { visibleKeys[e.source] = true; }
+        if (primaryKeys[e.source]) { visibleKeys[e.target] = true; }
+        if (primaryKeys[e.target]) { visibleKeys[e.source] = true; }
       });
-      // Also include partner nodes if any of their channels are visible
+      // Include partner nodes if any of their channels are visible
       graphData.edges.forEach(function (e) {
         if (e.edgeType === "PARTNER_OWNS_CHANNEL") {
           if (visibleKeys[e.target]) { visibleKeys[e.source] = true; }
@@ -440,20 +461,27 @@ sap.ui.define([
       });
     }
 
-    // Step 3: filter nodes
-    var aNodes = graphData.nodes.filter(function (n) { return visibleKeys[n.key]; });
+    // Step 4: build nodes with _isExternal flag
+    var aNodes = [];
+    graphData.nodes.forEach(function (n) {
+      if (!visibleKeys[n.key]) { return; }
+      var copy = Object.assign({}, n);
+      // External = iFlow from another package, connected to a primary node
+      copy._isExternal = !primaryKeys[n.key] && (n.nodeType === "iflow" || !n.nodeType);
+      aNodes.push(copy);
+    });
 
-    // Step 4: filter edges where both endpoints are visible
+    // Step 5: keep edges where at least one endpoint is primary
     var aEdges = graphData.edges.filter(function (e) {
       return visibleKeys[e.source] && visibleKeys[e.target];
     });
 
-    // Step 5: rebuild nodeMap and iflowOptions
+    // Step 6: rebuild nodeMap and iflowOptions (only primary in dropdown)
     var nodeMap = {};
     aNodes.forEach(function (n) { nodeMap[n.key] = n; });
 
     var aOptions = graphData.iflowOptions.filter(function (o) {
-      return visibleIflowKeys[o.key];
+      return primaryKeys[o.key];
     });
 
     return { nodes: aNodes, edges: aEdges, nodeMap: nodeMap, iflowOptions: aOptions };

@@ -167,6 +167,7 @@ sap.ui.define([
       lines.push("  classDef default fill:#d9e7f7,stroke:#5b738b,color:#1f2d3d,stroke-width:2px");
       lines.push("  classDef impacted fill:#0057a3,stroke:#0057a3,color:#fff,stroke-width:2px");
       lines.push("  classDef muted fill:#d5dadd,stroke:#8d9baa,color:#5a6773,stroke-width:1px");
+      lines.push("  classDef external fill:#ebedef,stroke:#a0a8b0,color:#6b7785,stroke-width:2px,stroke-dasharray:4 3");
 
       data.nodes.forEach(function (n) {
         var safeId = that._sanitizeId(n.key);
@@ -199,6 +200,13 @@ sap.ui.define([
             lines.push("  class " + safeId + " muted");
           }
         });
+      } else {
+        // Apply external class when not in impact mode
+        data.nodes.forEach(function (n) {
+          if (n._isExternal) {
+            lines.push("  class " + that._sanitizeId(n.key) + " external");
+          }
+        });
       }
 
       return lines.concat(linkStyles).join("\n");
@@ -222,6 +230,7 @@ sap.ui.define([
       lines.push("  classDef bizObjNode fill:#f3e5f5,stroke:#7b1fa2,color:#1f2d3d,stroke-width:2px");
       lines.push("  classDef bizCapNode fill:#e8eaf6,stroke:#283593,color:#1f2d3d,stroke-width:2px");
       lines.push("  classDef certNode fill:#fff8e1,stroke:#f9a825,color:#1f2d3d,stroke-width:2px");
+      lines.push("  classDef external fill:#ebedef,stroke:#a0a8b0,color:#6b7785,stroke-width:2px,stroke-dasharray:4 3");
 
       // Group by type into subgraphs
       var nodesByType = {};
@@ -299,7 +308,9 @@ sap.ui.define([
           }
         } else {
           // Apply type class
-          if (that._missingOwnership[n.key]) {
+          if (n._isExternal) {
+            lines.push("  class " + safeId + " external");
+          } else if (that._missingOwnership[n.key]) {
             lines.push("  class " + safeId + " missingOwner");
           } else if (nodeTypeClassMap[n.nodeType]) {
             lines.push("  class " + safeId + " " + nodeTypeClassMap[n.nodeType]);

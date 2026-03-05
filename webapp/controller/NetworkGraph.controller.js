@@ -125,18 +125,21 @@ sap.ui.define([
         // Context edge statuses
         { key: "CONTACT_ASSIGNMENT", contentColor: "#ffffff", borderColor: "#43a047", backgroundColor: "#43a047" },
         { key: "OBJECT_ASSIGNMENT", contentColor: "#ffffff", borderColor: "#7b1fa2", backgroundColor: "#7b1fa2" },
-        { key: "PARTNER_OWNS_CHANNEL", contentColor: "#ffffff", borderColor: "#e65100", backgroundColor: "#e65100" }
+        { key: "PARTNER_OWNS_CHANNEL", contentColor: "#ffffff", borderColor: "#e65100", backgroundColor: "#e65100" },
+        // External node (from another package)
+        { key: "EXTERNAL", contentColor: "#6b7785", borderColor: "#a0a8b0", backgroundColor: "#ebedef" }
       ];
     },
 
     _buildConnectionGraphData: function (filteredData) {
       var aNodes = filteredData.nodes.map(function (n) {
+        var status = n._isExternal ? "EXTERNAL" : "NODE_DEFAULT";
         return {
           key: n.key,
           title: n.name,
           description: "ID " + n.id + " | v" + n.version + " | " + n.runtimeStatus,
-          status: "NODE_DEFAULT",
-          _baseStatus: "NODE_DEFAULT",
+          status: status,
+          _baseStatus: status,
           iflowId: n.id,
           iflowVersion: n.version,
           iflowName: n.name,
@@ -183,9 +186,14 @@ sap.ui.define([
       };
 
       var aNodes = filteredData.nodes.map(function (n) {
-        var status = nodeTypeStatusMap[n.nodeType] || "NODE_DEFAULT";
-        if (that._missingOwnership[n.key]) {
-          status = "MISSING_OWNER";
+        var status;
+        if (n._isExternal) {
+          status = "EXTERNAL";
+        } else {
+          status = nodeTypeStatusMap[n.nodeType] || "NODE_DEFAULT";
+          if (that._missingOwnership[n.key]) {
+            status = "MISSING_OWNER";
+          }
         }
         return {
           key: n.key,

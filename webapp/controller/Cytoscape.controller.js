@@ -32,6 +32,8 @@ sap.ui.define([
       this._entityFilter = "ALL";
       this._missingOwnership = {};
       this._rawData = null;
+      this._nodeRepulsion = 8000;
+      this._edgeLength = 160;
     },
 
     onAfterRendering: function () {
@@ -155,6 +157,29 @@ sap.ui.define([
       }
     },
 
+    onSpacingChange: function (oEvent) {
+      this._nodeRepulsion = oEvent.getParameter("value");
+    },
+
+    onLinkDistanceChange: function (oEvent) {
+      this._edgeLength = oEvent.getParameter("value");
+    },
+
+    onRelayoutPress: function () {
+      if (!this._cy) { return; }
+      var repulsion = this._nodeRepulsion;
+      var edgeLen = this._edgeLength;
+      this._cy.layout({
+        name: "cose",
+        animate: true,
+        animationDuration: 800,
+        nodeRepulsion: function () { return repulsion; },
+        idealEdgeLength: function () { return edgeLen; },
+        padding: 40,
+        nestingFactor: 1.2
+      }).run();
+    },
+
     onSearch: function (oEvent) {
       var sQuery = (oEvent.getParameter("query") || "").toLowerCase();
       if (!this._cy) { return; }
@@ -231,6 +256,8 @@ sap.ui.define([
 
       if (this._cy) { this._cy.destroy(); this._cy = null; }
 
+      var repulsion = this._nodeRepulsion;
+      var edgeLen = this._edgeLength;
       var data = this._getActiveData();
       var elements = [];
 
@@ -348,8 +375,8 @@ sap.ui.define([
           name: "cose",
           animate: true,
           animationDuration: 800,
-          nodeRepulsion: function () { return 8000; },
-          idealEdgeLength: function () { return 160; },
+          nodeRepulsion: function () { return repulsion; },
+          idealEdgeLength: function () { return edgeLen; },
           padding: 40
         }
       });
@@ -387,6 +414,8 @@ sap.ui.define([
       if (this._cy) { this._cy.destroy(); this._cy = null; }
 
       var that = this;
+      var repulsion = this._nodeRepulsion;
+      var edgeLen = this._edgeLength;
       var data = this._getActiveData();
       var elements = [];
 
@@ -532,8 +561,8 @@ sap.ui.define([
         style: styles,
         layout: {
           name: "cose", animate: true, animationDuration: 800,
-          nodeRepulsion: function () { return 12000; },
-          idealEdgeLength: function () { return 120; },
+          nodeRepulsion: function () { return repulsion; },
+          idealEdgeLength: function () { return edgeLen; },
           padding: 40, nestingFactor: 1.2
         }
       });

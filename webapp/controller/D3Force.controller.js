@@ -32,6 +32,9 @@ sap.ui.define([
       this._entityFilter = "ALL";
       this._missingOwnership = {};
       this._rawData = null;
+      this._simulation = null;
+      this._chargeStrength = -400;
+      this._linkDistance = 160;
     },
 
     onAfterRendering: function () {
@@ -179,6 +182,30 @@ sap.ui.define([
       this._applyImpactStyles();
     },
 
+    onChargeChange: function (oEvent) {
+      var val = oEvent.getParameter("value");
+      this._chargeStrength = -val;
+      if (this._simulation) {
+        this._simulation.force("charge").strength(this._chargeStrength);
+        this._simulation.alpha(0.3).restart();
+      }
+    },
+
+    onLinkDistanceChange: function (oEvent) {
+      var val = oEvent.getParameter("value");
+      this._linkDistance = val;
+      if (this._simulation) {
+        this._simulation.force("link").distance(this._linkDistance);
+        this._simulation.alpha(0.3).restart();
+      }
+    },
+
+    onRelayoutPress: function () {
+      if (this._simulation) {
+        this._simulation.alpha(1).restart();
+      }
+    },
+
     onResetHighlightPress: function () {
       this._impactVisited = null;
       this._applyImpactStyles();
@@ -249,11 +276,15 @@ sap.ui.define([
         return { source: e.source, target: e.target, connectionType: e.connectionType, color: e.color, notes: e.notes, id: e.id };
       });
 
+      var chargeStrength = this._chargeStrength;
+      var linkDist = this._linkDistance;
+
       var simulation = d3.forceSimulation(nodes)
-        .force("link", d3.forceLink(edges).id(function (d) { return d.key; }).distance(160))
-        .force("charge", d3.forceManyBody().strength(-400))
+        .force("link", d3.forceLink(edges).id(function (d) { return d.key; }).distance(linkDist))
+        .force("charge", d3.forceManyBody().strength(chargeStrength))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("collide", d3.forceCollide(60));
+      this._simulation = simulation;
 
       var link = g.selectAll(".d3-link")
         .data(edges)
@@ -385,11 +416,15 @@ sap.ui.define([
         return Object.assign({}, e);
       });
 
+      var chargeStrength = this._chargeStrength;
+      var linkDist = this._linkDistance;
+
       var simulation = d3.forceSimulation(nodes)
-        .force("link", d3.forceLink(edges).id(function (d) { return d.key; }).distance(120))
-        .force("charge", d3.forceManyBody().strength(-300))
+        .force("link", d3.forceLink(edges).id(function (d) { return d.key; }).distance(linkDist))
+        .force("charge", d3.forceManyBody().strength(chargeStrength))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("collide", d3.forceCollide(50));
+      this._simulation = simulation;
 
       var link = g.selectAll(".d3-link")
         .data(edges)

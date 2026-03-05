@@ -18,6 +18,15 @@
           <Button text="Dependencies (upstream)" press=".onUpstreamPress" />
           <Button text="Reset" press=".onResetHighlightPress" />
         </Toolbar>
+        <Toolbar class="sapUiTinyMarginTop">
+          <Label text="Spacing" class="sapUiTinyMarginEnd" />
+          <Slider id="cySpacingSlider" min="2000" max="30000" value="8000" width="10rem" liveChange=".onSpacingChange" />
+          <ToolbarSpacer width="1rem" />
+          <Label text="Link Length" class="sapUiTinyMarginEnd" />
+          <Slider id="cyLinkSlider" min="60" max="400" value="160" width="10rem" liveChange=".onLinkDistanceChange" />
+          <ToolbarSpacer width="1rem" />
+          <Button text="Re-layout" icon="sap-icon://refresh" press=".onRelayoutPress" />
+        </Toolbar>
         <HBox class="sapUiTinyMarginTop sapUiTinyMarginBottom" renderType="Bare">
           <ObjectStatus text="ProcessDirect" state="Information" class="sapUiTinyMarginEnd" />
           <ObjectStatus text="JMS" state="Success" class="sapUiTinyMarginEnd" />

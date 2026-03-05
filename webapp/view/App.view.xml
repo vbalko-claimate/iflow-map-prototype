@@ -22,6 +22,7 @@
           <core:Item key="ALL" text="All Statuses" />
           <core:Item key="STARTED" text="Deployed" />
           <core:Item key="NOT_DEPLOYED" text="Not Deployed" />
+          <core:Item key="ERROR" text="Error" />
         </Select>
         <ToolbarSeparator />
         <SegmentedButton id="modeToggle" selectionChange=".onModeChange">

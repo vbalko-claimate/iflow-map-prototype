@@ -8,7 +8,7 @@
       "id": "Email_alert_PROD",
       "version": "Active",
       "name": "Email_alert_PROD",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "Notifications"
     },
     {
@@ -22,7 +22,7 @@
       "id": "mdm_in_stibo_graphql_http_poc2_reftab",
       "version": "Active",
       "name": "mdm_in_stibo_graphql_http_poc2_reftab",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTMDM"
     },
     {
@@ -722,7 +722,7 @@
       "id": "SCIP0400222_IN_MOF_Router_DS_PD_InvoiceRouter_manualRun",
       "version": "Active",
       "name": "SCIP0400222_IN_MOF_Router_DS_PD_InvoiceRouter_manualRun",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "PRODeInvoicePL"
     },
     {
@@ -883,7 +883,7 @@
       "id": "SCIT0100026_IN_UK-EDICOM_SAPJOB",
       "version": "2025.9.17.2",
       "name": "SCIT0100026_IN_UK-EDICOM_SAPCEP_SAPJOB",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -932,7 +932,7 @@
       "id": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP",
       "version": "2025.10.6.1",
       "name": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -946,7 +946,7 @@
       "id": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_test",
       "version": "Active",
       "name": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_test",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -960,28 +960,28 @@
       "id": "SCIT0100200_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
       "version": "Active",
       "name": "SCIT0100200_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100205_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
       "version": "2025.9.16.2",
       "name": "SCIT0100205_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100206_IN_PT-EDICOM_SAPJOB",
       "version": "2025.9.16.1",
       "name": "SCIT0100206_IN_PT-EDICOM_SAPCEP_SAPJOB",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100310_IN_GHX_SAPCEP_SFTP_SFTP",
       "version": "2025.6.11.1",
       "name": "SCIT0100310_IN_GHX_SAPCEP_SFTP_SFTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -995,7 +995,7 @@
       "id": "SCIT0100336_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
       "version": "Active",
       "name": "SCIT0100336_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1009,7 +1009,7 @@
       "id": "SCIT0100360_IN_VOIGT_SAPCEP_SFTP_SFTP_sapticket",
       "version": "Active",
       "name": "SCIT0100360_IN_VOIGT_SAPCEP_SFTP_SFTP_sapticket",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1037,42 +1037,42 @@
       "id": "SCIT0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER",
       "version": "2025.9.18.3",
       "name": "SCIT0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER_test",
       "version": "Active",
       "name": "SCIT0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER_test",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100375_OUT_SAPCEP_VOIGT_IDOC_SFTP",
       "version": "2025.9.18.2",
       "name": "SCIT0100376_OUT_SAPCEP_VOIGT_IDOC_SFTP_ZCHORDERS",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100375_OUT_SAPCEP_VOIGT_IDOC_SFTP_ZCHDESADV",
       "version": "2025.9.18.2",
       "name": "SCIT0100375_OUT_SAPCEP_VOIGT_IDOC_SFTP_ZCHDESADV",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP",
       "version": "2025.6.11.1",
       "name": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_Nazuris2_tests",
       "version": "Active",
       "name": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_Nazuris2_tests",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1135,7 +1135,7 @@
       "id": "SCIT0100601_IN_INFOCERT_SAPCEP_SFTP_SFTP",
       "version": "2024.12.20.1",
       "name": "SCIT0100601_IN_INFOCERT_SAPCEP_SFTP_SFTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1170,7 +1170,7 @@
       "id": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP",
       "version": "2025.10.7.4",
       "name": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1184,7 +1184,7 @@
       "id": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_test",
       "version": "Active",
       "name": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_test",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1219,28 +1219,28 @@
       "id": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_20250819",
       "version": "Active",
       "name": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_20250819",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_manual",
       "version": "Active",
       "name": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_manual",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_test",
       "version": "Active",
       "name": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_test",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP",
       "version": "Active",
       "name": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1254,14 +1254,14 @@
       "id": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP_test",
       "version": "Active",
       "name": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP_test",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
       "id": "SCIT0100766_IN_EXALOG_SAPCEP_SAPJOB",
       "version": "2025.10.6.1",
       "name": "SCIT0100766_IN_EXALOG_SAPCEP_SAPJOB",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1275,7 +1275,7 @@
       "id": "SCIT0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_test",
       "version": "Active",
       "name": "SCIT0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_test",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1289,7 +1289,7 @@
       "id": "SCIT0100786_IN_MOBILEXPENSES_SAPJOB",
       "version": "2025.9.15.1",
       "name": "SCIT0100786_IN_MOBILEXPENSES_SAPJOB",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "CFTreplacement"
     },
     {
@@ -1310,14 +1310,14 @@
       "id": "SCIT0400222_IN_MOF_Router_DS_PD_InvoiceRouter",
       "version": "Active",
       "name": "SCIT0400222_IN_MOF_Router_DS_PD_InvoiceRouter",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTeInvoicePL"
     },
     {
       "id": "SCIT0400225_IN_DI_SAPCEP_PD_IDOC_InvoiceVIMPosting",
       "version": "Active",
       "name": "SCIT0400225_IN_DI_SAPCEP_PD_IDOC_InvoiceVIMPosting",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTeInvoicePL"
     },
     {
@@ -1345,7 +1345,7 @@
       "id": "SCIT0650020_OUT_EVENTMESH_ENTRA_HTTP_HTTP_manual",
       "version": "Active",
       "name": "SCIT0650020_OUT_EVENTMESH_ENTRA_HTTP_HTTP_manual",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTUserSync"
     },
     {
@@ -1359,7 +1359,7 @@
       "id": "SCIT0650230_OUT_EVENTMESH_MAIL_HTTP_MAIL_GRCREATED_copy",
       "version": "Active",
       "name": "SCIT0650230_OUT_EVENTMESH_MAIL_HTTP_MAIL_GRCREATED_copy",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTEMCOGS"
     },
     {
@@ -1380,14 +1380,14 @@
       "id": "SCIT0700104_IN_HERMEZ_BIZTALK_AS2_SFTP_SHP_OBDLV_CONFIRM_DECENTRAL",
       "version": "Active",
       "name": "SCIT0700104_IN_HERMEZ_BIZTALK_AS2_HTTP_SHP_OBDLV_CONFIRM_DECENTRAL",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTHERMEZII"
     },
     {
       "id": "SCIT0900010_IN_FRESHDESK_PARASHIFT_HTTP_HTTP",
       "version": "2026.2.26.1",
       "name": "SCIT0900010_IN_FRESHDESK_PARASHIFT_HTTP_HTTP",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTPARASHIFT"
     },
     {
@@ -1408,7 +1408,7 @@
       "id": "SCIT1000010_IN_PAYCHEX_SAP_SFTP_SFTP_manualTestNazuris",
       "version": "Active",
       "name": "SCIT1000010_IN_PAYCHEX_SAP_SFTP_SFTP_manualTestNazuris",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTPAYCHEX"
     },
     {
@@ -1464,28 +1464,28 @@
       "id": "SCIT1300095_IN_NOMENTIA_SAPCEP_SAPJOB",
       "version": "2026.3.3.2",
       "name": "SCIT1300095_IN_NOMENTIA_SAPCEP_SAPJOB",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTBankIntegrations"
     },
     {
       "id": "test_ds_aggregator_receiver",
       "version": "Active",
       "name": "test_ds_aggregator_receiver",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "Temp"
     },
     {
       "id": "test_ds_aggregator_timer",
       "version": "Active",
       "name": "test_ds_aggregator_timer",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "Temp"
     },
     {
       "id": "util_sapjob_simulateError",
       "version": "Active",
       "name": "util_sapjob_simulateError",
-      "runtimeStatus": "NOT_DEPLOYED",
+      "runtimeStatus": "STARTED",
       "packageId": "TESTUTILS"
     }
   ],

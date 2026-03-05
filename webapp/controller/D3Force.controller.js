@@ -27,6 +27,7 @@ sap.ui.define([
       this._contextGraphData = null;
       this._impactVisited = null;
       this._mode = "connection";
+      this._packageFilter = "ALL";
       this._missingOwnership = {};
       this._rawData = null;
     },
@@ -41,18 +42,18 @@ sap.ui.define([
         that._rawData = oRaw;
         that._graphData = GraphUtils.buildGraphStructure(oRaw);
         that._contextGraphData = GraphUtils.buildContextGraphStructure(oRaw);
-        // Build missing ownership lookup
         var aMissing = GraphUtils.checkMissingOwnership(oRaw);
         that._missingOwnership = {};
         aMissing.forEach(function (m) { that._missingOwnership[m.iflowKey] = m; });
 
-        that._populateSelect();
-
-        // Read current mode
+        // Read current mode + filter
         var oModeModel = that.getView().getModel("viewMode");
         if (oModeModel) {
           that._mode = oModeModel.getProperty("/mode") || "connection";
+          that._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
         }
+
+        that._populateSelect();
 
         GraphUtils.loadScript(D3_CDN, "d3").then(function () {
           that._d3Loaded = true;
@@ -76,8 +77,23 @@ sap.ui.define([
       this._mode = sMode;
       this._impactVisited = null;
       if (this._d3Loaded) {
+        this._populateSelect();
         this._renderCurrentMode();
       }
+    },
+
+    onPackageFilterChange: function (sPackageId) {
+      this._packageFilter = sPackageId || "ALL";
+      this._impactVisited = null;
+      if (this._d3Loaded) {
+        this._populateSelect();
+        this._renderCurrentMode();
+      }
+    },
+
+    _getActiveData: function () {
+      var data = this._mode === "context" ? this._contextGraphData : this._graphData;
+      return GraphUtils.filterGraphByPackage(data, this._packageFilter);
     },
 
     _renderCurrentMode: function () {
@@ -91,12 +107,15 @@ sap.ui.define([
     _populateSelect: function () {
       var oSelect = this.byId("d3IflowSelect");
       oSelect.removeAllItems();
-      this._graphData.iflowOptions.forEach(function (opt) {
+      var data = this._getActiveData();
+      data.iflowOptions.forEach(function (opt) {
         oSelect.addItem(new Item({ key: opt.key, text: opt.text }));
       });
-      if (this._graphData.iflowOptions.length) {
-        this._selectedKey = this._graphData.iflowOptions[0].key;
+      if (data.iflowOptions.length) {
+        this._selectedKey = data.iflowOptions[0].key;
         oSelect.setSelectedKey(this._selectedKey);
+      } else {
+        this._selectedKey = "";
       }
     },
 
@@ -109,7 +128,7 @@ sap.ui.define([
 
     _runImpact: function (sDirection) {
       if (!this._selectedKey) { return; }
-      var data = this._mode === "context" ? this._contextGraphData : this._graphData;
+      var data = this._getActiveData();
       if (!data) { return; }
       this._impactVisited = GraphUtils.bfsImpact(
         data.nodes, data.edges, this._selectedKey, sDirection
@@ -152,6 +171,7 @@ sap.ui.define([
       container.innerHTML = "";
       var width = container.clientWidth || 900;
       var height = 700;
+      var data = this._getActiveData();
 
       var svg = d3.select(container).append("svg")
         .attr("width", width)
@@ -178,10 +198,10 @@ sap.ui.define([
         g.attr("transform", event.transform);
       }));
 
-      var nodes = this._graphData.nodes.map(function (n) {
+      var nodes = data.nodes.map(function (n) {
         return Object.assign({}, n);
       });
-      var edges = this._graphData.edges.map(function (e) {
+      var edges = data.edges.map(function (e) {
         return { source: e.source, target: e.target, connectionType: e.connectionType, color: e.color, notes: e.notes, id: e.id };
       });
 
@@ -266,19 +286,19 @@ sap.ui.define([
     _renderContextGraph: function () {
       var d3 = window.d3;
       var container = document.getElementById("d3GraphContainer");
-      if (!container || !d3 || !this._contextGraphData) { return; }
+      if (!container || !d3) { return; }
 
       container.innerHTML = "";
       var width = container.clientWidth || 900;
       var height = 700;
       var that = this;
+      var data = this._getActiveData();
 
       var svg = d3.select(container).append("svg")
         .attr("width", width)
         .attr("height", height);
 
       var defs = svg.append("defs");
-      // Arrow markers for each edge type
       Object.keys(GraphUtils.EDGE_TYPE_COLORS).forEach(function (type) {
         defs.append("marker")
           .attr("id", "arrow-" + type)
@@ -299,10 +319,10 @@ sap.ui.define([
         g.attr("transform", event.transform);
       }));
 
-      var nodes = this._contextGraphData.nodes.map(function (n) {
+      var nodes = data.nodes.map(function (n) {
         return Object.assign({}, n);
       });
-      var edges = this._contextGraphData.edges.map(function (e) {
+      var edges = data.edges.map(function (e) {
         return Object.assign({}, e);
       });
 
@@ -312,7 +332,6 @@ sap.ui.define([
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("collide", d3.forceCollide(50));
 
-      // Links
       var link = g.selectAll(".d3-link")
         .data(edges)
         .enter().append("line")
@@ -331,7 +350,6 @@ sap.ui.define([
           GraphUtils.showEdgeDetail(d);
         });
 
-      // Node groups
       var nodeG = g.selectAll(".d3-node")
         .data(nodes)
         .enter().append("g")
@@ -354,7 +372,6 @@ sap.ui.define([
           })
         );
 
-      // Draw shape based on nodeType
       nodeG.each(function (d) {
         var el = d3.select(this);
         var fillColor = GraphUtils.NODE_TYPE_COLORS[d.nodeType] || "#d9e7f7";
@@ -388,7 +405,6 @@ sap.ui.define([
             .attr("stroke", strokeColor)
             .attr("stroke-width", 2);
         } else {
-          // rect (iflow, certificate)
           el.append("rect")
             .attr("width", 150)
             .attr("height", 48)
@@ -402,7 +418,6 @@ sap.ui.define([
         }
       });
 
-      // Labels
       nodeG.append("text")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
@@ -414,7 +429,6 @@ sap.ui.define([
           return label.length > 20 ? label.substring(0, 18) + ".." : label;
         });
 
-      // Subtitle for iFlow nodes (status)
       nodeG.filter(function (d) { return d.nodeType === "iflow"; })
         .append("text")
         .attr("text-anchor", "middle")

@@ -377,6 +377,88 @@ sap.ui.define([
     });
   }
 
+  /**
+   * Extract unique package IDs from raw data.
+   * Returns array of { key, text } for Select binding, with "ALL" first.
+   */
+  function getPackages(oRaw) {
+    var mPkgs = {};
+    (oRaw.iflows || []).forEach(function (f) {
+      if (f.packageId && !mPkgs[f.packageId]) {
+        mPkgs[f.packageId] = true;
+      }
+    });
+    var aResult = [{ key: "ALL", text: "All Packages" }];
+    Object.keys(mPkgs).sort().forEach(function (p) {
+      aResult.push({ key: p, text: p });
+    });
+    return aResult;
+  }
+
+  /**
+   * Filter graph data by packageId.
+   * Keeps iFlow nodes matching the package. In context mode, keeps non-iflow
+   * nodes that are connected to a visible iFlow. Keeps edges where both
+   * endpoints are visible.
+   * @param {object} graphData - { nodes, edges, nodeMap, iflowOptions }
+   * @param {string} sPackageId - package to filter by, or "ALL"/""
+   * @returns {object} filtered copy of graphData
+   */
+  function filterGraphByPackage(graphData, sPackageId) {
+    if (!sPackageId || sPackageId === "ALL") {
+      return graphData;
+    }
+
+    // Step 1: find visible iFlow node keys
+    var visibleIflowKeys = {};
+    graphData.nodes.forEach(function (n) {
+      if (n.nodeType === "iflow" || !n.nodeType) {
+        // connection mode nodes have no nodeType, treat as iflow
+        if (n.packageId === sPackageId) {
+          visibleIflowKeys[n.key] = true;
+        }
+      }
+    });
+
+    // Step 2: for context mode, find non-iflow nodes connected to visible iFlows
+    var visibleKeys = {};
+    Object.keys(visibleIflowKeys).forEach(function (k) { visibleKeys[k] = true; });
+
+    var hasContextNodes = graphData.nodes.some(function (n) { return n.nodeType && n.nodeType !== "iflow"; });
+    if (hasContextNodes) {
+      // Find non-iflow nodes connected to visible iFlows via any edge
+      graphData.edges.forEach(function (e) {
+        if (visibleIflowKeys[e.source]) { visibleKeys[e.target] = true; }
+        if (visibleIflowKeys[e.target]) { visibleKeys[e.source] = true; }
+      });
+      // Also include partner nodes if any of their channels are visible
+      graphData.edges.forEach(function (e) {
+        if (e.edgeType === "PARTNER_OWNS_CHANNEL") {
+          if (visibleKeys[e.target]) { visibleKeys[e.source] = true; }
+          if (visibleKeys[e.source]) { visibleKeys[e.target] = true; }
+        }
+      });
+    }
+
+    // Step 3: filter nodes
+    var aNodes = graphData.nodes.filter(function (n) { return visibleKeys[n.key]; });
+
+    // Step 4: filter edges where both endpoints are visible
+    var aEdges = graphData.edges.filter(function (e) {
+      return visibleKeys[e.source] && visibleKeys[e.target];
+    });
+
+    // Step 5: rebuild nodeMap and iflowOptions
+    var nodeMap = {};
+    aNodes.forEach(function (n) { nodeMap[n.key] = n; });
+
+    var aOptions = graphData.iflowOptions.filter(function (o) {
+      return visibleIflowKeys[o.key];
+    });
+
+    return { nodes: aNodes, edges: aEdges, nodeMap: nodeMap, iflowOptions: aOptions };
+  }
+
   function showNodeDetail(oNodeData) {
     if (oNodeData.nodeType && oNodeData.nodeType !== "iflow") {
       var sInfo = oNodeData.name + " [" + oNodeData.nodeType + "]";
@@ -412,6 +494,8 @@ sap.ui.define([
     buildGraphStructure: buildGraphStructure,
     buildContextGraphStructure: buildContextGraphStructure,
     checkMissingOwnership: checkMissingOwnership,
+    getPackages: getPackages,
+    filterGraphByPackage: filterGraphByPackage,
     bfsImpact: bfsImpact,
     loadScript: loadScript,
     showNodeDetail: showNodeDetail,

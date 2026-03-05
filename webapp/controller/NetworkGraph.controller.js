@@ -11,7 +11,9 @@ sap.ui.define([
     onInit: function () {
       this._graphRendered = false;
       this._mode = "connection";
+      this._packageFilter = "ALL";
       this._rawData = null;
+      this._graphData = null;
       this._contextGraphData = null;
       this._missingOwnership = {};
 
@@ -52,16 +54,18 @@ sap.ui.define([
       if (this._graphRendered) { return; }
       this._graphRendered = true;
       this._rawData = oRaw;
+      this._graphData = GraphUtils.buildGraphStructure(oRaw);
       this._contextGraphData = GraphUtils.buildContextGraphStructure(oRaw);
       var aMissing = GraphUtils.checkMissingOwnership(oRaw);
       this._missingOwnership = {};
       var that = this;
       aMissing.forEach(function (m) { that._missingOwnership[m.iflowKey] = m; });
 
-      // Read current mode
+      // Read current mode + filter
       var oModeModel = this.getView().getModel("viewMode");
       if (oModeModel) {
         this._mode = oModeModel.getProperty("/mode") || "connection";
+        this._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
       }
 
       this._renderForMode();
@@ -74,12 +78,25 @@ sap.ui.define([
       }
     },
 
+    onPackageFilterChange: function (sPackageId) {
+      this._packageFilter = sPackageId || "ALL";
+      if (this._rawData) {
+        this._renderForMode();
+      }
+    },
+
+    _getActiveData: function () {
+      var data = this._mode === "context" ? this._contextGraphData : this._graphData;
+      return GraphUtils.filterGraphByPackage(data, this._packageFilter);
+    },
+
     _renderForMode: function () {
       var oGraphData;
+      var filteredData = this._getActiveData();
       if (this._mode === "context") {
-        oGraphData = this._buildContextGraphData();
+        oGraphData = this._buildContextGraphData(filteredData);
       } else {
-        oGraphData = this._buildGraphData(this._rawData);
+        oGraphData = this._buildConnectionGraphData(filteredData);
       }
       this.getView().getModel("graph").setData(oGraphData);
       this.byId("debugText").setText(
@@ -112,48 +129,32 @@ sap.ui.define([
       ];
     },
 
-    _buildGraphData: function (oRaw) {
-      var aIflows = oRaw.iflows || [];
-      var aConnections = oRaw.connections || [];
-
-      var aNodes = aIflows.map(function (iflow) {
+    _buildConnectionGraphData: function (filteredData) {
+      var aNodes = filteredData.nodes.map(function (n) {
         return {
-          key: iflow.id + "::" + iflow.version,
-          title: iflow.name,
-          description: "ID " + iflow.id + " | v" + iflow.version + " | " + iflow.runtimeStatus,
+          key: n.key,
+          title: n.name,
+          description: "ID " + n.id + " | v" + n.version + " | " + n.runtimeStatus,
           status: "NODE_DEFAULT",
           _baseStatus: "NODE_DEFAULT",
-          iflowId: iflow.id,
-          iflowVersion: iflow.version,
-          iflowName: iflow.name,
+          iflowId: n.id,
+          iflowVersion: n.version,
+          iflowName: n.name,
           nodeType: "iflow"
         };
       });
 
-      var aLines = aConnections.map(function (conn) {
-        var sFrom = conn.sourceIflowId + "::" + conn.sourceIflowVersion;
-        var sTo = conn.targetIflowId + "::" + conn.targetIflowVersion;
+      var aLines = filteredData.edges.map(function (e) {
         return {
-          key: conn.connectionId,
-          from: sFrom,
-          to: sTo,
-          status: conn.connectionType,
-          _typeStatus: conn.connectionType,
-          title: conn.connectionType + (conn.notes ? " - " + conn.notes : ""),
-          lineType: conn.connectionType === "JMS" ? "Dashed" : "Solid",
-          connectionType: conn.connectionType,
-          notes: conn.notes || "",
-          sourceIflowId: conn.sourceIflowId,
-          sourceIflowVersion: conn.sourceIflowVersion,
-          targetIflowId: conn.targetIflowId,
-          targetIflowVersion: conn.targetIflowVersion
-        };
-      });
-
-      var aIflowOptions = aNodes.map(function (n) {
-        return {
-          key: n.key,
-          text: n.iflowName + " (" + n.iflowId + " v" + n.iflowVersion + ")"
+          key: e.id,
+          from: e.source,
+          to: e.target,
+          status: e.connectionType,
+          _typeStatus: e.connectionType,
+          title: e.connectionType + (e.notes ? " - " + e.notes : ""),
+          lineType: e.connectionType === "JMS" ? "Dashed" : "Solid",
+          connectionType: e.connectionType,
+          notes: e.notes || ""
         };
       });
 
@@ -161,16 +162,15 @@ sap.ui.define([
         nodes: aNodes,
         lines: aLines,
         statuses: this._buildStatuses(),
-        iflowOptions: aIflowOptions,
-        selectedIflowKey: aIflowOptions.length ? aIflowOptions[0].key : "",
+        iflowOptions: filteredData.iflowOptions,
+        selectedIflowKey: filteredData.iflowOptions.length ? filteredData.iflowOptions[0].key : "",
         nodeCount: aNodes.length,
         lineCount: aLines.length
       };
     },
 
-    _buildContextGraphData: function () {
+    _buildContextGraphData: function (filteredData) {
       var that = this;
-      var ctxData = this._contextGraphData;
 
       var nodeTypeStatusMap = {
         iflow: "NODE_DEFAULT",
@@ -182,7 +182,7 @@ sap.ui.define([
         certificate: "NODE_CERT"
       };
 
-      var aNodes = ctxData.nodes.map(function (n) {
+      var aNodes = filteredData.nodes.map(function (n) {
         var status = nodeTypeStatusMap[n.nodeType] || "NODE_DEFAULT";
         if (that._missingOwnership[n.key]) {
           status = "MISSING_OWNER";
@@ -203,7 +203,7 @@ sap.ui.define([
         };
       });
 
-      var aLines = ctxData.edges.map(function (e) {
+      var aLines = filteredData.edges.map(function (e) {
         var isDashed = (e.edgeType === "JMS" || e.edgeType === "CONTACT_ASSIGNMENT");
         return {
           key: e.id,
@@ -219,7 +219,7 @@ sap.ui.define([
       });
 
       var aIflowOptions = [];
-      ctxData.nodes.forEach(function (n) {
+      filteredData.nodes.forEach(function (n) {
         if (n.nodeType === "iflow") {
           aIflowOptions.push({
             key: n.key,

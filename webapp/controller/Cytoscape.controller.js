@@ -27,6 +27,7 @@ sap.ui.define([
       this._contextGraphData = null;
       this._cy = null;
       this._mode = "connection";
+      this._packageFilter = "ALL";
       this._missingOwnership = {};
       this._rawData = null;
     },
@@ -45,12 +46,13 @@ sap.ui.define([
         that._missingOwnership = {};
         aMissing.forEach(function (m) { that._missingOwnership[m.iflowKey] = m; });
 
-        that._populateSelect();
-
         var oModeModel = that.getView().getModel("viewMode");
         if (oModeModel) {
           that._mode = oModeModel.getProperty("/mode") || "connection";
+          that._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
         }
+
+        that._populateSelect();
 
         GraphUtils.loadScript(CY_CDN, "cytoscape").then(function () {
           that._cyLoaded = true;
@@ -73,8 +75,22 @@ sap.ui.define([
     onModeChange: function (sMode) {
       this._mode = sMode;
       if (this._cyLoaded) {
+        this._populateSelect();
         this._renderCurrentMode();
       }
+    },
+
+    onPackageFilterChange: function (sPackageId) {
+      this._packageFilter = sPackageId || "ALL";
+      if (this._cyLoaded) {
+        this._populateSelect();
+        this._renderCurrentMode();
+      }
+    },
+
+    _getActiveData: function () {
+      var data = this._mode === "context" ? this._contextGraphData : this._graphData;
+      return GraphUtils.filterGraphByPackage(data, this._packageFilter);
     },
 
     _renderCurrentMode: function () {
@@ -88,12 +104,15 @@ sap.ui.define([
     _populateSelect: function () {
       var oSelect = this.byId("cyIflowSelect");
       oSelect.removeAllItems();
-      this._graphData.iflowOptions.forEach(function (opt) {
+      var data = this._getActiveData();
+      data.iflowOptions.forEach(function (opt) {
         oSelect.addItem(new Item({ key: opt.key, text: opt.text }));
       });
-      if (this._graphData.iflowOptions.length) {
-        this._selectedKey = this._graphData.iflowOptions[0].key;
+      if (data.iflowOptions.length) {
+        this._selectedKey = data.iflowOptions[0].key;
         oSelect.setSelectedKey(this._selectedKey);
+      } else {
+        this._selectedKey = "";
       }
     },
 
@@ -136,7 +155,7 @@ sap.ui.define([
 
     _runImpact: function (sDirection) {
       if (!this._selectedKey || !this._cy) { return; }
-      var data = this._mode === "context" ? this._contextGraphData : this._graphData;
+      var data = this._getActiveData();
       if (!data) { return; }
 
       var visited = GraphUtils.bfsImpact(
@@ -172,9 +191,10 @@ sap.ui.define([
 
       if (this._cy) { this._cy.destroy(); this._cy = null; }
 
+      var data = this._getActiveData();
       var elements = [];
 
-      this._graphData.nodes.forEach(function (n) {
+      data.nodes.forEach(function (n) {
         elements.push({
           data: {
             id: n.key,
@@ -188,7 +208,7 @@ sap.ui.define([
         });
       });
 
-      this._graphData.edges.forEach(function (e) {
+      data.edges.forEach(function (e) {
         elements.push({
           data: {
             id: e.id,
@@ -276,22 +296,22 @@ sap.ui.define([
       });
 
       cy.on("tap", "node", function (evt) {
-        var data = evt.target.data();
+        var d = evt.target.data();
         GraphUtils.showNodeDetail({
-          name: data.name,
-          id: data.iflowId,
-          version: data.version,
-          runtimeStatus: data.runtimeStatus
+          name: d.name,
+          id: d.iflowId,
+          version: d.version,
+          runtimeStatus: d.runtimeStatus
         });
       });
 
       cy.on("tap", "edge", function (evt) {
-        var data = evt.target.data();
+        var d = evt.target.data();
         GraphUtils.showEdgeDetail({
-          connectionType: data.connectionType,
-          source: data.source,
-          target: data.target,
-          notes: data.notes
+          connectionType: d.connectionType,
+          source: d.source,
+          target: d.target,
+          notes: d.notes
         });
       });
 
@@ -301,21 +321,16 @@ sap.ui.define([
     // ── Context mode render ────────────────────────────────────────
     _renderContextCytoscape: function () {
       var container = document.getElementById("cyContainer");
-      if (!container || !window.cytoscape || !this._contextGraphData) { return; }
+      if (!container || !window.cytoscape) { return; }
 
       if (this._cy) { this._cy.destroy(); this._cy = null; }
 
       var that = this;
+      var data = this._getActiveData();
       var elements = [];
 
-      // Add partner compound nodes (parents for their channels)
-      var partnerIds = {};
-      (this._rawData.partners || []).forEach(function (p) {
-        partnerIds["partner::" + p.id] = true;
-      });
-
-      this._contextGraphData.nodes.forEach(function (n) {
-        var data = {
+      data.nodes.forEach(function (n) {
+        var d = {
           id: n.key,
           label: n.name || n.label,
           name: n.name,
@@ -332,15 +347,14 @@ sap.ui.define([
           partnerType: n.partnerType,
           missingOwner: !!that._missingOwnership[n.key]
         };
-        // Compound: channels belong to their partner
-        if (n.nodeType === "partnerChannel" && n.partnerId) {
-          data.parent = "partner::" + n.partnerId;
+        // Compound: channels belong to their partner (if both are visible)
+        if (n.nodeType === "partnerChannel" && n.partnerId && data.nodeMap["partner::" + n.partnerId]) {
+          d.parent = "partner::" + n.partnerId;
         }
-        elements.push({ data: data });
+        elements.push({ data: d });
       });
 
-      this._contextGraphData.edges.forEach(function (e) {
-        // Skip partner→channel edges since we use compound nodes
+      data.edges.forEach(function (e) {
         if (e.edgeType === "PARTNER_OWNS_CHANNEL") { return; }
         elements.push({
           data: {
@@ -355,9 +369,7 @@ sap.ui.define([
         });
       });
 
-      // Build style array
       var styles = [
-        // Default node
         {
           selector: "node",
           style: {
@@ -373,7 +385,6 @@ sap.ui.define([
             "transition-duration": "0.3s"
           }
         },
-        // Compound parent (partner)
         {
           selector: ":parent",
           style: {
@@ -389,7 +400,6 @@ sap.ui.define([
         }
       ];
 
-      // Per-nodeType styles
       Object.keys(CY_SHAPES).forEach(function (nt) {
         styles.push({
           selector: "node[nodeType='" + nt + "']",
@@ -404,57 +414,35 @@ sap.ui.define([
         });
       });
 
-      // Missing ownership
       styles.push({
         selector: "node[?missingOwner]",
-        style: {
-          "border-color": "#e65100",
-          "border-width": 4,
-          "border-style": "double"
-        }
+        style: { "border-color": "#e65100", "border-width": 4, "border-style": "double" }
       });
 
-      // Edge styles
       styles.push({
         selector: "edge",
         style: {
-          "width": 2,
-          "line-color": "data(color)",
-          "target-arrow-color": "data(color)",
-          "target-arrow-shape": "triangle",
-          "curve-style": "bezier",
-          "transition-property": "opacity",
-          "transition-duration": "0.3s"
+          "width": 2, "line-color": "data(color)", "target-arrow-color": "data(color)",
+          "target-arrow-shape": "triangle", "curve-style": "bezier",
+          "transition-property": "opacity", "transition-duration": "0.3s"
         }
       });
-
       styles.push({
         selector: "edge[edgeType='JMS'], edge[edgeType='CONTACT_ASSIGNMENT']",
         style: { "line-style": "dashed" }
       });
-
       styles.push({
         selector: "edge[edgeType='CONTACT_ASSIGNMENT'], edge[edgeType='OBJECT_ASSIGNMENT']",
         style: { "width": 1.5 }
       });
-
-      // Interaction classes
       styles.push({ selector: ".muted", style: { "opacity": 0.15 } });
       styles.push({
         selector: ".impacted",
-        style: {
-          "background-color": "#0057a3",
-          "color": "#ffffff",
-          "border-color": "#0057a3"
-        }
+        style: { "background-color": "#0057a3", "color": "#ffffff", "border-color": "#0057a3" }
       });
       styles.push({
         selector: ".highlighted",
-        style: {
-          "background-color": "#e8f0fe",
-          "border-color": "#0a6ed1",
-          "border-width": 3
-        }
+        style: { "background-color": "#e8f0fe", "border-color": "#0a6ed1", "border-width": 3 }
       });
 
       var cy = window.cytoscape({
@@ -462,25 +450,15 @@ sap.ui.define([
         elements: elements,
         style: styles,
         layout: {
-          name: "cose",
-          animate: true,
-          animationDuration: 800,
+          name: "cose", animate: true, animationDuration: 800,
           nodeRepulsion: function () { return 12000; },
           idealEdgeLength: function () { return 120; },
-          padding: 40,
-          nestingFactor: 1.2
+          padding: 40, nestingFactor: 1.2
         }
       });
 
-      cy.on("tap", "node", function (evt) {
-        var data = evt.target.data();
-        GraphUtils.showNodeDetail(data);
-      });
-
-      cy.on("tap", "edge", function (evt) {
-        var data = evt.target.data();
-        GraphUtils.showEdgeDetail(data);
-      });
+      cy.on("tap", "node", function (evt) { GraphUtils.showNodeDetail(evt.target.data()); });
+      cy.on("tap", "edge", function (evt) { GraphUtils.showEdgeDetail(evt.target.data()); });
 
       this._cy = cy;
     }

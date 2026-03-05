@@ -3,6 +3,7 @@
   xmlns:mvc="sap.ui.core.mvc"
   xmlns="sap.m"
   xmlns:tnt="sap.tnt"
+  xmlns:core="sap.ui.core"
   displayBlock="true"
   height="100%"
 >
@@ -11,6 +12,11 @@
       <tnt:ToolHeader>
         <Title text="iFlow Map" level="H4" class="sapUiSmallMarginBegin" />
         <ToolbarSpacer />
+        <Label text="Package:" labelFor="packageFilter" />
+        <Select id="packageFilter" width="14rem" change=".onPackageFilterChange">
+          <core:Item key="ALL" text="All Packages" />
+        </Select>
+        <ToolbarSeparator />
         <SegmentedButton id="modeToggle" selectionChange=".onModeChange">
           <items>
             <SegmentedButtonItem key="connection" text="Connection Map" />

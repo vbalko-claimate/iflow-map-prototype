@@ -28,6 +28,7 @@ sap.ui.define([
       this._contextGraphData = null;
       this._impactVisited = null;
       this._mode = "connection";
+      this._packageFilter = "ALL";
       this._missingOwnership = {};
       this._rawData = null;
     },
@@ -51,6 +52,7 @@ sap.ui.define([
         var oModeModel = that.getView().getModel("viewMode");
         if (oModeModel) {
           that._mode = oModeModel.getProperty("/mode") || "connection";
+          that._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
         }
 
         GraphUtils.loadScript(MERMAID_CDN, "mermaid").then(function () {
@@ -87,8 +89,23 @@ sap.ui.define([
       this._mode = sMode;
       this._impactVisited = null;
       if (this._mermaidLoaded) {
+        this._populateSelect();
         this._renderCurrentMode();
       }
+    },
+
+    onPackageFilterChange: function (sPackageId) {
+      this._packageFilter = sPackageId || "ALL";
+      this._impactVisited = null;
+      if (this._mermaidLoaded) {
+        this._populateSelect();
+        this._renderCurrentMode();
+      }
+    },
+
+    _getActiveData: function () {
+      var data = this._mode === "context" ? this._contextGraphData : this._graphData;
+      return GraphUtils.filterGraphByPackage(data, this._packageFilter);
     },
 
     _renderCurrentMode: function () {
@@ -102,12 +119,15 @@ sap.ui.define([
     _populateSelect: function () {
       var oSelect = this.byId("mmIflowSelect");
       oSelect.removeAllItems();
-      this._graphData.iflowOptions.forEach(function (opt) {
+      var data = this._getActiveData();
+      data.iflowOptions.forEach(function (opt) {
         oSelect.addItem(new Item({ key: opt.key, text: opt.text }));
       });
-      if (this._graphData.iflowOptions.length) {
-        this._selectedKey = this._graphData.iflowOptions[0].key;
+      if (data.iflowOptions.length) {
+        this._selectedKey = data.iflowOptions[0].key;
         oSelect.setSelectedKey(this._selectedKey);
+      } else {
+        this._selectedKey = "";
       }
     },
 
@@ -120,7 +140,7 @@ sap.ui.define([
 
     _runImpact: function (sDirection) {
       if (!this._selectedKey) { return; }
-      var data = this._mode === "context" ? this._contextGraphData : this._graphData;
+      var data = this._getActiveData();
       if (!data) { return; }
       this._impactVisited = GraphUtils.bfsImpact(
         data.nodes, data.edges, this._selectedKey, sDirection
@@ -141,20 +161,21 @@ sap.ui.define([
     _buildDefinition: function () {
       var that = this;
       var visited = this._impactVisited;
+      var data = this._getActiveData();
       var lines = ["graph LR"];
 
       lines.push("  classDef default fill:#d9e7f7,stroke:#5b738b,color:#1f2d3d,stroke-width:2px");
       lines.push("  classDef impacted fill:#0057a3,stroke:#0057a3,color:#fff,stroke-width:2px");
       lines.push("  classDef muted fill:#d5dadd,stroke:#8d9baa,color:#5a6773,stroke-width:1px");
 
-      this._graphData.nodes.forEach(function (n) {
+      data.nodes.forEach(function (n) {
         var safeId = that._sanitizeId(n.key);
         lines.push("  " + safeId + "[\"" + n.name + "<br/><small>" + n.runtimeStatus + "</small>\"]");
       });
 
       var edgeIndex = 0;
       var linkStyles = [];
-      this._graphData.edges.forEach(function (e) {
+      data.edges.forEach(function (e) {
         var srcId = that._sanitizeId(e.source);
         var tgtId = that._sanitizeId(e.target);
         var arrow = e.connectionType === "JMS" ? "-.->" : "-->";
@@ -170,7 +191,7 @@ sap.ui.define([
       });
 
       if (visited) {
-        this._graphData.nodes.forEach(function (n) {
+        data.nodes.forEach(function (n) {
           var safeId = that._sanitizeId(n.key);
           if (visited[n.key]) {
             lines.push("  class " + safeId + " impacted");
@@ -187,6 +208,7 @@ sap.ui.define([
     _buildContextDefinition: function () {
       var that = this;
       var visited = this._impactVisited;
+      var data = this._getActiveData();
       var lines = ["graph LR"];
 
       // classDefs
@@ -203,7 +225,7 @@ sap.ui.define([
 
       // Group by type into subgraphs
       var nodesByType = {};
-      this._contextGraphData.nodes.forEach(function (n) {
+      data.nodes.forEach(function (n) {
         var t = n.nodeType;
         if (!nodesByType[t]) { nodesByType[t] = []; }
         nodesByType[t].push(n);
@@ -248,7 +270,7 @@ sap.ui.define([
       // Edges
       var edgeIndex = 0;
       var linkStyles = [];
-      this._contextGraphData.edges.forEach(function (e) {
+      data.edges.forEach(function (e) {
         var srcId = that._sanitizeId(e.source);
         var tgtId = that._sanitizeId(e.target);
         var isDashed = (e.edgeType === "JMS" || e.edgeType === "CONTACT_ASSIGNMENT");
@@ -267,7 +289,7 @@ sap.ui.define([
       });
 
       // Apply classes
-      this._contextGraphData.nodes.forEach(function (n) {
+      data.nodes.forEach(function (n) {
         var safeId = that._sanitizeId(n.key);
         if (visited) {
           if (visited[n.key]) {
@@ -301,7 +323,7 @@ sap.ui.define([
 
       window.mermaid.render(uniqueId, definition).then(function (result) {
         container.innerHTML = result.svg;
-        that._attachMermaidClickHandlers(container, that._graphData);
+        that._attachMermaidClickHandlers(container, that._getActiveData());
       }).catch(function (err) {
         container.innerHTML = "<p style='color:red'>Mermaid render error: " + err.message + "</p>";
       });
@@ -310,7 +332,7 @@ sap.ui.define([
     // ── Context mode render ────────────────────────────────────────
     _renderContextMermaid: function () {
       var container = document.getElementById("mermaidContainer");
-      if (!container || !window.mermaid || !this._contextGraphData) { return; }
+      if (!container || !window.mermaid) { return; }
 
       var definition = this._buildContextDefinition();
       var that = this;
@@ -320,7 +342,7 @@ sap.ui.define([
 
       window.mermaid.render(uniqueId, definition).then(function (result) {
         container.innerHTML = result.svg;
-        that._attachMermaidClickHandlers(container, that._contextGraphData);
+        that._attachMermaidClickHandlers(container, that._getActiveData());
       }).catch(function (err) {
         container.innerHTML = "<p style='color:red'>Mermaid render error: " + err.message + "</p>";
       });

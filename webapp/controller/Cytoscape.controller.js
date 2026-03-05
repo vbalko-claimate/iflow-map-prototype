@@ -28,6 +28,7 @@ sap.ui.define([
       this._cy = null;
       this._mode = "connection";
       this._packageFilter = "ALL";
+      this._deploymentFilter = "ALL";
       this._missingOwnership = {};
       this._rawData = null;
     },
@@ -50,6 +51,7 @@ sap.ui.define([
         if (oModeModel) {
           that._mode = oModeModel.getProperty("/mode") || "connection";
           that._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
+          that._deploymentFilter = oModeModel.getProperty("/deploymentFilter") || "ALL";
         }
 
         that._populateSelect();
@@ -88,9 +90,18 @@ sap.ui.define([
       }
     },
 
+    onDeploymentFilterChange: function (sFilter) {
+      this._deploymentFilter = sFilter || "ALL";
+      if (this._cyLoaded) {
+        this._populateSelect();
+        this._renderCurrentMode();
+      }
+    },
+
     _getActiveData: function () {
       var data = this._mode === "context" ? this._contextGraphData : this._graphData;
-      return GraphUtils.filterGraphByPackage(data, this._packageFilter);
+      var filtered = GraphUtils.filterGraphByPackage(data, this._packageFilter);
+      return GraphUtils.filterGraphByDeployment(filtered, this._deploymentFilter);
     },
 
     _renderCurrentMode: function () {
@@ -204,7 +215,8 @@ sap.ui.define([
             version: n.version,
             runtimeStatus: n.runtimeStatus,
             packageId: n.packageId,
-            isExternal: !!n._isExternal
+            isExternal: !!n._isExternal,
+            isNotDeployed: n.runtimeStatus === "NOT_DEPLOYED"
           }
         });
       });
@@ -263,6 +275,14 @@ sap.ui.define([
             selector: "edge[connectionType='JMS']",
             style: {
               "line-style": "dashed"
+            }
+          },
+          {
+            selector: "node[?isNotDeployed]",
+            style: {
+              "background-color": "#f5f5f5",
+              "border-color": "#b0bec5",
+              "border-style": "dashed"
             }
           },
           {
@@ -356,7 +376,8 @@ sap.ui.define([
           certStatus: n.certStatus,
           partnerType: n.partnerType,
           missingOwner: !!that._missingOwnership[n.key],
-          isExternal: !!n._isExternal
+          isExternal: !!n._isExternal,
+          isNotDeployed: n.nodeType === "iflow" && n.runtimeStatus === "NOT_DEPLOYED"
         };
         // Compound: channels belong to their partner (if both are visible)
         if (n.nodeType === "partnerChannel" && n.partnerId && data.nodeMap["partner::" + n.partnerId]) {
@@ -425,6 +446,10 @@ sap.ui.define([
         });
       });
 
+      styles.push({
+        selector: "node[?isNotDeployed]",
+        style: { "background-color": "#f5f5f5", "border-color": "#b0bec5", "border-style": "dashed" }
+      });
       styles.push({
         selector: "node[?missingOwner]",
         style: { "border-color": "#e65100", "border-width": 4, "border-style": "double" }

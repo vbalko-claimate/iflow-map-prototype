@@ -17,6 +17,13 @@
           <core:Item key="ALL" text="All Packages" />
         </Select>
         <ToolbarSeparator />
+        <Label text="Status:" labelFor="deploymentFilter" />
+        <Select id="deploymentFilter" width="10rem" change=".onDeploymentFilterChange">
+          <core:Item key="ALL" text="All Statuses" />
+          <core:Item key="STARTED" text="Deployed" />
+          <core:Item key="NOT_DEPLOYED" text="Not Deployed" />
+        </Select>
+        <ToolbarSeparator />
         <SegmentedButton id="modeToggle" selectionChange=".onModeChange">
           <items>
             <SegmentedButtonItem key="connection" text="Connection Map" />

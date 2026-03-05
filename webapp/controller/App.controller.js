@@ -16,7 +16,7 @@ sap.ui.define([
 
       // viewMode model shared across all views via Component
       var oComponent = this.getOwnerComponent();
-      var oModeModel = new JSONModel({ mode: "connection", packageFilter: "ALL" });
+      var oModeModel = new JSONModel({ mode: "connection", packageFilter: "ALL", deploymentFilter: "ALL" });
       oComponent.setModel(oModeModel, "viewMode");
     },
 
@@ -77,6 +77,14 @@ sap.ui.define([
       this._notifyCurrentController("onPackageFilterChange", sPackageId);
     },
 
+    onDeploymentFilterChange: function (oEvent) {
+      var sFilter = oEvent.getSource().getSelectedKey();
+      var oComponent = this.getOwnerComponent();
+      oComponent.getModel("viewMode").setProperty("/deploymentFilter", sFilter);
+
+      this._notifyCurrentController("onDeploymentFilterChange", sFilter);
+    },
+
     _notifyCurrentController: function (sMethod, vArg) {
       var sCurrent = this._currentNavKey;
       if (sCurrent && this._viewCache[sCurrent]) {
@@ -99,11 +107,15 @@ sap.ui.define([
         var oModeModel = this.getOwnerComponent().getModel("viewMode");
         var sMode = oModeModel.getProperty("/mode");
         var sPkg = oModeModel.getProperty("/packageFilter");
+        var sDeploy = oModeModel.getProperty("/deploymentFilter");
         if (oController && typeof oController.onModeChange === "function") {
           oController.onModeChange(sMode);
         }
         if (oController && typeof oController.onPackageFilterChange === "function") {
           oController.onPackageFilterChange(sPkg);
+        }
+        if (oController && typeof oController.onDeploymentFilterChange === "function") {
+          oController.onDeploymentFilterChange(sDeploy);
         }
         return;
       }

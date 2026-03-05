@@ -12,6 +12,7 @@ sap.ui.define([
       this._graphRendered = false;
       this._mode = "connection";
       this._packageFilter = "ALL";
+      this._deploymentFilter = "ALL";
       this._rawData = null;
       this._graphData = null;
       this._contextGraphData = null;
@@ -66,6 +67,7 @@ sap.ui.define([
       if (oModeModel) {
         this._mode = oModeModel.getProperty("/mode") || "connection";
         this._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
+        this._deploymentFilter = oModeModel.getProperty("/deploymentFilter") || "ALL";
       }
 
       this._renderForMode();
@@ -85,9 +87,17 @@ sap.ui.define([
       }
     },
 
+    onDeploymentFilterChange: function (sFilter) {
+      this._deploymentFilter = sFilter || "ALL";
+      if (this._rawData) {
+        this._renderForMode();
+      }
+    },
+
     _getActiveData: function () {
       var data = this._mode === "context" ? this._contextGraphData : this._graphData;
-      return GraphUtils.filterGraphByPackage(data, this._packageFilter);
+      var filtered = GraphUtils.filterGraphByPackage(data, this._packageFilter);
+      return GraphUtils.filterGraphByDeployment(filtered, this._deploymentFilter);
     },
 
     _renderForMode: function () {
@@ -127,13 +137,18 @@ sap.ui.define([
         { key: "OBJECT_ASSIGNMENT", contentColor: "#ffffff", borderColor: "#7b1fa2", backgroundColor: "#7b1fa2" },
         { key: "PARTNER_OWNS_CHANNEL", contentColor: "#ffffff", borderColor: "#e65100", backgroundColor: "#e65100" },
         // External node (from another package)
-        { key: "EXTERNAL", contentColor: "#6b7785", borderColor: "#a0a8b0", backgroundColor: "#ebedef" }
+        { key: "EXTERNAL", contentColor: "#6b7785", borderColor: "#a0a8b0", backgroundColor: "#ebedef" },
+        // Not deployed
+        { key: "NOT_DEPLOYED", contentColor: "#78909c", borderColor: "#b0bec5", backgroundColor: "#f5f5f5" }
       ];
     },
 
     _buildConnectionGraphData: function (filteredData) {
       var aNodes = filteredData.nodes.map(function (n) {
-        var status = n._isExternal ? "EXTERNAL" : "NODE_DEFAULT";
+        var status;
+        if (n._isExternal) { status = "EXTERNAL"; }
+        else if (n.runtimeStatus === "NOT_DEPLOYED") { status = "NOT_DEPLOYED"; }
+        else { status = "NODE_DEFAULT"; }
         return {
           key: n.key,
           title: n.name,
@@ -193,6 +208,8 @@ sap.ui.define([
           status = nodeTypeStatusMap[n.nodeType] || "NODE_DEFAULT";
           if (that._missingOwnership[n.key]) {
             status = "MISSING_OWNER";
+          } else if (n.nodeType === "iflow" && n.runtimeStatus === "NOT_DEPLOYED") {
+            status = "NOT_DEPLOYED";
           }
         }
         return {

@@ -29,6 +29,7 @@ sap.ui.define([
       this._impactVisited = null;
       this._mode = "connection";
       this._packageFilter = "ALL";
+      this._deploymentFilter = "ALL";
       this._missingOwnership = {};
       this._rawData = null;
     },
@@ -53,6 +54,7 @@ sap.ui.define([
         if (oModeModel) {
           that._mode = oModeModel.getProperty("/mode") || "connection";
           that._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
+          that._deploymentFilter = oModeModel.getProperty("/deploymentFilter") || "ALL";
         }
 
         GraphUtils.loadScript(MERMAID_CDN, "mermaid").then(function () {
@@ -103,9 +105,19 @@ sap.ui.define([
       }
     },
 
+    onDeploymentFilterChange: function (sFilter) {
+      this._deploymentFilter = sFilter || "ALL";
+      this._impactVisited = null;
+      if (this._mermaidLoaded) {
+        this._populateSelect();
+        this._renderCurrentMode();
+      }
+    },
+
     _getActiveData: function () {
       var data = this._mode === "context" ? this._contextGraphData : this._graphData;
-      return GraphUtils.filterGraphByPackage(data, this._packageFilter);
+      var filtered = GraphUtils.filterGraphByPackage(data, this._packageFilter);
+      return GraphUtils.filterGraphByDeployment(filtered, this._deploymentFilter);
     },
 
     _renderCurrentMode: function () {
@@ -168,6 +180,7 @@ sap.ui.define([
       lines.push("  classDef impacted fill:#0057a3,stroke:#0057a3,color:#fff,stroke-width:2px");
       lines.push("  classDef muted fill:#d5dadd,stroke:#8d9baa,color:#5a6773,stroke-width:1px");
       lines.push("  classDef external fill:#ebedef,stroke:#a0a8b0,color:#6b7785,stroke-width:2px,stroke-dasharray:4 3");
+      lines.push("  classDef notDeployed fill:#f5f5f5,stroke:#b0bec5,color:#78909c,stroke-width:2px,stroke-dasharray:4 3");
 
       data.nodes.forEach(function (n) {
         var safeId = that._sanitizeId(n.key);
@@ -201,10 +214,12 @@ sap.ui.define([
           }
         });
       } else {
-        // Apply external class when not in impact mode
+        // Apply external / notDeployed class when not in impact mode
         data.nodes.forEach(function (n) {
           if (n._isExternal) {
             lines.push("  class " + that._sanitizeId(n.key) + " external");
+          } else if (n.runtimeStatus === "NOT_DEPLOYED") {
+            lines.push("  class " + that._sanitizeId(n.key) + " notDeployed");
           }
         });
       }
@@ -231,6 +246,7 @@ sap.ui.define([
       lines.push("  classDef bizCapNode fill:#e8eaf6,stroke:#283593,color:#1f2d3d,stroke-width:2px");
       lines.push("  classDef certNode fill:#fff8e1,stroke:#f9a825,color:#1f2d3d,stroke-width:2px");
       lines.push("  classDef external fill:#ebedef,stroke:#a0a8b0,color:#6b7785,stroke-width:2px,stroke-dasharray:4 3");
+      lines.push("  classDef notDeployed fill:#f5f5f5,stroke:#b0bec5,color:#78909c,stroke-width:2px,stroke-dasharray:4 3");
 
       // Group by type into subgraphs
       var nodesByType = {};
@@ -312,6 +328,8 @@ sap.ui.define([
             lines.push("  class " + safeId + " external");
           } else if (that._missingOwnership[n.key]) {
             lines.push("  class " + safeId + " missingOwner");
+          } else if (n.nodeType === "iflow" && n.runtimeStatus === "NOT_DEPLOYED") {
+            lines.push("  class " + safeId + " notDeployed");
           } else if (nodeTypeClassMap[n.nodeType]) {
             lines.push("  class " + safeId + " " + nodeTypeClassMap[n.nodeType]);
           }

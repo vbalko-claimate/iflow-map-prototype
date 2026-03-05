@@ -28,6 +28,7 @@ sap.ui.define([
       this._impactVisited = null;
       this._mode = "connection";
       this._packageFilter = "ALL";
+      this._deploymentFilter = "ALL";
       this._missingOwnership = {};
       this._rawData = null;
     },
@@ -51,6 +52,7 @@ sap.ui.define([
         if (oModeModel) {
           that._mode = oModeModel.getProperty("/mode") || "connection";
           that._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
+          that._deploymentFilter = oModeModel.getProperty("/deploymentFilter") || "ALL";
         }
 
         that._populateSelect();
@@ -91,9 +93,19 @@ sap.ui.define([
       }
     },
 
+    onDeploymentFilterChange: function (sFilter) {
+      this._deploymentFilter = sFilter || "ALL";
+      this._impactVisited = null;
+      if (this._d3Loaded) {
+        this._populateSelect();
+        this._renderCurrentMode();
+      }
+    },
+
     _getActiveData: function () {
       var data = this._mode === "context" ? this._contextGraphData : this._graphData;
-      return GraphUtils.filterGraphByPackage(data, this._packageFilter);
+      var filtered = GraphUtils.filterGraphByPackage(data, this._packageFilter);
+      return GraphUtils.filterGraphByDeployment(filtered, this._deploymentFilter);
     },
 
     _renderCurrentMode: function () {
@@ -252,10 +264,21 @@ sap.ui.define([
         .attr("x", -75)
         .attr("y", -24)
         .attr("rx", 6)
-        .attr("fill", function (d) { return d._isExternal ? "#ebedef" : "#d9e7f7"; })
-        .attr("stroke", function (d) { return d._isExternal ? "#a0a8b0" : "#5b738b"; })
+        .attr("fill", function (d) {
+          if (d._isExternal) { return "#ebedef"; }
+          if (d.runtimeStatus === "NOT_DEPLOYED") { return "#f5f5f5"; }
+          return "#d9e7f7";
+        })
+        .attr("stroke", function (d) {
+          if (d._isExternal) { return "#a0a8b0"; }
+          if (d.runtimeStatus === "NOT_DEPLOYED") { return "#b0bec5"; }
+          return "#5b738b";
+        })
         .attr("stroke-width", 2)
-        .attr("stroke-dasharray", function (d) { return d._isExternal ? "4,3" : null; });
+        .attr("stroke-dasharray", function (d) {
+          if (d._isExternal || d.runtimeStatus === "NOT_DEPLOYED") { return "4,3"; }
+          return null;
+        });
 
       nodeG.attr("opacity", function (d) { return d._isExternal ? 0.55 : 1; });
 
@@ -408,15 +431,17 @@ sap.ui.define([
             .attr("stroke", strokeColor)
             .attr("stroke-width", 2);
         } else {
+          var isUndeployed = d.nodeType === "iflow" && d.runtimeStatus === "NOT_DEPLOYED";
           el.append("rect")
             .attr("width", 150)
             .attr("height", 48)
             .attr("x", -75)
             .attr("y", -24)
             .attr("rx", 6)
-            .attr("fill", fillColor)
-            .attr("stroke", strokeColor)
+            .attr("fill", isUndeployed ? "#f5f5f5" : fillColor)
+            .attr("stroke", isMissing ? strokeColor : (isUndeployed ? "#b0bec5" : strokeColor))
             .attr("stroke-width", isMissing ? 3 : 2)
+            .attr("stroke-dasharray", isUndeployed && !isMissing ? "4,3" : null)
             .attr("class", isMissing ? "ctx-missing-owner" : "");
         }
       });

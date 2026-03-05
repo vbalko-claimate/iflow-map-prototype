@@ -487,6 +487,36 @@ sap.ui.define([
     return { nodes: aNodes, edges: aEdges, nodeMap: nodeMap, iflowOptions: aOptions };
   }
 
+  /**
+   * Filter graph data by deployment status (runtimeStatus).
+   * @param {object} graphData - { nodes, edges, nodeMap, iflowOptions }
+   * @param {string} sFilter - "ALL", "STARTED", or "NOT_DEPLOYED"
+   * @returns {object} filtered copy of graphData
+   */
+  function filterGraphByDeployment(graphData, sFilter) {
+    if (!sFilter || sFilter === "ALL") { return graphData; }
+
+    var visibleKeys = {};
+    graphData.nodes.forEach(function (n) {
+      // Non-iflow nodes (contacts, partners, etc.) always pass through
+      if (n.nodeType && n.nodeType !== "iflow") {
+        visibleKeys[n.key] = true;
+      } else if (n.runtimeStatus === sFilter) {
+        visibleKeys[n.key] = true;
+      }
+    });
+
+    var aNodes = graphData.nodes.filter(function (n) { return visibleKeys[n.key]; });
+    var aEdges = graphData.edges.filter(function (e) {
+      return visibleKeys[e.source] && visibleKeys[e.target];
+    });
+    var nodeMap = {};
+    aNodes.forEach(function (n) { nodeMap[n.key] = n; });
+    var aOptions = graphData.iflowOptions.filter(function (o) { return visibleKeys[o.key]; });
+
+    return { nodes: aNodes, edges: aEdges, nodeMap: nodeMap, iflowOptions: aOptions };
+  }
+
   function showNodeDetail(oNodeData) {
     if (oNodeData.nodeType && oNodeData.nodeType !== "iflow") {
       var sInfo = oNodeData.name + " [" + oNodeData.nodeType + "]";
@@ -524,6 +554,7 @@ sap.ui.define([
     checkMissingOwnership: checkMissingOwnership,
     getPackages: getPackages,
     filterGraphByPackage: filterGraphByPackage,
+    filterGraphByDeployment: filterGraphByDeployment,
     bfsImpact: bfsImpact,
     loadScript: loadScript,
     showNodeDetail: showNodeDetail,

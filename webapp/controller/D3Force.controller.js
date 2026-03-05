@@ -192,6 +192,7 @@ sap.ui.define([
       var d3 = window.d3;
       var container = document.getElementById("d3GraphContainer");
       if (!container || !d3) { return; }
+      var that = this;
 
       container.innerHTML = "";
       var width = container.clientWidth || 900;

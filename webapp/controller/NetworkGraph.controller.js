@@ -186,12 +186,13 @@ sap.ui.define([
         };
       });
 
+      var aImpactOptions = GraphUtils.getImpactOptions(filteredData, this._rawData);
       return {
         nodes: aNodes,
         lines: aLines,
         statuses: this._buildStatuses(),
-        iflowOptions: filteredData.iflowOptions,
-        selectedIflowKey: filteredData.iflowOptions.length ? filteredData.iflowOptions[0].key : "",
+        iflowOptions: aImpactOptions,
+        selectedIflowKey: aImpactOptions.length ? aImpactOptions[0].key : "",
         nodeCount: aNodes.length,
         lineCount: aLines.length
       };
@@ -253,22 +254,14 @@ sap.ui.define([
         };
       });
 
-      var aIflowOptions = [];
-      filteredData.nodes.forEach(function (n) {
-        if (n.nodeType === "iflow") {
-          aIflowOptions.push({
-            key: n.key,
-            text: n.name + " (" + n.id + " v" + n.version + ")"
-          });
-        }
-      });
+      var aImpactOptions = GraphUtils.getImpactOptions(filteredData, this._rawData);
 
       return {
         nodes: aNodes,
         lines: aLines,
         statuses: this._buildStatuses(),
-        iflowOptions: aIflowOptions,
-        selectedIflowKey: aIflowOptions.length ? aIflowOptions[0].key : "",
+        iflowOptions: aImpactOptions,
+        selectedIflowKey: aImpactOptions.length ? aImpactOptions[0].key : "",
         nodeCount: aNodes.length,
         lineCount: aLines.length
       };
@@ -362,12 +355,18 @@ sap.ui.define([
         return;
       }
 
+      var vStartKeys = sStart;
+      if (sStart.indexOf("channel::") === 0 && this._mode !== "context") {
+        vStartKeys = GraphUtils.resolveChannelIflows(sStart, this._rawData);
+        if (!vStartKeys.length) { return; }
+      }
+
       var aEdgesForBfs = aLines.map(function (l) {
         return { source: l.from, target: l.to };
       });
       var mVisited = GraphUtils.bfsImpact(
         aNodes.map(function (n) { return { key: n.key }; }),
-        aEdgesForBfs, sStart, sDirection
+        aEdgesForBfs, vStartKeys, sDirection
       );
 
       aNodes.forEach(function (n) {

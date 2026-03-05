@@ -144,11 +144,12 @@ sap.ui.define([
       var oSelect = this.byId("mmIflowSelect");
       oSelect.removeAllItems();
       var data = this._getActiveData();
-      data.iflowOptions.forEach(function (opt) {
+      var aOptions = GraphUtils.getImpactOptions(data, this._rawData);
+      aOptions.forEach(function (opt) {
         oSelect.addItem(new Item({ key: opt.key, text: opt.text }));
       });
-      if (data.iflowOptions.length) {
-        this._selectedKey = data.iflowOptions[0].key;
+      if (aOptions.length) {
+        this._selectedKey = aOptions[0].key;
         oSelect.setSelectedKey(this._selectedKey);
       } else {
         this._selectedKey = "";
@@ -178,8 +179,13 @@ sap.ui.define([
       if (!this._selectedKey) { return; }
       var data = this._getActiveData();
       if (!data) { return; }
+      var vStartKeys = this._selectedKey;
+      if (this._selectedKey.indexOf("channel::") === 0 && this._mode !== "context") {
+        vStartKeys = GraphUtils.resolveChannelIflows(this._selectedKey, this._rawData);
+        if (!vStartKeys.length) { return; }
+      }
       this._impactVisited = GraphUtils.bfsImpact(
-        data.nodes, data.edges, this._selectedKey, sDirection
+        data.nodes, data.edges, vStartKeys, sDirection
       );
       this._renderCurrentMode();
     },

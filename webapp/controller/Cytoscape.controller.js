@@ -127,11 +127,12 @@ sap.ui.define([
       var oSelect = this.byId("cyIflowSelect");
       oSelect.removeAllItems();
       var data = this._getActiveData();
-      data.iflowOptions.forEach(function (opt) {
+      var aOptions = GraphUtils.getImpactOptions(data, this._rawData);
+      aOptions.forEach(function (opt) {
         oSelect.addItem(new Item({ key: opt.key, text: opt.text }));
       });
-      if (data.iflowOptions.length) {
-        this._selectedKey = data.iflowOptions[0].key;
+      if (aOptions.length) {
+        this._selectedKey = aOptions[0].key;
         oSelect.setSelectedKey(this._selectedKey);
       } else {
         this._selectedKey = "";
@@ -192,8 +193,13 @@ sap.ui.define([
       var data = this._getActiveData();
       if (!data) { return; }
 
+      var vStartKeys = this._selectedKey;
+      if (this._selectedKey.indexOf("channel::") === 0 && this._mode !== "context") {
+        vStartKeys = GraphUtils.resolveChannelIflows(this._selectedKey, this._rawData);
+        if (!vStartKeys.length) { return; }
+      }
       var visited = GraphUtils.bfsImpact(
-        data.nodes, data.edges, this._selectedKey, sDirection
+        data.nodes, data.edges, vStartKeys, sDirection
       );
 
       this._cy.nodes().forEach(function (node) {

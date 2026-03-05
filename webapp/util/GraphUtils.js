@@ -335,7 +335,45 @@ sap.ui.define([
    * @param {string} sDirection - "downstream" (source->target), "upstream" (target->source)
    * Returns a Set-like object (plain map) of visited node keys.
    */
-  function bfsImpact(aNodes, aEdges, sStartKey, sDirection) {
+  /**
+   * Combined impact-select options: iFlow options + visible partner channels.
+   */
+  function getImpactOptions(activeData, oRaw) {
+    var aResult = activeData.iflowOptions.slice();
+    var visibleIflowIds = {};
+    activeData.nodes.forEach(function (n) {
+      if (n.nodeType === "iflow" || !n.nodeType) { visibleIflowIds[n.id] = true; }
+    });
+    (oRaw.partnerChannels || []).forEach(function (ch) {
+      var hasVisible = (oRaw.iflowObjectAssignments || []).some(function (oa) {
+        return oa.objectType === "partnerChannel" && oa.objectId === ch.id && visibleIflowIds[oa.iflowId];
+      });
+      if (hasVisible || activeData.nodeMap["channel::" + ch.id]) {
+        aResult.push({ key: "channel::" + ch.id, text: "\u26A1 " + ch.name });
+      }
+    });
+    return aResult;
+  }
+
+  /**
+   * Resolve a channel key to connected iFlow graph keys.
+   */
+  function resolveChannelIflows(sChannelKey, oRaw) {
+    var channelId = sChannelKey.split("::")[1];
+    var iflowIdToKey = {};
+    (oRaw.iflows || []).forEach(function (f) { iflowIdToKey[f.id] = f.id + "::" + f.version; });
+    var aKeys = [];
+    (oRaw.iflowObjectAssignments || []).forEach(function (oa) {
+      if (oa.objectType === "partnerChannel" && oa.objectId === channelId) {
+        var k = iflowIdToKey[oa.iflowId];
+        if (k) { aKeys.push(k); }
+      }
+    });
+    return aKeys;
+  }
+
+  function bfsImpact(aNodes, aEdges, vStartKeys, sDirection) {
+    var aStartKeys = Array.isArray(vStartKeys) ? vStartKeys : [vStartKeys];
     var mAdj = Object.create(null);
     aNodes.forEach(function (n) { mAdj[n.key] = []; });
     aEdges.forEach(function (e) {
@@ -347,8 +385,8 @@ sap.ui.define([
     });
 
     var visited = Object.create(null);
-    var queue = [sStartKey];
-    visited[sStartKey] = true;
+    var queue = [];
+    aStartKeys.forEach(function (k) { visited[k] = true; queue.push(k); });
 
     while (queue.length) {
       var current = queue.shift();
@@ -691,6 +729,8 @@ sap.ui.define([
     filterGraphByDeployment: filterGraphByDeployment,
     getEntityFilterOptions: getEntityFilterOptions,
     filterGraphByEntity: filterGraphByEntity,
+    getImpactOptions: getImpactOptions,
+    resolveChannelIflows: resolveChannelIflows,
     bfsImpact: bfsImpact,
     loadScript: loadScript,
     showNodeDetail: showNodeDetail,

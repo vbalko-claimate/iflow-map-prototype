@@ -484,12 +484,29 @@ sap.ui.define([
         .attr("fill", "#5b738b")
         .text(function (d) { return d.runtimeStatus; });
 
+      // Edge labels for assignment edges (show role name)
+      var linkLabel = g.selectAll(".d3-link-label")
+        .data(edges.filter(function (e) {
+          return e.edgeType === "CONTACT_ASSIGNMENT" || e.edgeType === "OBJECT_ASSIGNMENT";
+        }))
+        .enter().append("text")
+        .attr("class", "d3-link-label")
+        .attr("text-anchor", "middle")
+        .attr("font-size", "8px")
+        .attr("fill", function (d) { return d.color; })
+        .attr("pointer-events", "none")
+        .text(function (d) { return d.notes || d.edgeType; });
+
       simulation.on("tick", function () {
         link
           .attr("x1", function (d) { return d.source.x; })
           .attr("y1", function (d) { return d.source.y; })
           .attr("x2", function (d) { return d.target.x; })
           .attr("y2", function (d) { return d.target.y; });
+
+        linkLabel
+          .attr("x", function (d) { return (d.source.x + d.target.x) / 2; })
+          .attr("y", function (d) { return (d.source.y + d.target.y) / 2 - 4; });
 
         nodeG.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
       });

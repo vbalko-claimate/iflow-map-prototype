@@ -410,7 +410,8 @@ sap.ui.define([
             connectionType: e.connectionType || e.edgeType,
             edgeType: e.edgeType,
             color: e.color,
-            notes: e.notes
+            notes: e.notes,
+            edgeLabel: (e.edgeType === "CONTACT_ASSIGNMENT" || e.edgeType === "OBJECT_ASSIGNMENT") ? (e.notes || e.edgeType) : ""
           }
         });
       });
@@ -487,7 +488,16 @@ sap.ui.define([
       });
       styles.push({
         selector: "edge[edgeType='CONTACT_ASSIGNMENT'], edge[edgeType='OBJECT_ASSIGNMENT']",
-        style: { "width": 1.5 }
+        style: {
+          "width": 1.5,
+          "label": "data(edgeLabel)",
+          "font-size": "8px",
+          "text-rotation": "autorotate",
+          "text-background-color": "#ffffff",
+          "text-background-opacity": 0.8,
+          "text-background-padding": "2px",
+          "color": "data(color)"
+        }
       });
       styles.push({ selector: ".muted", style: { "opacity": 0.15 } });
       styles.push({

@@ -5314,45 +5314,434 @@
   "partners": [
     {
       "id": "P01",
-      "name": "Partner One",
-      "type": "VENDOR"
+      "name": "Nomentia AMB",
+      "type": "Payment Provider"
     },
     {
       "id": "P02",
-      "name": "Partner Two",
-      "type": "3RD_PARTY"
+      "name": "SAP BTP",
+      "type": "Internal"
+    },
+    {
+      "id": "P03",
+      "name": "Cegedim",
+      "type": "EDI Provider"
+    },
+    {
+      "id": "P04",
+      "name": "Comarch",
+      "type": "EDI Provider"
+    },
+    {
+      "id": "P05",
+      "name": "Pironet Germany",
+      "type": "EDI Provider"
+    },
+    {
+      "id": "P06",
+      "name": "DHL",
+      "type": "3PL"
+    },
+    {
+      "id": "P07",
+      "name": "SAP DI",
+      "type": "Internal"
+    },
+    {
+      "id": "P08",
+      "name": "Microsoft Entra",
+      "type": "Identity Provider"
+    },
+    {
+      "id": "P09",
+      "name": "Exalog",
+      "type": "Payment Provider"
+    },
+    {
+      "id": "P10",
+      "name": "Freshdesk",
+      "type": "SaaS"
+    },
+    {
+      "id": "P11",
+      "name": "Genpact",
+      "type": "BPO"
+    },
+    {
+      "id": "P12",
+      "name": "GHX",
+      "type": "EDI Provider"
+    },
+    {
+      "id": "P13",
+      "name": "Hermez (BizTalk)",
+      "type": "Internal"
+    },
+    {
+      "id": "P14",
+      "name": "InfoCert",
+      "type": "Certificate Authority"
+    },
+    {
+      "id": "P15",
+      "name": "MobileXpenses",
+      "type": "SaaS"
+    },
+    {
+      "id": "P16",
+      "name": "MSV3",
+      "type": "Wholesaler"
+    },
+    {
+      "id": "P17",
+      "name": "Nomentia",
+      "type": "Payment Provider"
+    },
+    {
+      "id": "P18",
+      "name": "Parashift",
+      "type": "SaaS"
+    },
+    {
+      "id": "P19",
+      "name": "Paychex",
+      "type": "Payroll Provider"
+    },
+    {
+      "id": "P20",
+      "name": "FM Logistics Poland",
+      "type": "3PL"
+    },
+    {
+      "id": "P21",
+      "name": "Edicom Portugal",
+      "type": "EDI Provider"
+    },
+    {
+      "id": "P22",
+      "name": "FM Logistics Romania",
+      "type": "3PL"
+    },
+    {
+      "id": "P23",
+      "name": "Sanofi",
+      "type": "Pharma Partner"
+    },
+    {
+      "id": "P24",
+      "name": "Edicom UK",
+      "type": "EDI Provider"
+    },
+    {
+      "id": "P25",
+      "name": "Voigt",
+      "type": "3PL"
     }
   ],
   "partnerChannels": [
     {
       "id": "CH01",
       "partnerId": "P01",
-      "name": "Partner One SFTP",
+      "name": "Nomentia AMB SFTP",
       "protocol": "SFTP",
-      "direction": "INBOUND"
+      "direction": "Sender"
     },
     {
       "id": "CH02",
       "partnerId": "P02",
-      "name": "Partner Two HTTPS",
-      "protocol": "HTTPS",
-      "direction": "OUTBOUND"
+      "name": "SAP BTP HTTP",
+      "protocol": "HTTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH03",
+      "partnerId": "P03",
+      "name": "Cegedim SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH04",
+      "partnerId": "P04",
+      "name": "Comarch SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH05",
+      "partnerId": "P05",
+      "name": "Pironet Germany AS2",
+      "protocol": "AS2",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH06",
+      "partnerId": "P06",
+      "name": "DHL SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH07",
+      "partnerId": "P07",
+      "name": "SAP DI HTTP",
+      "protocol": "HTTP",
+      "direction": "Receiver"
+    },
+    {
+      "id": "CH08",
+      "partnerId": "P07",
+      "name": "SAP DI PD",
+      "protocol": "PD",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH09",
+      "partnerId": "P08",
+      "name": "Microsoft Entra HTTP",
+      "protocol": "HTTP",
+      "direction": "Receiver"
+    },
+    {
+      "id": "CH10",
+      "partnerId": "P09",
+      "name": "Exalog SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH11",
+      "partnerId": "P10",
+      "name": "Freshdesk HTTP",
+      "protocol": "HTTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH12",
+      "partnerId": "P11",
+      "name": "Genpact SFTP",
+      "protocol": "SFTP",
+      "direction": "Both"
+    },
+    {
+      "id": "CH13",
+      "partnerId": "P12",
+      "name": "GHX SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH14",
+      "partnerId": "P13",
+      "name": "Hermez (BizTalk) AS2",
+      "protocol": "AS2",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH15",
+      "partnerId": "P14",
+      "name": "InfoCert SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH16",
+      "partnerId": "P15",
+      "name": "MobileXpenses SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH17",
+      "partnerId": "P16",
+      "name": "MSV3 SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH18",
+      "partnerId": "P17",
+      "name": "Nomentia SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH19",
+      "partnerId": "P18",
+      "name": "Parashift HTTP",
+      "protocol": "HTTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH20",
+      "partnerId": "P19",
+      "name": "Paychex SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH21",
+      "partnerId": "P20",
+      "name": "FM Logistics Poland SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH22",
+      "partnerId": "P21",
+      "name": "Edicom Portugal SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH23",
+      "partnerId": "P22",
+      "name": "FM Logistics Romania SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH24",
+      "partnerId": "P23",
+      "name": "Sanofi SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH25",
+      "partnerId": "P24",
+      "name": "Edicom UK SFTP",
+      "protocol": "SFTP",
+      "direction": "Sender"
+    },
+    {
+      "id": "CH26",
+      "partnerId": "P25",
+      "name": "Voigt SFTP",
+      "protocol": "SFTP",
+      "direction": "Both"
     }
   ],
   "certificates": [
     {
       "id": "CERT01",
-      "cn": "CN=partner-one.example",
-      "status": "VALID",
-      "expiresAt": "2027-12-31T00:00:00Z",
-      "note": ""
+      "cn": "CN=nomentia-amb.example.com",
+      "status": "EXPIRING_SOON",
+      "expiresAt": "2026-04-15"
     },
     {
       "id": "CERT02",
-      "cn": "CN=partner-two.example",
+      "cn": "CN=cegedim.example.com",
       "status": "VALID",
-      "expiresAt": "2027-09-30T00:00:00Z",
-      "note": ""
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT03",
+      "cn": "CN=comarch.example.com",
+      "status": "EXPIRING_SOON",
+      "expiresAt": "2026-03-20"
+    },
+    {
+      "id": "CERT04",
+      "cn": "CN=pironet-germany.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT05",
+      "cn": "CN=dhl.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT06",
+      "cn": "CN=exalog.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT07",
+      "cn": "CN=genpact.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT08",
+      "cn": "CN=ghx.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT09",
+      "cn": "CN=hermez-(biztalk).example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT10",
+      "cn": "CN=infocert.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT11",
+      "cn": "CN=mobilexpenses.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT12",
+      "cn": "CN=msv3.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT13",
+      "cn": "CN=nomentia.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT14",
+      "cn": "CN=paychex.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT15",
+      "cn": "CN=fm-logistics-poland.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT16",
+      "cn": "CN=edicom-portugal.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT17",
+      "cn": "CN=fm-logistics-romania.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT18",
+      "cn": "CN=sanofi.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT19",
+      "cn": "CN=edicom-uk.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
+    },
+    {
+      "id": "CERT20",
+      "cn": "CN=voigt.example.com",
+      "status": "VALID",
+      "expiresAt": "2026-12-31"
     }
   ],
   "businessObjects": [
@@ -9376,34 +9765,6 @@
       "objectId": "test_ds_aggregator_timer"
     },
     {
-      "id": "CA0570",
-      "contactId": "C09",
-      "roleId": "R03",
-      "objectType": "partner",
-      "objectId": "P01"
-    },
-    {
-      "id": "CA0571",
-      "contactId": "C08",
-      "roleId": "R04",
-      "objectType": "partner",
-      "objectId": "P01"
-    },
-    {
-      "id": "CA0572",
-      "contactId": "C09",
-      "roleId": "R03",
-      "objectType": "partner",
-      "objectId": "P02"
-    },
-    {
-      "id": "CA0573",
-      "contactId": "C08",
-      "roleId": "R04",
-      "objectType": "partner",
-      "objectId": "P02"
-    },
-    {
       "id": "CA0574",
       "contactId": "C03",
       "roleId": "R02",
@@ -9430,34 +9791,6 @@
       "roleId": "R04",
       "objectType": "certificate",
       "objectId": "CERT02"
-    },
-    {
-      "id": "CA0578",
-      "contactId": "C08",
-      "roleId": "R04",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
-    },
-    {
-      "id": "CA0579",
-      "contactId": "C07",
-      "roleId": "R05",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
-    },
-    {
-      "id": "CA0580",
-      "contactId": "C08",
-      "roleId": "R04",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
-      "id": "CA0581",
-      "contactId": "C07",
-      "roleId": "R05",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
     },
     {
       "id": "CA0582",
@@ -9514,6 +9847,678 @@
       "roleId": "R01",
       "objectType": "businessCapability",
       "objectId": "BC04"
+    },
+    {
+      "id": "CA590",
+      "contactId": "C01",
+      "objectType": "partner",
+      "objectId": "P01",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA591",
+      "contactId": "C04",
+      "objectType": "partner",
+      "objectId": "P01",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA592",
+      "contactId": "C02",
+      "objectType": "partner",
+      "objectId": "P02",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA593",
+      "contactId": "C05",
+      "objectType": "partner",
+      "objectId": "P02",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA594",
+      "contactId": "C03",
+      "objectType": "partner",
+      "objectId": "P03",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA595",
+      "contactId": "C06",
+      "objectType": "partner",
+      "objectId": "P03",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA596",
+      "contactId": "C04",
+      "objectType": "partner",
+      "objectId": "P04",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA597",
+      "contactId": "C07",
+      "objectType": "partner",
+      "objectId": "P04",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA598",
+      "contactId": "C05",
+      "objectType": "partner",
+      "objectId": "P05",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA599",
+      "contactId": "C08",
+      "objectType": "partner",
+      "objectId": "P05",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA600",
+      "contactId": "C06",
+      "objectType": "partner",
+      "objectId": "P06",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA601",
+      "contactId": "C09",
+      "objectType": "partner",
+      "objectId": "P06",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA602",
+      "contactId": "C07",
+      "objectType": "partner",
+      "objectId": "P07",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA603",
+      "contactId": "C10",
+      "objectType": "partner",
+      "objectId": "P07",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA604",
+      "contactId": "C08",
+      "objectType": "partner",
+      "objectId": "P08",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA605",
+      "contactId": "C01",
+      "objectType": "partner",
+      "objectId": "P08",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA606",
+      "contactId": "C09",
+      "objectType": "partner",
+      "objectId": "P09",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA607",
+      "contactId": "C02",
+      "objectType": "partner",
+      "objectId": "P09",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA608",
+      "contactId": "C10",
+      "objectType": "partner",
+      "objectId": "P10",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA609",
+      "contactId": "C03",
+      "objectType": "partner",
+      "objectId": "P10",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA610",
+      "contactId": "C01",
+      "objectType": "partner",
+      "objectId": "P11",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA611",
+      "contactId": "C04",
+      "objectType": "partner",
+      "objectId": "P11",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA612",
+      "contactId": "C02",
+      "objectType": "partner",
+      "objectId": "P12",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA613",
+      "contactId": "C05",
+      "objectType": "partner",
+      "objectId": "P12",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA614",
+      "contactId": "C03",
+      "objectType": "partner",
+      "objectId": "P13",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA615",
+      "contactId": "C06",
+      "objectType": "partner",
+      "objectId": "P13",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA616",
+      "contactId": "C04",
+      "objectType": "partner",
+      "objectId": "P14",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA617",
+      "contactId": "C07",
+      "objectType": "partner",
+      "objectId": "P14",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA618",
+      "contactId": "C05",
+      "objectType": "partner",
+      "objectId": "P15",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA619",
+      "contactId": "C08",
+      "objectType": "partner",
+      "objectId": "P15",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA620",
+      "contactId": "C06",
+      "objectType": "partner",
+      "objectId": "P16",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA621",
+      "contactId": "C09",
+      "objectType": "partner",
+      "objectId": "P16",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA622",
+      "contactId": "C07",
+      "objectType": "partner",
+      "objectId": "P17",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA623",
+      "contactId": "C10",
+      "objectType": "partner",
+      "objectId": "P17",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA624",
+      "contactId": "C08",
+      "objectType": "partner",
+      "objectId": "P18",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA625",
+      "contactId": "C01",
+      "objectType": "partner",
+      "objectId": "P18",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA626",
+      "contactId": "C09",
+      "objectType": "partner",
+      "objectId": "P19",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA627",
+      "contactId": "C02",
+      "objectType": "partner",
+      "objectId": "P19",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA628",
+      "contactId": "C10",
+      "objectType": "partner",
+      "objectId": "P20",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA629",
+      "contactId": "C03",
+      "objectType": "partner",
+      "objectId": "P20",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA630",
+      "contactId": "C01",
+      "objectType": "partner",
+      "objectId": "P21",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA631",
+      "contactId": "C04",
+      "objectType": "partner",
+      "objectId": "P21",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA632",
+      "contactId": "C02",
+      "objectType": "partner",
+      "objectId": "P22",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA633",
+      "contactId": "C05",
+      "objectType": "partner",
+      "objectId": "P22",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA634",
+      "contactId": "C03",
+      "objectType": "partner",
+      "objectId": "P23",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA635",
+      "contactId": "C06",
+      "objectType": "partner",
+      "objectId": "P23",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA636",
+      "contactId": "C04",
+      "objectType": "partner",
+      "objectId": "P24",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA637",
+      "contactId": "C07",
+      "objectType": "partner",
+      "objectId": "P24",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA638",
+      "contactId": "C05",
+      "objectType": "partner",
+      "objectId": "P25",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA639",
+      "contactId": "C08",
+      "objectType": "partner",
+      "objectId": "P25",
+      "roleId": "R04"
+    },
+    {
+      "id": "CA640",
+      "contactId": "C02",
+      "objectType": "partnerChannel",
+      "objectId": "CH01",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA641",
+      "contactId": "C03",
+      "objectType": "partnerChannel",
+      "objectId": "CH02",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA642",
+      "contactId": "C04",
+      "objectType": "partnerChannel",
+      "objectId": "CH03",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA643",
+      "contactId": "C05",
+      "objectType": "partnerChannel",
+      "objectId": "CH04",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA644",
+      "contactId": "C06",
+      "objectType": "partnerChannel",
+      "objectId": "CH05",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA645",
+      "contactId": "C07",
+      "objectType": "partnerChannel",
+      "objectId": "CH06",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA646",
+      "contactId": "C08",
+      "objectType": "partnerChannel",
+      "objectId": "CH07",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA647",
+      "contactId": "C08",
+      "objectType": "partnerChannel",
+      "objectId": "CH08",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA648",
+      "contactId": "C09",
+      "objectType": "partnerChannel",
+      "objectId": "CH09",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA649",
+      "contactId": "C10",
+      "objectType": "partnerChannel",
+      "objectId": "CH10",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA650",
+      "contactId": "C01",
+      "objectType": "partnerChannel",
+      "objectId": "CH11",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA651",
+      "contactId": "C02",
+      "objectType": "partnerChannel",
+      "objectId": "CH12",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA652",
+      "contactId": "C03",
+      "objectType": "partnerChannel",
+      "objectId": "CH13",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA653",
+      "contactId": "C04",
+      "objectType": "partnerChannel",
+      "objectId": "CH14",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA654",
+      "contactId": "C05",
+      "objectType": "partnerChannel",
+      "objectId": "CH15",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA655",
+      "contactId": "C06",
+      "objectType": "partnerChannel",
+      "objectId": "CH16",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA656",
+      "contactId": "C07",
+      "objectType": "partnerChannel",
+      "objectId": "CH17",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA657",
+      "contactId": "C08",
+      "objectType": "partnerChannel",
+      "objectId": "CH18",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA658",
+      "contactId": "C09",
+      "objectType": "partnerChannel",
+      "objectId": "CH19",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA659",
+      "contactId": "C10",
+      "objectType": "partnerChannel",
+      "objectId": "CH20",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA660",
+      "contactId": "C01",
+      "objectType": "partnerChannel",
+      "objectId": "CH21",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA661",
+      "contactId": "C02",
+      "objectType": "partnerChannel",
+      "objectId": "CH22",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA662",
+      "contactId": "C03",
+      "objectType": "partnerChannel",
+      "objectId": "CH23",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA663",
+      "contactId": "C04",
+      "objectType": "partnerChannel",
+      "objectId": "CH24",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA664",
+      "contactId": "C05",
+      "objectType": "partnerChannel",
+      "objectId": "CH25",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA665",
+      "contactId": "C06",
+      "objectType": "partnerChannel",
+      "objectId": "CH26",
+      "roleId": "R05"
+    },
+    {
+      "id": "CA666",
+      "contactId": "C03",
+      "objectType": "certificate",
+      "objectId": "CERT01",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA667",
+      "contactId": "C05",
+      "objectType": "certificate",
+      "objectId": "CERT02",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA668",
+      "contactId": "C06",
+      "objectType": "certificate",
+      "objectId": "CERT03",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA669",
+      "contactId": "C07",
+      "objectType": "certificate",
+      "objectId": "CERT04",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA670",
+      "contactId": "C08",
+      "objectType": "certificate",
+      "objectId": "CERT05",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA671",
+      "contactId": "C01",
+      "objectType": "certificate",
+      "objectId": "CERT06",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA672",
+      "contactId": "C03",
+      "objectType": "certificate",
+      "objectId": "CERT07",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA673",
+      "contactId": "C04",
+      "objectType": "certificate",
+      "objectId": "CERT08",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA674",
+      "contactId": "C05",
+      "objectType": "certificate",
+      "objectId": "CERT09",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA675",
+      "contactId": "C06",
+      "objectType": "certificate",
+      "objectId": "CERT10",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA676",
+      "contactId": "C07",
+      "objectType": "certificate",
+      "objectId": "CERT11",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA677",
+      "contactId": "C08",
+      "objectType": "certificate",
+      "objectId": "CERT12",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA678",
+      "contactId": "C09",
+      "objectType": "certificate",
+      "objectId": "CERT13",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA679",
+      "contactId": "C01",
+      "objectType": "certificate",
+      "objectId": "CERT14",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA680",
+      "contactId": "C02",
+      "objectType": "certificate",
+      "objectId": "CERT15",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA681",
+      "contactId": "C03",
+      "objectType": "certificate",
+      "objectId": "CERT16",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA682",
+      "contactId": "C04",
+      "objectType": "certificate",
+      "objectId": "CERT17",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA683",
+      "contactId": "C05",
+      "objectType": "certificate",
+      "objectId": "CERT18",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA684",
+      "contactId": "C06",
+      "objectType": "certificate",
+      "objectId": "CERT19",
+      "roleId": "R06"
+    },
+    {
+      "id": "CA685",
+      "contactId": "C07",
+      "objectType": "certificate",
+      "objectId": "CERT20",
+      "roleId": "R06"
     }
   ],
   "iflowObjectAssignments": [
@@ -9528,12 +10533,6 @@
       "iflowId": "Email_alert_PROD",
       "objectType": "businessCapability",
       "objectId": "BC01"
-    },
-    {
-      "id": "OA003",
-      "iflowId": "Email_alert_PROD",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA004",
@@ -9572,12 +10571,6 @@
       "objectId": "BC04"
     },
     {
-      "id": "OA010",
-      "iflowId": "mdm_in_stibo_http_amqp",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA011",
       "iflowId": "POC_EDICOM_UK",
       "objectType": "businessObject",
@@ -9612,12 +10605,6 @@
       "iflowId": "POC_GENPACT_OUT",
       "objectType": "businessCapability",
       "objectId": "BC03"
-    },
-    {
-      "id": "OA017",
-      "iflowId": "POC_GENPACT_OUT",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA018",
@@ -9656,12 +10643,6 @@
       "objectId": "BC02"
     },
     {
-      "id": "OA024",
-      "iflowId": "SCIB0900010_IN_FRESHDESK_PARASHIFT_HTTP_HTTP_blue",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA025",
       "iflowId": "SCIB0900010_IN_FRESHDESK_PARASHIFT_HTTP_HTTP_green",
       "objectType": "businessObject",
@@ -9696,12 +10677,6 @@
       "iflowId": "SCIB0900020_IN_PARASHIFT_BIZTALK_HTTP_SFTP_green",
       "objectType": "businessCapability",
       "objectId": "BC01"
-    },
-    {
-      "id": "OA031",
-      "iflowId": "SCIB0900020_IN_PARASHIFT_BIZTALK_HTTP_SFTP_green",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA032",
@@ -9740,12 +10715,6 @@
       "objectId": "BC04"
     },
     {
-      "id": "OA038",
-      "iflowId": "SCIP0100025_IN_UK-EDICOM_SAPCEP_SFTP_SFTP",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA039",
       "iflowId": "SCIP0100026_IN_UK-EDICOM_SAPCEP_SAPJOB",
       "objectType": "businessObject",
@@ -9780,12 +10749,6 @@
       "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
       "objectType": "businessCapability",
       "objectId": "BC03"
-    },
-    {
-      "id": "OA045",
-      "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA046",
@@ -9824,12 +10787,6 @@
       "objectId": "BC02"
     },
     {
-      "id": "OA052",
-      "iflowId": "SCIP0100061_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA053",
       "iflowId": "SCIP0100061_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
       "objectType": "businessObject",
@@ -9864,12 +10821,6 @@
       "iflowId": "SCIP0100062_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
       "objectType": "businessCapability",
       "objectId": "BC01"
-    },
-    {
-      "id": "OA059",
-      "iflowId": "SCIP0100062_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA060",
@@ -9908,12 +10859,6 @@
       "objectId": "BC04"
     },
     {
-      "id": "OA066",
-      "iflowId": "SCIP0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_green",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA067",
       "iflowId": "SCIP0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP",
       "objectType": "businessObject",
@@ -9948,12 +10893,6 @@
       "iflowId": "SCIP0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_reprocess",
       "objectType": "businessCapability",
       "objectId": "BC03"
-    },
-    {
-      "id": "OA073",
-      "iflowId": "SCIP0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_reprocess",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA074",
@@ -9992,12 +10931,6 @@
       "objectId": "BC02"
     },
     {
-      "id": "OA080",
-      "iflowId": "SCIP0100200_IN_PT-EDICOM_SAPCEP_SFTP_SFTP_bkp_blue",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA081",
       "iflowId": "SCIP0100205_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
       "objectType": "businessObject",
@@ -10032,12 +10965,6 @@
       "iflowId": "SCIP0100310_IN_GHX_SAPCEP_SFTP_SFTP",
       "objectType": "businessCapability",
       "objectId": "BC01"
-    },
-    {
-      "id": "OA087",
-      "iflowId": "SCIP0100310_IN_GHX_SAPCEP_SFTP_SFTP",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA088",
@@ -10076,12 +11003,6 @@
       "objectId": "BC04"
     },
     {
-      "id": "OA094",
-      "iflowId": "SCIP0100330_IN_CEGEDIM_SAPCEP_SFTP_SFTP_bkp_blue",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA095",
       "iflowId": "SCIP0100332_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
       "objectType": "businessObject",
@@ -10116,12 +11037,6 @@
       "iflowId": "SCIP0100334_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
       "objectType": "businessCapability",
       "objectId": "BC03"
-    },
-    {
-      "id": "OA101",
-      "iflowId": "SCIP0100334_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA102",
@@ -10160,12 +11075,6 @@
       "objectId": "BC02"
     },
     {
-      "id": "OA108",
-      "iflowId": "SCIP0100360_IN_VOIGT_SAPCEP_SFTP_SFTP_bkp_blue",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA109",
       "iflowId": "SCIP0100361_IN_VOIGT_SAPCEP_SFTP_SFTP",
       "objectType": "businessObject",
@@ -10200,12 +11109,6 @@
       "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP",
       "objectType": "businessCapability",
       "objectId": "BC01"
-    },
-    {
-      "id": "OA115",
-      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA116",
@@ -10244,12 +11147,6 @@
       "objectId": "BC04"
     },
     {
-      "id": "OA122",
-      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP_temp_zchmbgmcr",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA123",
       "iflowId": "SCIP0100363_IN_VOIGT_SAPCEP_SFTP_SFTP",
       "objectType": "businessObject",
@@ -10284,12 +11181,6 @@
       "iflowId": "SCIP0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER",
       "objectType": "businessCapability",
       "objectId": "BC03"
-    },
-    {
-      "id": "OA129",
-      "iflowId": "SCIP0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA130",
@@ -10328,12 +11219,6 @@
       "objectId": "BC02"
     },
     {
-      "id": "OA136",
-      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA137",
       "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_blue",
       "objectType": "businessObject",
@@ -10368,12 +11253,6 @@
       "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_reprocess",
       "objectType": "businessCapability",
       "objectId": "BC01"
-    },
-    {
-      "id": "OA143",
-      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_reprocess",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA144",
@@ -10412,12 +11291,6 @@
       "objectId": "BC04"
     },
     {
-      "id": "OA150",
-      "iflowId": "SCIP0100411_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_green",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA151",
       "iflowId": "SCIP0100412_IN_GENPACT_SAPCEP_SFTP_SFTP",
       "objectType": "businessObject",
@@ -10452,12 +11325,6 @@
       "iflowId": "SCIP0100412_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_green",
       "objectType": "businessCapability",
       "objectId": "BC03"
-    },
-    {
-      "id": "OA157",
-      "iflowId": "SCIP0100412_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_green",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA158",
@@ -10496,12 +11363,6 @@
       "objectId": "BC02"
     },
     {
-      "id": "OA164",
-      "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP_bkp_blue",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA165",
       "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP_bkp_green",
       "objectType": "businessObject",
@@ -10536,12 +11397,6 @@
       "iflowId": "SCIP0100440_IN_COMARCH_SAPCEP_SFTP_SFTP",
       "objectType": "businessCapability",
       "objectId": "BC01"
-    },
-    {
-      "id": "OA171",
-      "iflowId": "SCIP0100440_IN_COMARCH_SAPCEP_SFTP_SFTP",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
     },
     {
       "id": "OA172",
@@ -10580,12 +11435,6 @@
       "objectId": "BC04"
     },
     {
-      "id": "OA178",
-      "iflowId": "SCIP0100620_IN_DHL_SAPCEP_SFTP_SFTP_bkp_blue",
-      "objectType": "partnerChannel",
-      "objectId": "CH02"
-    },
-    {
       "id": "OA179",
       "iflowId": "SCIP0100620_IN_DHL_SAPCEP_SFTP_SFTP_reprocess",
       "objectType": "businessObject",
@@ -10622,12 +11471,6 @@
       "objectId": "BC03"
     },
     {
-      "id": "OA185",
-      "iflowId": "SCIP0100621_IN_DHL_SAPCEP_SFTP_SFTP_bkp_blue",
-      "objectType": "partnerChannel",
-      "objectId": "CH01"
-    },
-    {
       "id": "OA186",
       "iflowId": "SCIP0100622_IN_DHL_SAPCEP_SFTP_SFTP",
       "objectType": "businessObject",
@@ -10638,6 +11481,1836 @@
       "iflowId": "SCIP0100622_IN_DHL_SAPCEP_SFTP_SFTP",
       "objectType": "businessCapability",
       "objectId": "BC04"
+    },
+    {
+      "id": "OA188",
+      "iflowId": "SCIB0100765_IN_EXALOG_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA189",
+      "iflowId": "SCIB0900010_IN_FRESHDESK_PARASHIFT_HTTP_HTTP_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH11"
+    },
+    {
+      "id": "OA190",
+      "iflowId": "SCIB0900010_IN_FRESHDESK_PARASHIFT_HTTP_HTTP_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH11"
+    },
+    {
+      "id": "OA191",
+      "iflowId": "SCIB0900020_IN_PARASHIFT_BIZTALK_HTTP_SFTP_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH19"
+    },
+    {
+      "id": "OA192",
+      "iflowId": "SCIB0900020_IN_PARASHIFT_BIZTALK_HTTP_SFTP_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH19"
+    },
+    {
+      "id": "OA193",
+      "iflowId": "SCIP0100020_IN_UK-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH25"
+    },
+    {
+      "id": "OA194",
+      "iflowId": "SCIP0100020_IN_UK-EDICOM_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH25"
+    },
+    {
+      "id": "OA195",
+      "iflowId": "SCIP0100025_IN_UK-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH25"
+    },
+    {
+      "id": "OA196",
+      "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA197",
+      "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA198",
+      "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA199",
+      "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA200",
+      "iflowId": "SCIP0100061_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA201",
+      "iflowId": "SCIP0100061_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA202",
+      "iflowId": "SCIP0100062_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA203",
+      "iflowId": "SCIP0100062_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA204",
+      "iflowId": "SCIP0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH23"
+    },
+    {
+      "id": "OA205",
+      "iflowId": "SCIP0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH23"
+    },
+    {
+      "id": "OA206",
+      "iflowId": "SCIP0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH23"
+    },
+    {
+      "id": "OA207",
+      "iflowId": "SCIP0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH05"
+    },
+    {
+      "id": "OA208",
+      "iflowId": "SCIP0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH05"
+    },
+    {
+      "id": "OA209",
+      "iflowId": "SCIP0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_reprocess",
+      "objectType": "partnerChannel",
+      "objectId": "CH05"
+    },
+    {
+      "id": "OA210",
+      "iflowId": "SCIP0100200_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH22"
+    },
+    {
+      "id": "OA211",
+      "iflowId": "SCIP0100200_IN_PT-EDICOM_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH22"
+    },
+    {
+      "id": "OA212",
+      "iflowId": "SCIP0100205_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH22"
+    },
+    {
+      "id": "OA213",
+      "iflowId": "SCIP0100310_IN_GHX_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH13"
+    },
+    {
+      "id": "OA214",
+      "iflowId": "SCIP0100310_IN_GHX_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH13"
+    },
+    {
+      "id": "OA215",
+      "iflowId": "SCIP0100330_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH03"
+    },
+    {
+      "id": "OA216",
+      "iflowId": "SCIP0100330_IN_CEGEDIM_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH03"
+    },
+    {
+      "id": "OA217",
+      "iflowId": "SCIP0100332_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH03"
+    },
+    {
+      "id": "OA218",
+      "iflowId": "SCIP0100333_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH03"
+    },
+    {
+      "id": "OA219",
+      "iflowId": "SCIP0100334_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH03"
+    },
+    {
+      "id": "OA220",
+      "iflowId": "SCIP0100335_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH03"
+    },
+    {
+      "id": "OA221",
+      "iflowId": "SCIP0100360_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA222",
+      "iflowId": "SCIP0100360_IN_VOIGT_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA223",
+      "iflowId": "SCIP0100361_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA224",
+      "iflowId": "SCIP0100361_IN_VOIGT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA225",
+      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA226",
+      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA227",
+      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA228",
+      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP_temp_zchmbgmcr",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA229",
+      "iflowId": "SCIP0100363_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA230",
+      "iflowId": "SCIP0100363_IN_VOIGT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA231",
+      "iflowId": "SCIP0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA232",
+      "iflowId": "SCIP0100375_OUT_SAPCEP_VOIGT_IDOC_SFTP_ZCHDESADV",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA233",
+      "iflowId": "SCIP0100376_OUT_SAPCEP_VOIGT_IDOC_SFTP_ZCHORDERS",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA234",
+      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA235",
+      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA236",
+      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA237",
+      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA238",
+      "iflowId": "SCIP0100411_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA239",
+      "iflowId": "SCIP0100411_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA240",
+      "iflowId": "SCIP0100411_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA241",
+      "iflowId": "SCIP0100412_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA242",
+      "iflowId": "SCIP0100412_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA243",
+      "iflowId": "SCIP0100412_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA244",
+      "iflowId": "SCIP0100415_OUT_SAPCEP_GENPACT_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA245",
+      "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH17"
+    },
+    {
+      "id": "OA246",
+      "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH17"
+    },
+    {
+      "id": "OA247",
+      "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH17"
+    },
+    {
+      "id": "OA248",
+      "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP_reproces",
+      "objectType": "partnerChannel",
+      "objectId": "CH17"
+    },
+    {
+      "id": "OA249",
+      "iflowId": "SCIP0100440_IN_COMARCH_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH04"
+    },
+    {
+      "id": "OA250",
+      "iflowId": "SCIP0100601_IN_INFOCERT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH15"
+    },
+    {
+      "id": "OA251",
+      "iflowId": "SCIP0100620_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA252",
+      "iflowId": "SCIP0100620_IN_DHL_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA253",
+      "iflowId": "SCIP0100620_IN_DHL_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA254",
+      "iflowId": "SCIP0100621_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA255",
+      "iflowId": "SCIP0100621_IN_DHL_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA256",
+      "iflowId": "SCIP0100622_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA257",
+      "iflowId": "SCIP0100622_IN_DHL_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA258",
+      "iflowId": "SCIP0100622_IN_DHL_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA259",
+      "iflowId": "SCIP0100691_IN_SANOFI_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH24"
+    },
+    {
+      "id": "OA260",
+      "iflowId": "SCIP0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH24"
+    },
+    {
+      "id": "OA261",
+      "iflowId": "SCIP0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH24"
+    },
+    {
+      "id": "OA262",
+      "iflowId": "SCIP0100692_IN_SANOFI_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH24"
+    },
+    {
+      "id": "OA263",
+      "iflowId": "SCIP0100692_IN_SANOFI_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "partnerChannel",
+      "objectId": "CH24"
+    },
+    {
+      "id": "OA264",
+      "iflowId": "SCIP0100761_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA265",
+      "iflowId": "SCIP0100762_IN_EXALOG_SAPCEP_SFTP_SFTP_RIBA",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA266",
+      "iflowId": "SCIP0100765_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA267",
+      "iflowId": "SCIP0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH16"
+    },
+    {
+      "id": "OA268",
+      "iflowId": "SCIP0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH16"
+    },
+    {
+      "id": "OA269",
+      "iflowId": "SCIP0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "partnerChannel",
+      "objectId": "CH16"
+    },
+    {
+      "id": "OA270",
+      "iflowId": "SCIP0100785_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH16"
+    },
+    {
+      "id": "OA271",
+      "iflowId": "SCIP0100785_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "partnerChannel",
+      "objectId": "CH16"
+    },
+    {
+      "id": "OA272",
+      "iflowId": "SCIP0400225_IN_DI_SAPCEP_PD_IDOC_InvoiceVIMPosting",
+      "objectType": "partnerChannel",
+      "objectId": "CH08"
+    },
+    {
+      "id": "OA273",
+      "iflowId": "SCIP0400226_OUT_Caller_DI_PD_HTTP_InvoiceDI",
+      "objectType": "partnerChannel",
+      "objectId": "CH07"
+    },
+    {
+      "id": "OA274",
+      "iflowId": "SCIP0400240_IN_BTP_Router_HTTP_PD_InvoiceRouter",
+      "objectType": "partnerChannel",
+      "objectId": "CH02"
+    },
+    {
+      "id": "OA275",
+      "iflowId": "SCIP0650020_OUT_EVENTMESH_ENTRA_HTTP_HTTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH09"
+    },
+    {
+      "id": "OA276",
+      "iflowId": "SCIP0650020_OUT_EVENTMESH_ENTRA_HTTP_HTTP_bkp_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH09"
+    },
+    {
+      "id": "OA277",
+      "iflowId": "SCIP0650020_OUT_EVENTMESH_ENTRA_HTTP_HTTP_blue",
+      "objectType": "partnerChannel",
+      "objectId": "CH09"
+    },
+    {
+      "id": "OA278",
+      "iflowId": "SCIP0900010_IN_FRESHDESK_PARASHIFT_HTTP_HTTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH11"
+    },
+    {
+      "id": "OA279",
+      "iflowId": "SCIP0900020_IN_PARASHIFT_BIZTALK_HTTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH19"
+    },
+    {
+      "id": "OA280",
+      "iflowId": "SCIP1300010_IN_AMB_NOMENTIA_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH01"
+    },
+    {
+      "id": "OA281",
+      "iflowId": "SCIT0100020_IN_UK-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH25"
+    },
+    {
+      "id": "OA282",
+      "iflowId": "SCIT0100025_IN_UK-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH25"
+    },
+    {
+      "id": "OA283",
+      "iflowId": "SCIT0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA284",
+      "iflowId": "SCIT0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA285",
+      "iflowId": "SCIT0100061_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA286",
+      "iflowId": "SCIT0100062_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH21"
+    },
+    {
+      "id": "OA287",
+      "iflowId": "SCIT0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH23"
+    },
+    {
+      "id": "OA288",
+      "iflowId": "SCIT0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH23"
+    },
+    {
+      "id": "OA289",
+      "iflowId": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH05"
+    },
+    {
+      "id": "OA290",
+      "iflowId": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_old",
+      "objectType": "partnerChannel",
+      "objectId": "CH05"
+    },
+    {
+      "id": "OA291",
+      "iflowId": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH05"
+    },
+    {
+      "id": "OA292",
+      "iflowId": "SCIT0100200_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH22"
+    },
+    {
+      "id": "OA293",
+      "iflowId": "SCIT0100205_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH22"
+    },
+    {
+      "id": "OA294",
+      "iflowId": "SCIT0100310_IN_GHX_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH13"
+    },
+    {
+      "id": "OA295",
+      "iflowId": "SCIT0100330_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH03"
+    },
+    {
+      "id": "OA296",
+      "iflowId": "SCIT0100336_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH03"
+    },
+    {
+      "id": "OA297",
+      "iflowId": "SCIT0100360_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA298",
+      "iflowId": "SCIT0100360_IN_VOIGT_SAPCEP_SFTP_SFTP_sapticket",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA299",
+      "iflowId": "SCIT0100361_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA300",
+      "iflowId": "SCIT0100362_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA301",
+      "iflowId": "SCIT0100363_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA302",
+      "iflowId": "SCIT0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA303",
+      "iflowId": "SCIT0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA304",
+      "iflowId": "SCIT0100375_OUT_SAPCEP_VOIGT_IDOC_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA305",
+      "iflowId": "SCIT0100375_OUT_SAPCEP_VOIGT_IDOC_SFTP_ZCHDESADV",
+      "objectType": "partnerChannel",
+      "objectId": "CH26"
+    },
+    {
+      "id": "OA306",
+      "iflowId": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA307",
+      "iflowId": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_Nazuris2_tests",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA308",
+      "iflowId": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_onlyidoc",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA309",
+      "iflowId": "SCIT0100411_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA310",
+      "iflowId": "SCIT0100412_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA311",
+      "iflowId": "SCIT0100415_OUT_SAPCEP_GENPACT_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH12"
+    },
+    {
+      "id": "OA312",
+      "iflowId": "SCIT0100420_IN_MSV3_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH17"
+    },
+    {
+      "id": "OA313",
+      "iflowId": "SCIT0100420_IN_MSV3_SAPCEP_SFTP_SFTP_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH17"
+    },
+    {
+      "id": "OA314",
+      "iflowId": "SCIT0100440_IN_COMARCH_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH04"
+    },
+    {
+      "id": "OA315",
+      "iflowId": "SCIT0100440_IN_COMARCH_SAPCEP_SFTP_SFTP_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH04"
+    },
+    {
+      "id": "OA316",
+      "iflowId": "SCIT0100601_IN_INFOCERT_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH15"
+    },
+    {
+      "id": "OA317",
+      "iflowId": "SCIT0100620_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA318",
+      "iflowId": "SCIT0100621_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA319",
+      "iflowId": "SCIT0100621_IN_DHL_SAPCEP_SFTP_SFTP_outage",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA320",
+      "iflowId": "SCIT0100622_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH06"
+    },
+    {
+      "id": "OA321",
+      "iflowId": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH24"
+    },
+    {
+      "id": "OA322",
+      "iflowId": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_old",
+      "objectType": "partnerChannel",
+      "objectId": "CH24"
+    },
+    {
+      "id": "OA323",
+      "iflowId": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH24"
+    },
+    {
+      "id": "OA324",
+      "iflowId": "SCIT0100692_IN_SANOFI_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH24"
+    },
+    {
+      "id": "OA325",
+      "iflowId": "SCIT0100760_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA326",
+      "iflowId": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA327",
+      "iflowId": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_20250819",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA328",
+      "iflowId": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_manual",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA329",
+      "iflowId": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA330",
+      "iflowId": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA331",
+      "iflowId": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP_copy",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA332",
+      "iflowId": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH10"
+    },
+    {
+      "id": "OA333",
+      "iflowId": "SCIT0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH16"
+    },
+    {
+      "id": "OA334",
+      "iflowId": "SCIT0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_test",
+      "objectType": "partnerChannel",
+      "objectId": "CH16"
+    },
+    {
+      "id": "OA335",
+      "iflowId": "SCIT0100785_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH16"
+    },
+    {
+      "id": "OA336",
+      "iflowId": "SCIT0400225_IN_DI_SAPCEP_PD_IDOC_InvoiceVIMPosting",
+      "objectType": "partnerChannel",
+      "objectId": "CH08"
+    },
+    {
+      "id": "OA337",
+      "iflowId": "SCIT0400226_OUT_Caller_DI_PD_HTTP_InvoiceDI",
+      "objectType": "partnerChannel",
+      "objectId": "CH07"
+    },
+    {
+      "id": "OA338",
+      "iflowId": "SCIT0400240_IN_BTP_Router_HTTP_PD_InvoiceRouter",
+      "objectType": "partnerChannel",
+      "objectId": "CH02"
+    },
+    {
+      "id": "OA339",
+      "iflowId": "SCIT0650020_OUT_EVENTMESH_ENTRA_HTTP_HTTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH09"
+    },
+    {
+      "id": "OA340",
+      "iflowId": "SCIT0650020_OUT_EVENTMESH_ENTRA_HTTP_HTTP_manual",
+      "objectType": "partnerChannel",
+      "objectId": "CH09"
+    },
+    {
+      "id": "OA341",
+      "iflowId": "SCIT0700104_IN_HERMEZ_BIZTALK_AS2_SFTP_SHP_OBDLV_CONFIRM_DECENTRAL",
+      "objectType": "partnerChannel",
+      "objectId": "CH14"
+    },
+    {
+      "id": "OA342",
+      "iflowId": "SCIT0900010_IN_FRESHDESK_PARASHIFT_HTTP_HTTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH11"
+    },
+    {
+      "id": "OA343",
+      "iflowId": "SCIT0900020_IN_PARASHIFT_BIZTALK_HTTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH19"
+    },
+    {
+      "id": "OA344",
+      "iflowId": "SCIT1000010_IN_PAYCHEX_SAP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH20"
+    },
+    {
+      "id": "OA345",
+      "iflowId": "SCIT1000010_IN_PAYCHEX_SAP_SFTP_SFTP_manualTestNazuris",
+      "objectType": "partnerChannel",
+      "objectId": "CH20"
+    },
+    {
+      "id": "OA346",
+      "iflowId": "SCIT1000010_IN_PAYCHEX_SAP_SFTP_SFTP_Nazuris",
+      "objectType": "partnerChannel",
+      "objectId": "CH20"
+    },
+    {
+      "id": "OA347",
+      "iflowId": "SCIT1300010_IN_AMB_NOMENTIA_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH01"
+    },
+    {
+      "id": "OA348",
+      "iflowId": "SCIT1300010_IN_AMB_NOMENTIA_SAPCEP_SFTP_SFTP_manual",
+      "objectType": "partnerChannel",
+      "objectId": "CH01"
+    },
+    {
+      "id": "OA349",
+      "iflowId": "SCIT1300090_IN_NOMENTIA_SAPCEP_SFTP_SFTP",
+      "objectType": "partnerChannel",
+      "objectId": "CH18"
+    },
+    {
+      "id": "OA350",
+      "iflowId": "SCIP1300010_IN_AMB_NOMENTIA_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT01"
+    },
+    {
+      "id": "OA351",
+      "iflowId": "SCIT1300010_IN_AMB_NOMENTIA_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT01"
+    },
+    {
+      "id": "OA352",
+      "iflowId": "SCIT1300010_IN_AMB_NOMENTIA_SAPCEP_SFTP_SFTP_manual",
+      "objectType": "certificate",
+      "objectId": "CERT01"
+    },
+    {
+      "id": "OA353",
+      "iflowId": "SCIP0100330_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT02"
+    },
+    {
+      "id": "OA354",
+      "iflowId": "SCIP0100330_IN_CEGEDIM_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT02"
+    },
+    {
+      "id": "OA355",
+      "iflowId": "SCIP0100332_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT02"
+    },
+    {
+      "id": "OA356",
+      "iflowId": "SCIP0100333_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT02"
+    },
+    {
+      "id": "OA357",
+      "iflowId": "SCIP0100334_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT02"
+    },
+    {
+      "id": "OA358",
+      "iflowId": "SCIP0100335_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT02"
+    },
+    {
+      "id": "OA359",
+      "iflowId": "SCIT0100330_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT02"
+    },
+    {
+      "id": "OA360",
+      "iflowId": "SCIT0100336_IN_CEGEDIM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT02"
+    },
+    {
+      "id": "OA361",
+      "iflowId": "SCIP0100440_IN_COMARCH_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT03"
+    },
+    {
+      "id": "OA362",
+      "iflowId": "SCIT0100440_IN_COMARCH_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT03"
+    },
+    {
+      "id": "OA363",
+      "iflowId": "SCIT0100440_IN_COMARCH_SAPCEP_SFTP_SFTP_test",
+      "objectType": "certificate",
+      "objectId": "CERT03"
+    },
+    {
+      "id": "OA364",
+      "iflowId": "SCIP0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT04"
+    },
+    {
+      "id": "OA365",
+      "iflowId": "SCIP0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT04"
+    },
+    {
+      "id": "OA366",
+      "iflowId": "SCIP0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_reprocess",
+      "objectType": "certificate",
+      "objectId": "CERT04"
+    },
+    {
+      "id": "OA367",
+      "iflowId": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT04"
+    },
+    {
+      "id": "OA368",
+      "iflowId": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_old",
+      "objectType": "certificate",
+      "objectId": "CERT04"
+    },
+    {
+      "id": "OA369",
+      "iflowId": "SCIT0100110_IN_DE-PIRONET_BIZTALK_AS2_SFTP_test",
+      "objectType": "certificate",
+      "objectId": "CERT04"
+    },
+    {
+      "id": "OA370",
+      "iflowId": "SCIP0100620_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA371",
+      "iflowId": "SCIP0100620_IN_DHL_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA372",
+      "iflowId": "SCIP0100620_IN_DHL_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA373",
+      "iflowId": "SCIP0100621_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA374",
+      "iflowId": "SCIP0100621_IN_DHL_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA375",
+      "iflowId": "SCIP0100622_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA376",
+      "iflowId": "SCIP0100622_IN_DHL_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA377",
+      "iflowId": "SCIP0100622_IN_DHL_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA378",
+      "iflowId": "SCIT0100620_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA379",
+      "iflowId": "SCIT0100621_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA380",
+      "iflowId": "SCIT0100621_IN_DHL_SAPCEP_SFTP_SFTP_outage",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA381",
+      "iflowId": "SCIT0100622_IN_DHL_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT05"
+    },
+    {
+      "id": "OA382",
+      "iflowId": "SCIB0100765_IN_EXALOG_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA383",
+      "iflowId": "SCIP0100761_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA384",
+      "iflowId": "SCIP0100762_IN_EXALOG_SAPCEP_SFTP_SFTP_RIBA",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA385",
+      "iflowId": "SCIP0100765_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA386",
+      "iflowId": "SCIT0100760_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA387",
+      "iflowId": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA388",
+      "iflowId": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_20250819",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA389",
+      "iflowId": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_manual",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA390",
+      "iflowId": "SCIT0100761_IN_EXALOG_SAPCEP_SFTP_SFTP_test",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA391",
+      "iflowId": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA392",
+      "iflowId": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP_copy",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA393",
+      "iflowId": "SCIT0100765_IN_EXALOG_SAPCEP_SFTP_SFTP_test",
+      "objectType": "certificate",
+      "objectId": "CERT06"
+    },
+    {
+      "id": "OA394",
+      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA395",
+      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA396",
+      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA397",
+      "iflowId": "SCIP0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA398",
+      "iflowId": "SCIP0100411_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA399",
+      "iflowId": "SCIP0100411_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA400",
+      "iflowId": "SCIP0100411_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA401",
+      "iflowId": "SCIP0100412_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA402",
+      "iflowId": "SCIP0100412_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA403",
+      "iflowId": "SCIP0100412_IN_GENPACT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA404",
+      "iflowId": "SCIP0100415_OUT_SAPCEP_GENPACT_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA405",
+      "iflowId": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA406",
+      "iflowId": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_Nazuris2_tests",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA407",
+      "iflowId": "SCIT0100410_IN_GENPACT_SAPCEP_SFTP_SFTP_onlyidoc",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA408",
+      "iflowId": "SCIT0100411_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA409",
+      "iflowId": "SCIT0100412_IN_GENPACT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA410",
+      "iflowId": "SCIT0100415_OUT_SAPCEP_GENPACT_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT07"
+    },
+    {
+      "id": "OA411",
+      "iflowId": "SCIP0100310_IN_GHX_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT08"
+    },
+    {
+      "id": "OA412",
+      "iflowId": "SCIP0100310_IN_GHX_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT08"
+    },
+    {
+      "id": "OA413",
+      "iflowId": "SCIT0100310_IN_GHX_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT08"
+    },
+    {
+      "id": "OA414",
+      "iflowId": "SCIT0700104_IN_HERMEZ_BIZTALK_AS2_SFTP_SHP_OBDLV_CONFIRM_DECENTRAL",
+      "objectType": "certificate",
+      "objectId": "CERT09"
+    },
+    {
+      "id": "OA415",
+      "iflowId": "SCIP0100601_IN_INFOCERT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT10"
+    },
+    {
+      "id": "OA416",
+      "iflowId": "SCIT0100601_IN_INFOCERT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT10"
+    },
+    {
+      "id": "OA417",
+      "iflowId": "SCIP0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT11"
+    },
+    {
+      "id": "OA418",
+      "iflowId": "SCIP0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT11"
+    },
+    {
+      "id": "OA419",
+      "iflowId": "SCIP0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "certificate",
+      "objectId": "CERT11"
+    },
+    {
+      "id": "OA420",
+      "iflowId": "SCIP0100785_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT11"
+    },
+    {
+      "id": "OA421",
+      "iflowId": "SCIP0100785_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "certificate",
+      "objectId": "CERT11"
+    },
+    {
+      "id": "OA422",
+      "iflowId": "SCIT0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT11"
+    },
+    {
+      "id": "OA423",
+      "iflowId": "SCIT0100780_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP_test",
+      "objectType": "certificate",
+      "objectId": "CERT11"
+    },
+    {
+      "id": "OA424",
+      "iflowId": "SCIT0100785_IN_MOBILEXPENSES_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT11"
+    },
+    {
+      "id": "OA425",
+      "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT12"
+    },
+    {
+      "id": "OA426",
+      "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT12"
+    },
+    {
+      "id": "OA427",
+      "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT12"
+    },
+    {
+      "id": "OA428",
+      "iflowId": "SCIP0100420_IN_MSV3_SAPCEP_SFTP_SFTP_reproces",
+      "objectType": "certificate",
+      "objectId": "CERT12"
+    },
+    {
+      "id": "OA429",
+      "iflowId": "SCIT0100420_IN_MSV3_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT12"
+    },
+    {
+      "id": "OA430",
+      "iflowId": "SCIT0100420_IN_MSV3_SAPCEP_SFTP_SFTP_test",
+      "objectType": "certificate",
+      "objectId": "CERT12"
+    },
+    {
+      "id": "OA431",
+      "iflowId": "SCIT1300090_IN_NOMENTIA_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT13"
+    },
+    {
+      "id": "OA432",
+      "iflowId": "SCIT1000010_IN_PAYCHEX_SAP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT14"
+    },
+    {
+      "id": "OA433",
+      "iflowId": "SCIT1000010_IN_PAYCHEX_SAP_SFTP_SFTP_manualTestNazuris",
+      "objectType": "certificate",
+      "objectId": "CERT14"
+    },
+    {
+      "id": "OA434",
+      "iflowId": "SCIT1000010_IN_PAYCHEX_SAP_SFTP_SFTP_Nazuris",
+      "objectType": "certificate",
+      "objectId": "CERT14"
+    },
+    {
+      "id": "OA435",
+      "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA436",
+      "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA437",
+      "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA438",
+      "iflowId": "SCIP0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA439",
+      "iflowId": "SCIP0100061_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA440",
+      "iflowId": "SCIP0100061_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA441",
+      "iflowId": "SCIP0100062_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA442",
+      "iflowId": "SCIP0100062_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA443",
+      "iflowId": "SCIT0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA444",
+      "iflowId": "SCIT0100060_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP_test",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA445",
+      "iflowId": "SCIT0100061_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA446",
+      "iflowId": "SCIT0100062_IN_PL-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT15"
+    },
+    {
+      "id": "OA447",
+      "iflowId": "SCIP0100200_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT16"
+    },
+    {
+      "id": "OA448",
+      "iflowId": "SCIP0100200_IN_PT-EDICOM_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT16"
+    },
+    {
+      "id": "OA449",
+      "iflowId": "SCIP0100205_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT16"
+    },
+    {
+      "id": "OA450",
+      "iflowId": "SCIT0100200_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT16"
+    },
+    {
+      "id": "OA451",
+      "iflowId": "SCIT0100205_IN_PT-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT16"
+    },
+    {
+      "id": "OA452",
+      "iflowId": "SCIP0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT17"
+    },
+    {
+      "id": "OA453",
+      "iflowId": "SCIP0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT17"
+    },
+    {
+      "id": "OA454",
+      "iflowId": "SCIP0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT17"
+    },
+    {
+      "id": "OA455",
+      "iflowId": "SCIT0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT17"
+    },
+    {
+      "id": "OA456",
+      "iflowId": "SCIT0100080_IN_RO-FMLOGISTICS_SAPCEP_SFTP_SFTP_test",
+      "objectType": "certificate",
+      "objectId": "CERT17"
+    },
+    {
+      "id": "OA457",
+      "iflowId": "SCIP0100691_IN_SANOFI_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT18"
+    },
+    {
+      "id": "OA458",
+      "iflowId": "SCIP0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT18"
+    },
+    {
+      "id": "OA459",
+      "iflowId": "SCIP0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT18"
+    },
+    {
+      "id": "OA460",
+      "iflowId": "SCIP0100692_IN_SANOFI_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT18"
+    },
+    {
+      "id": "OA461",
+      "iflowId": "SCIP0100692_IN_SANOFI_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT18"
+    },
+    {
+      "id": "OA462",
+      "iflowId": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT18"
+    },
+    {
+      "id": "OA463",
+      "iflowId": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_old",
+      "objectType": "certificate",
+      "objectId": "CERT18"
+    },
+    {
+      "id": "OA464",
+      "iflowId": "SCIT0100691_IN_SANOFI_SAPCEP_SFTP_SFTP_test",
+      "objectType": "certificate",
+      "objectId": "CERT18"
+    },
+    {
+      "id": "OA465",
+      "iflowId": "SCIT0100692_IN_SANOFI_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT18"
+    },
+    {
+      "id": "OA466",
+      "iflowId": "SCIP0100020_IN_UK-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT19"
+    },
+    {
+      "id": "OA467",
+      "iflowId": "SCIP0100020_IN_UK-EDICOM_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT19"
+    },
+    {
+      "id": "OA468",
+      "iflowId": "SCIP0100025_IN_UK-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT19"
+    },
+    {
+      "id": "OA469",
+      "iflowId": "SCIT0100020_IN_UK-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT19"
+    },
+    {
+      "id": "OA470",
+      "iflowId": "SCIT0100025_IN_UK-EDICOM_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT19"
+    },
+    {
+      "id": "OA471",
+      "iflowId": "SCIP0100360_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA472",
+      "iflowId": "SCIP0100360_IN_VOIGT_SAPCEP_SFTP_SFTP_bkp_blue",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA473",
+      "iflowId": "SCIP0100361_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA474",
+      "iflowId": "SCIP0100361_IN_VOIGT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA475",
+      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA476",
+      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA477",
+      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP_reprocess",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA478",
+      "iflowId": "SCIP0100362_IN_VOIGT_SAPCEP_SFTP_SFTP_temp_zchmbgmcr",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA479",
+      "iflowId": "SCIP0100363_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA480",
+      "iflowId": "SCIP0100363_IN_VOIGT_SAPCEP_SFTP_SFTP_bkp_green",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA481",
+      "iflowId": "SCIP0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA482",
+      "iflowId": "SCIP0100375_OUT_SAPCEP_VOIGT_IDOC_SFTP_ZCHDESADV",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA483",
+      "iflowId": "SCIP0100376_OUT_SAPCEP_VOIGT_IDOC_SFTP_ZCHORDERS",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA484",
+      "iflowId": "SCIT0100360_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA485",
+      "iflowId": "SCIT0100360_IN_VOIGT_SAPCEP_SFTP_SFTP_sapticket",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA486",
+      "iflowId": "SCIT0100361_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA487",
+      "iflowId": "SCIT0100362_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA488",
+      "iflowId": "SCIT0100363_IN_VOIGT_SAPCEP_SFTP_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA489",
+      "iflowId": "SCIT0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA490",
+      "iflowId": "SCIT0100374_OUT_SAPCEP_VOIGT_IDOC_SFTP_ROUTER_test",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA491",
+      "iflowId": "SCIT0100375_OUT_SAPCEP_VOIGT_IDOC_SFTP",
+      "objectType": "certificate",
+      "objectId": "CERT20"
+    },
+    {
+      "id": "OA492",
+      "iflowId": "SCIT0100375_OUT_SAPCEP_VOIGT_IDOC_SFTP_ZCHDESADV",
+      "objectType": "certificate",
+      "objectId": "CERT20"
     }
   ]
 }

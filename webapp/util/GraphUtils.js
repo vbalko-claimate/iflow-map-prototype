@@ -525,6 +525,132 @@ sap.ui.define([
     return { nodes: aNodes, edges: aEdges, nodeMap: nodeMap, iflowOptions: aOptions };
   }
 
+  /**
+   * Build Focus filter options from raw data.
+   * Returns [{ key, text }] for a Select dropdown.
+   */
+  function getEntityFilterOptions(oRaw) {
+    var aResult = [{ key: "ALL", text: "No Focus" }];
+    (oRaw.contacts || []).forEach(function (c) {
+      aResult.push({
+        key: "contact::" + c.id,
+        text: "Contact: " + c.firstName + " " + c.lastName
+      });
+    });
+    (oRaw.partners || []).forEach(function (p) {
+      aResult.push({ key: "partner::" + p.id, text: "Partner: " + p.name });
+    });
+    (oRaw.certificates || []).forEach(function (cert) {
+      aResult.push({ key: "cert::" + cert.id, text: "Cert: " + cert.cn });
+    });
+    return aResult;
+  }
+
+  /**
+   * Resolve a contactAssignment target to a graph node key.
+   */
+  function _resolveAssignmentTarget(ca, iflowIdToKey) {
+    if (ca.objectType === "iflow") { return iflowIdToKey[ca.objectId]; }
+    if (ca.objectType === "partnerChannel") { return "channel::" + ca.objectId; }
+    if (ca.objectType === "partner") { return "partner::" + ca.objectId; }
+    if (ca.objectType === "certificate") { return "cert::" + ca.objectId; }
+    if (ca.objectType === "businessObject") { return "bizObj::" + ca.objectId; }
+    if (ca.objectType === "businessCapability") { return "bizCap::" + ca.objectId; }
+    return null;
+  }
+
+  /**
+   * Filter graph data by a focused entity (contact, partner, or certificate).
+   * Resolves the entity to connected iFlow keys via raw data, then keeps only
+   * the entity itself, its connected iFlows, and (in context mode) 1-hop neighbors.
+   */
+  function filterGraphByEntity(graphData, sEntityKey, oRaw) {
+    if (!sEntityKey || sEntityKey === "ALL") { return graphData; }
+
+    var parts = sEntityKey.split("::");
+    var entityType = parts[0];
+    var entityId = parts[1];
+
+    var iflowIdToKey = {};
+    (oRaw.iflows || []).forEach(function (f) {
+      iflowIdToKey[f.id] = f.id + "::" + f.version;
+    });
+
+    var connectedKeys = {};
+    connectedKeys[sEntityKey] = true;
+
+    if (entityType === "contact") {
+      (oRaw.contactAssignments || []).forEach(function (ca) {
+        if (ca.contactId === entityId) {
+          var targetKey = _resolveAssignmentTarget(ca, iflowIdToKey);
+          if (targetKey) { connectedKeys[targetKey] = true; }
+        }
+      });
+    } else if (entityType === "partner") {
+      var channelIds = {};
+      (oRaw.partnerChannels || []).forEach(function (ch) {
+        if (ch.partnerId === entityId) {
+          channelIds[ch.id] = true;
+          connectedKeys["channel::" + ch.id] = true;
+        }
+      });
+      (oRaw.iflowObjectAssignments || []).forEach(function (oa) {
+        if (oa.objectType === "partnerChannel" && channelIds[oa.objectId]) {
+          var iKey = iflowIdToKey[oa.iflowId];
+          if (iKey) { connectedKeys[iKey] = true; }
+        }
+      });
+      (oRaw.contactAssignments || []).forEach(function (ca) {
+        if (ca.objectType === "partner" && ca.objectId === entityId) {
+          connectedKeys["contact::" + ca.contactId] = true;
+        }
+        if (ca.objectType === "partnerChannel" && channelIds[ca.objectId]) {
+          connectedKeys["contact::" + ca.contactId] = true;
+        }
+      });
+    } else if (entityType === "cert") {
+      (oRaw.iflowObjectAssignments || []).forEach(function (oa) {
+        if (oa.objectType === "certificate" && oa.objectId === entityId) {
+          var iKey = iflowIdToKey[oa.iflowId];
+          if (iKey) { connectedKeys[iKey] = true; }
+        }
+      });
+      (oRaw.contactAssignments || []).forEach(function (ca) {
+        if (ca.objectType === "certificate" && ca.objectId === entityId) {
+          connectedKeys["contact::" + ca.contactId] = true;
+        }
+      });
+    }
+
+    // In context mode: also pull 1-hop neighbors of connected iFlow keys
+    var hasContextNodes = graphData.nodes.some(function (n) {
+      return n.nodeType && n.nodeType !== "iflow";
+    });
+    if (hasContextNodes) {
+      var iflowKeys = {};
+      Object.keys(connectedKeys).forEach(function (k) {
+        var node = graphData.nodeMap[k];
+        if (node && (node.nodeType === "iflow" || !node.nodeType)) {
+          iflowKeys[k] = true;
+        }
+      });
+      graphData.edges.forEach(function (e) {
+        if (iflowKeys[e.source]) { connectedKeys[e.target] = true; }
+        if (iflowKeys[e.target]) { connectedKeys[e.source] = true; }
+      });
+    }
+
+    var aNodes = graphData.nodes.filter(function (n) { return connectedKeys[n.key]; });
+    var aEdges = graphData.edges.filter(function (e) {
+      return connectedKeys[e.source] && connectedKeys[e.target];
+    });
+    var nodeMap = {};
+    aNodes.forEach(function (n) { nodeMap[n.key] = n; });
+    var aOptions = graphData.iflowOptions.filter(function (o) { return connectedKeys[o.key]; });
+
+    return { nodes: aNodes, edges: aEdges, nodeMap: nodeMap, iflowOptions: aOptions };
+  }
+
   function showNodeDetail(oNodeData) {
     if (oNodeData.nodeType && oNodeData.nodeType !== "iflow") {
       var sInfo = oNodeData.name + " [" + oNodeData.nodeType + "]";
@@ -563,6 +689,8 @@ sap.ui.define([
     getPackages: getPackages,
     filterGraphByPackage: filterGraphByPackage,
     filterGraphByDeployment: filterGraphByDeployment,
+    getEntityFilterOptions: getEntityFilterOptions,
+    filterGraphByEntity: filterGraphByEntity,
     bfsImpact: bfsImpact,
     loadScript: loadScript,
     showNodeDetail: showNodeDetail,

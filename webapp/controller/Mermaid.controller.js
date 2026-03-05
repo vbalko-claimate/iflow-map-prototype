@@ -30,6 +30,7 @@ sap.ui.define([
       this._mode = "connection";
       this._packageFilter = "ALL";
       this._deploymentFilter = "ALL";
+      this._entityFilter = "ALL";
       this._missingOwnership = {};
       this._rawData = null;
     },
@@ -55,6 +56,7 @@ sap.ui.define([
           that._mode = oModeModel.getProperty("/mode") || "connection";
           that._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
           that._deploymentFilter = oModeModel.getProperty("/deploymentFilter") || "ALL";
+          that._entityFilter = oModeModel.getProperty("/entityFilter") || "ALL";
         }
 
         GraphUtils.loadScript(MERMAID_CDN, "mermaid").then(function () {
@@ -114,10 +116,20 @@ sap.ui.define([
       }
     },
 
+    onEntityFilterChange: function (sKey) {
+      this._entityFilter = sKey || "ALL";
+      this._impactVisited = null;
+      if (this._mermaidLoaded) {
+        this._populateSelect();
+        this._renderCurrentMode();
+      }
+    },
+
     _getActiveData: function () {
       var data = this._mode === "context" ? this._contextGraphData : this._graphData;
       var filtered = GraphUtils.filterGraphByPackage(data, this._packageFilter);
-      return GraphUtils.filterGraphByDeployment(filtered, this._deploymentFilter);
+      filtered = GraphUtils.filterGraphByDeployment(filtered, this._deploymentFilter);
+      return GraphUtils.filterGraphByEntity(filtered, this._entityFilter, this._rawData);
     },
 
     _renderCurrentMode: function () {

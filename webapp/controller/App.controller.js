@@ -16,7 +16,7 @@ sap.ui.define([
 
       // viewMode model shared across all views via Component
       var oComponent = this.getOwnerComponent();
-      var oModeModel = new JSONModel({ mode: "connection", packageFilter: "ALL", deploymentFilter: "ALL" });
+      var oModeModel = new JSONModel({ mode: "connection", packageFilter: "ALL", deploymentFilter: "ALL", entityFilter: "ALL" });
       oComponent.setModel(oModeModel, "viewMode");
     },
 
@@ -24,8 +24,9 @@ sap.ui.define([
       if (this._initialised) { return; }
       this._initialised = true;
 
-      // Populate package filter from raw data
+      // Populate filters from raw data
       this._populatePackageFilter();
+      this._populateEntityFilter();
 
       this._navigateTo(this._defaultKey);
     },
@@ -85,6 +86,40 @@ sap.ui.define([
       this._notifyCurrentController("onDeploymentFilterChange", sFilter);
     },
 
+    onEntityFilterChange: function (oEvent) {
+      var sKey = oEvent.getSource().getSelectedKey();
+      var oComponent = this.getOwnerComponent();
+      oComponent.getModel("viewMode").setProperty("/entityFilter", sKey);
+
+      this._notifyCurrentController("onEntityFilterChange", sKey);
+    },
+
+    _populateEntityFilter: function () {
+      var oRawModel = this.getOwnerComponent().getModel("raw");
+      var that = this;
+
+      var fnPopulate = function (oRaw) {
+        var aOptions = GraphUtils.getEntityFilterOptions(oRaw);
+        var oSelect = that.byId("entityFilter");
+        oSelect.removeAllItems();
+        aOptions.forEach(function (o) {
+          oSelect.addItem(new Item({ key: o.key, text: o.text }));
+        });
+        oSelect.setSelectedKey("ALL");
+      };
+
+      var oRaw = oRawModel.getData();
+      if (oRaw && oRaw.iflows) {
+        fnPopulate(oRaw);
+      } else {
+        oRawModel.attachRequestCompleted(function (oEvent) {
+          if (oEvent.getParameter("success")) {
+            fnPopulate(oRawModel.getData());
+          }
+        });
+      }
+    },
+
     _notifyCurrentController: function (sMethod, vArg) {
       var sCurrent = this._currentNavKey;
       if (sCurrent && this._viewCache[sCurrent]) {
@@ -108,6 +143,7 @@ sap.ui.define([
         var sMode = oModeModel.getProperty("/mode");
         var sPkg = oModeModel.getProperty("/packageFilter");
         var sDeploy = oModeModel.getProperty("/deploymentFilter");
+        var sEntity = oModeModel.getProperty("/entityFilter");
         if (oController && typeof oController.onModeChange === "function") {
           oController.onModeChange(sMode);
         }
@@ -116,6 +152,9 @@ sap.ui.define([
         }
         if (oController && typeof oController.onDeploymentFilterChange === "function") {
           oController.onDeploymentFilterChange(sDeploy);
+        }
+        if (oController && typeof oController.onEntityFilterChange === "function") {
+          oController.onEntityFilterChange(sEntity);
         }
         return;
       }

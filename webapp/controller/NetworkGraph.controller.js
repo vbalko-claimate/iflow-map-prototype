@@ -13,6 +13,7 @@ sap.ui.define([
       this._mode = "connection";
       this._packageFilter = "ALL";
       this._deploymentFilter = "ALL";
+      this._entityFilter = "ALL";
       this._rawData = null;
       this._graphData = null;
       this._contextGraphData = null;
@@ -68,6 +69,7 @@ sap.ui.define([
         this._mode = oModeModel.getProperty("/mode") || "connection";
         this._packageFilter = oModeModel.getProperty("/packageFilter") || "ALL";
         this._deploymentFilter = oModeModel.getProperty("/deploymentFilter") || "ALL";
+        this._entityFilter = oModeModel.getProperty("/entityFilter") || "ALL";
       }
 
       this._renderForMode();
@@ -94,10 +96,18 @@ sap.ui.define([
       }
     },
 
+    onEntityFilterChange: function (sKey) {
+      this._entityFilter = sKey || "ALL";
+      if (this._rawData) {
+        this._renderForMode();
+      }
+    },
+
     _getActiveData: function () {
       var data = this._mode === "context" ? this._contextGraphData : this._graphData;
       var filtered = GraphUtils.filterGraphByPackage(data, this._packageFilter);
-      return GraphUtils.filterGraphByDeployment(filtered, this._deploymentFilter);
+      filtered = GraphUtils.filterGraphByDeployment(filtered, this._deploymentFilter);
+      return GraphUtils.filterGraphByEntity(filtered, this._entityFilter, this._rawData);
     },
 
     _renderForMode: function () {

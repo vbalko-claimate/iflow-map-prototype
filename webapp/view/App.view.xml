@@ -10,28 +10,44 @@
   <tnt:ToolPage id="toolPage">
     <tnt:header>
       <tnt:ToolHeader>
-        <Title text="iFlow Map" level="H4" class="sapUiSmallMarginBegin" />
+        <Title text="iFlow Map" level="H4" class="sapUiSmallMarginBegin">
+          <layoutData><OverflowToolbarLayoutData priority="NeverOverflow" /></layoutData>
+        </Title>
         <ToolbarSpacer />
-        <Label text="Package:" labelFor="packageFilter" />
+        <Label text="Package:" labelFor="packageFilter">
+          <layoutData><OverflowToolbarLayoutData priority="NeverOverflow" /></layoutData>
+        </Label>
         <Select id="packageFilter" width="14rem" change=".onPackageFilterChange">
+          <layoutData><OverflowToolbarLayoutData priority="NeverOverflow" /></layoutData>
           <core:Item key="ALL" text="All Packages" />
         </Select>
         <ToolbarSeparator />
-        <Label text="Status:" labelFor="deploymentFilter" />
+        <Label text="Status:" labelFor="deploymentFilter">
+          <layoutData><OverflowToolbarLayoutData priority="NeverOverflow" /></layoutData>
+        </Label>
         <Select id="deploymentFilter" width="10rem" change=".onDeploymentFilterChange">
+          <layoutData><OverflowToolbarLayoutData priority="NeverOverflow" /></layoutData>
           <core:Item key="ALL" text="All Statuses" />
           <core:Item key="STARTED" text="Deployed" />
           <core:Item key="NOT_DEPLOYED" text="Not Deployed" />
           <core:Item key="ERROR" text="Error" />
         </Select>
         <ToolbarSeparator />
+        <Label text="Focus:" labelFor="entityFilter">
+          <layoutData><OverflowToolbarLayoutData priority="NeverOverflow" /></layoutData>
+        </Label>
+        <Select id="entityFilter" width="15rem" change=".onEntityFilterChange">
+          <layoutData><OverflowToolbarLayoutData priority="NeverOverflow" /></layoutData>
+          <core:Item key="ALL" text="No Focus" />
+        </Select>
+        <ToolbarSeparator />
         <SegmentedButton id="modeToggle" selectionChange=".onModeChange">
+          <layoutData><OverflowToolbarLayoutData priority="NeverOverflow" /></layoutData>
           <items>
             <SegmentedButtonItem key="connection" text="Connection Map" />
             <SegmentedButtonItem key="context" text="Context Map" />
           </items>
         </SegmentedButton>
-        <ToolbarSpacer />
       </tnt:ToolHeader>
     </tnt:header>
     <tnt:sideContent>

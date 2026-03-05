@@ -235,6 +235,14 @@ sap.ui.define([
         targetKey = iflowIdToKey[ca.objectId];
       } else if (ca.objectType === "partnerChannel") {
         targetKey = "channel::" + ca.objectId;
+      } else if (ca.objectType === "partner") {
+        targetKey = "partner::" + ca.objectId;
+      } else if (ca.objectType === "certificate") {
+        targetKey = "cert::" + ca.objectId;
+      } else if (ca.objectType === "businessObject") {
+        targetKey = "bizObj::" + ca.objectId;
+      } else if (ca.objectType === "businessCapability") {
+        targetKey = "bizCap::" + ca.objectId;
       }
       if (contactKey && targetKey && nodeMap[contactKey] && nodeMap[targetKey]) {
         aEdges.push({
